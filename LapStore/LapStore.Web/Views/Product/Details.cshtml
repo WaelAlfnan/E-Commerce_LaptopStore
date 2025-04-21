@@ -4,71 +4,43 @@
     ViewData["Title"] = Model.Name + " Details";
 }
 
-<div class="container">
+<div>
     <h1>@Model.Name Details</h1>
     <hr />
-    
-    <div class="row">
-        <!-- Product Images Section -->
-        <div class="col-md-6">
-            <div class="product-images mb-4">
-                <!-- Main Image -->
-                <div class="main-image mb-3">
-                    @if (!string.IsNullOrEmpty(Model.MainImageUrl))
-                    {
-                        <img src="@Model.MainImageUrl" alt="@Model.Name" class="img-fluid rounded" style="max-width: 100%; height: auto;" />
-                    }
-                    else
-                    {
-                        <img src="/imgs/no-image.png" alt="No Image Available" class="img-fluid rounded" style="max-width: 100%; height: auto;" />
-                    }
-                </div>
-                
-                <!-- Additional Images -->
-                @if (Model.AdditionalImageUrls != null && Model.AdditionalImageUrls.Any())
-                {
-                    <div class="additional-images">
-                        <h5>Additional Images</h5>
-                        <div class="row">
-                            @foreach (var imageUrl in Model.AdditionalImageUrls)
-                            {
-                                <div class="col-4 mb-3">
-                                    <img src="@imageUrl" alt="Additional Image" class="img-fluid rounded" style="width: 100%; height: auto;" />
-                                </div>
-                            }
-                        </div>
-                    </div>
-                }
-            </div>
-        </div>
-
-        <!-- Product Details Section -->
-        <div class="col-md-6">
-            <dl class="row">
-                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Name)</dt>
-                <dd class="col-sm-8">@Html.DisplayFor(model => model.Name)</dd>
-
-                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Description)</dt>
-                <dd class="col-sm-8">@Html.DisplayFor(model => model.Description)</dd>
-
-                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Price)</dt>
-                <dd class="col-sm-8">@Html.DisplayFor(model => model.Price)</dd>
-
-                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Weight)</dt>
-                <dd class="col-sm-8">@Html.DisplayFor(model => model.Weight)</dd>
-
-                <dt class="col-sm-4">Category</dt>
-                <dd class="col-sm-8">@Html.DisplayFor(model => model.CategoryName)</dd>
-            </dl>
-
-            <div class="mt-4">
-                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">
-                    <i class="fas fa-edit"></i> Edit
-                </a>
-                <a asp-action="Index" class="btn btn-secondary">
-                    <i class="fas fa-arrow-left"></i> Back to List
-                </a>
-            </div>
-        </div>
-    </div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Weight)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Weight)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CategoryId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CategoryId)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+    <a asp-action="Index" class="btn btn-primary">Back to List</a>
 </div>

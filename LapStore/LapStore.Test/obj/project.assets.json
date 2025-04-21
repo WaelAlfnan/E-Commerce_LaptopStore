@@ -1316,18 +1316,6 @@
           }
         }
       },
-      "Rick.Docs.Samples.RouteInfo/1.0.0.8": {
-        "type": "package",
-        "compile": {
-          "lib/net6.0/Microsoft.Docs.Samples.RouteInfo.dll": {}
-        },
-        "runtime": {
-          "lib/net6.0/Microsoft.Docs.Samples.RouteInfo.dll": {}
-        },
-        "frameworkReferences": [
-          "Microsoft.AspNetCore.App"
-        ]
-      },
       "System.Buffers/4.6.0": {
         "type": "package",
         "compile": {
@@ -1924,24 +1912,6 @@
         },
         "runtime": {
           "bin/placeholder/LapStore.DAL.dll": {}
-        },
-        "frameworkReferences": [
-          "Microsoft.AspNetCore.App"
-        ]
-      },
-      "LapStore.Web/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v9.0",
-        "dependencies": {
-          "LapStore.BLL": "1.0.0",
-          "Microsoft.EntityFrameworkCore.SqlServer": "9.0.4",
-          "Rick.Docs.Samples.RouteInfo": "1.0.0.8"
-        },
-        "compile": {
-          "bin/placeholder/LapStore.Web.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/LapStore.Web.dll": {}
         },
         "frameworkReferences": [
           "Microsoft.AspNetCore.App"
@@ -3654,18 +3624,6 @@
         "packageIcon.png"
       ]
     },
-    "Rick.Docs.Samples.RouteInfo/1.0.0.8": {
-      "sha512": "vEBI0EVUCM1cMl0ZqQsmXyoZlDykT48ZscxQi7zH8xgfO896jsDqYPTw9BSzMDlQ6iPh5GtsftKmXnZpi4R1bg==",
-      "type": "package",
-      "path": "rick.docs.samples.routeinfo/1.0.0.8",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "lib/net6.0/Microsoft.Docs.Samples.RouteInfo.dll",
-        "rick.docs.samples.routeinfo.1.0.0.8.nupkg.sha512",
-        "rick.docs.samples.routeinfo.nuspec"
-      ]
-    },
     "System.Buffers/4.6.0": {
       "sha512": "lN6tZi7Q46zFzAbRYXTIvfXcyvQQgxnY7Xm6C6xQ9784dEL1amjM6S6Iw4ZpsvesAKnRVsM4scrDQaDqSClkjA==",
       "type": "package",
@@ -4814,11 +4772,6 @@
       "type": "project",
       "path": "../LapStore.DAL/LapStore.DAL.csproj",
       "msbuildProject": "../LapStore.DAL/LapStore.DAL.csproj"
-    },
-    "LapStore.Web/1.0.0": {
-      "type": "project",
-      "path": "../LapStore.Web/LapStore.Web.csproj",
-      "msbuildProject": "../LapStore.Web/LapStore.Web.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -4826,7 +4779,6 @@
       "FakeItEasy >= 8.1.0",
       "LapStore.BLL >= 1.0.0",
       "LapStore.DAL >= 1.0.0",
-      "LapStore.Web >= 1.0.0",
       "Microsoft.EntityFrameworkCore.InMemory >= 9.0.4",
       "Microsoft.NET.Test.Sdk >= 17.9.0",
       "coverlet.collector >= 6.0.2",
@@ -4835,23 +4787,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\waelb\\.nuget\\packages\\": {},
-    "D:\\ProgramFiles(x86)\\MicrosoftVisualStudio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\hp\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\DEPI\\E-Commerce_LaptopStore\\LapStore\\LapStore.Test\\LapStore.Test.csproj",
+      "projectUniqueName": "E:\\E-Commerce_LaptopStore\\LapStore\\LapStore.Test\\LapStore.Test.csproj",
       "projectName": "LapStore.Test",
-      "projectPath": "D:\\DEPI\\E-Commerce_LaptopStore\\LapStore\\LapStore.Test\\LapStore.Test.csproj",
-      "packagesPath": "C:\\Users\\waelb\\.nuget\\packages\\",
-      "outputPath": "D:\\DEPI\\E-Commerce_LaptopStore\\LapStore\\LapStore.Test\\obj\\",
+      "projectPath": "E:\\E-Commerce_LaptopStore\\LapStore\\LapStore.Test\\LapStore.Test.csproj",
+      "packagesPath": "C:\\Users\\hp\\.nuget\\packages\\",
+      "outputPath": "E:\\E-Commerce_LaptopStore\\LapStore\\LapStore.Test\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "D:\\ProgramFiles(x86)\\MicrosoftVisualStudio\\Shared\\NuGetPackages"
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\waelb\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\hp\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -4866,14 +4818,11 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "D:\\DEPI\\E-Commerce_LaptopStore\\LapStore\\LapStore.BLL\\LapStore.BLL.csproj": {
-              "projectPath": "D:\\DEPI\\E-Commerce_LaptopStore\\LapStore\\LapStore.BLL\\LapStore.BLL.csproj"
+            "E:\\E-Commerce_LaptopStore\\LapStore\\LapStore.BLL\\LapStore.BLL.csproj": {
+              "projectPath": "E:\\E-Commerce_LaptopStore\\LapStore\\LapStore.BLL\\LapStore.BLL.csproj"
             },
-            "D:\\DEPI\\E-Commerce_LaptopStore\\LapStore\\LapStore.DAL\\LapStore.DAL.csproj": {
-              "projectPath": "D:\\DEPI\\E-Commerce_LaptopStore\\LapStore\\LapStore.DAL\\LapStore.DAL.csproj"
-            },
-            "D:\\DEPI\\E-Commerce_LaptopStore\\LapStore\\LapStore.Web\\LapStore.Web.csproj": {
-              "projectPath": "D:\\DEPI\\E-Commerce_LaptopStore\\LapStore\\LapStore.Web\\LapStore.Web.csproj"
+            "E:\\E-Commerce_LaptopStore\\LapStore\\LapStore.DAL\\LapStore.DAL.csproj": {
+              "projectPath": "E:\\E-Commerce_LaptopStore\\LapStore\\LapStore.DAL\\LapStore.DAL.csproj"
             }
           }
         }
@@ -4888,7 +4837,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.100"
+      "SdkAnalysisLevel": "9.0.200"
     },
     "frameworks": {
       "net9.0": {
@@ -4939,7 +4888,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.105/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

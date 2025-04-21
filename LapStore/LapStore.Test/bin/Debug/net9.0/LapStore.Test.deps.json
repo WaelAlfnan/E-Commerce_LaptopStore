@@ -11,7 +11,6 @@
           "FakeItEasy": "8.1.0",
           "LapStore.BLL": "1.0.0",
           "LapStore.DAL": "1.0.0",
-          "LapStore.Web": "1.0.0",
           "Microsoft.EntityFrameworkCore.InMemory": "9.0.4",
           "Microsoft.NET.Test.Sdk": "17.9.0",
           "coverlet.collector": "6.0.2",
@@ -858,14 +857,6 @@
           }
         }
       },
-      "Rick.Docs.Samples.RouteInfo/1.0.0.8": {
-        "runtime": {
-          "lib/net6.0/Microsoft.Docs.Samples.RouteInfo.dll": {
-            "assemblyVersion": "1.0.0.8",
-            "fileVersion": "1.0.0.8"
-          }
-        }
-      },
       "System.Buffers/4.6.0": {},
       "System.ClientModel/1.0.0": {
         "dependencies": {
@@ -1114,19 +1105,6 @@
         },
         "runtime": {
           "LapStore.DAL.dll": {
-            "assemblyVersion": "1.0.0",
-            "fileVersion": "1.0.0.0"
-          }
-        }
-      },
-      "LapStore.Web/1.0.0": {
-        "dependencies": {
-          "LapStore.BLL": "1.0.0",
-          "Microsoft.EntityFrameworkCore.SqlServer": "9.0.4",
-          "Rick.Docs.Samples.RouteInfo": "1.0.0.8"
-        },
-        "runtime": {
-          "LapStore.Web.dll": {
             "assemblyVersion": "1.0.0",
             "fileVersion": "1.0.0.0"
           }
@@ -1574,13 +1552,6 @@
       "path": "newtonsoft.json/13.0.1",
       "hashPath": "newtonsoft.json.13.0.1.nupkg.sha512"
     },
-    "Rick.Docs.Samples.RouteInfo/1.0.0.8": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-vEBI0EVUCM1cMl0ZqQsmXyoZlDykT48ZscxQi7zH8xgfO896jsDqYPTw9BSzMDlQ6iPh5GtsftKmXnZpi4R1bg==",
-      "path": "rick.docs.samples.routeinfo/1.0.0.8",
-      "hashPath": "rick.docs.samples.routeinfo.1.0.0.8.nupkg.sha512"
-    },
     "System.Buffers/4.6.0": {
       "type": "package",
       "serviceable": true,
@@ -1825,11 +1796,6 @@
       "sha512": ""
     },
     "LapStore.DAL/1.0.0": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "LapStore.Web/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

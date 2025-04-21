@@ -3,8 +3,6 @@ using System;
 using LapStore.DAL.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
@@ -17,15 +15,12 @@ namespace LapStore.DAL.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.4")
-                .HasAnnotation("Proxies:ChangeTracking", false)
-                .HasAnnotation("Proxies:CheckEquality", false)
-                .HasAnnotation("Proxies:LazyLoading", true)
+                .HasAnnotation("ProductVersion", "9.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("LapStore.DAL.Data.Entities.Address", b =>
+            modelBuilder.Entity("LapStore.DAL.Entities.Address", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -60,7 +55,7 @@ namespace LapStore.DAL.Migrations
                     b.ToTable("addresses");
                 });
 
-            modelBuilder.Entity("LapStore.DAL.Data.Entities.Cart", b =>
+            modelBuilder.Entity("LapStore.DAL.Entities.Cart", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -79,7 +74,7 @@ namespace LapStore.DAL.Migrations
                     b.ToTable("carts");
                 });
 
-            modelBuilder.Entity("LapStore.DAL.Data.Entities.CartItem", b =>
+            modelBuilder.Entity("LapStore.DAL.Entities.CartItem", b =>
                 {
                     b.Property<int>("CartId")
                         .HasColumnType("int")
@@ -102,7 +97,7 @@ namespace LapStore.DAL.Migrations
                     b.ToTable("cartItems");
                 });
 
-            modelBuilder.Entity("LapStore.DAL.Data.Entities.Category", b =>
+            modelBuilder.Entity("LapStore.DAL.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -130,7 +125,7 @@ namespace LapStore.DAL.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("LapStore.DAL.Data.Entities.Order", b =>
+            modelBuilder.Entity("LapStore.DAL.Entities.Order", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -157,7 +152,7 @@ namespace LapStore.DAL.Migrations
                     b.ToTable("orders");
                 });
 
-            modelBuilder.Entity("LapStore.DAL.Data.Entities.OrderItem", b =>
+            modelBuilder.Entity("LapStore.DAL.Entities.OrderItem", b =>
                 {
                     b.Property<int>("OrderId")
                         .HasColumnType("int")
@@ -180,7 +175,7 @@ namespace LapStore.DAL.Migrations
                     b.ToTable("orderItems");
                 });
 
-            modelBuilder.Entity("LapStore.DAL.Data.Entities.Product", b =>
+            modelBuilder.Entity("LapStore.DAL.Entities.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -212,16 +207,13 @@ namespace LapStore.DAL.Migrations
                     b.ToTable("products");
                 });
 
-            modelBuilder.Entity("LapStore.DAL.Data.Entities.ProductImage", b =>
+            modelBuilder.Entity("LapStore.DAL.Entities.ProductImage", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("IsMain")
-                        .HasColumnType("bit");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
@@ -237,7 +229,7 @@ namespace LapStore.DAL.Migrations
                     b.ToTable("productImages");
                 });
 
-            modelBuilder.Entity("LapStore.DAL.Data.Entities.Review", b =>
+            modelBuilder.Entity("LapStore.DAL.Entities.Review", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("int")
@@ -263,7 +255,7 @@ namespace LapStore.DAL.Migrations
                     b.ToTable("reviews");
                 });
 
-            modelBuilder.Entity("LapStore.DAL.Data.Entities.User", b =>
+            modelBuilder.Entity("LapStore.DAL.Entities.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -319,26 +311,26 @@ namespace LapStore.DAL.Migrations
                     b.ToTable("users");
                 });
 
-            modelBuilder.Entity("LapStore.DAL.Data.Entities.Cart", b =>
+            modelBuilder.Entity("LapStore.DAL.Entities.Cart", b =>
                 {
-                    b.HasOne("LapStore.DAL.Data.Entities.User", "user")
+                    b.HasOne("LapStore.DAL.Entities.User", "user")
                         .WithOne("cart")
-                        .HasForeignKey("LapStore.DAL.Data.Entities.Cart", "UserId")
+                        .HasForeignKey("LapStore.DAL.Entities.Cart", "UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("user");
                 });
 
-            modelBuilder.Entity("LapStore.DAL.Data.Entities.CartItem", b =>
+            modelBuilder.Entity("LapStore.DAL.Entities.CartItem", b =>
                 {
-                    b.HasOne("LapStore.DAL.Data.Entities.Cart", "cart")
+                    b.HasOne("LapStore.DAL.Entities.Cart", "cart")
                         .WithMany("cartItems")
                         .HasForeignKey("CartId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("LapStore.DAL.Data.Entities.Product", "product")
+                    b.HasOne("LapStore.DAL.Entities.Product", "product")
                         .WithMany("cartItems")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -349,9 +341,9 @@ namespace LapStore.DAL.Migrations
                     b.Navigation("product");
                 });
 
-            modelBuilder.Entity("LapStore.DAL.Data.Entities.Category", b =>
+            modelBuilder.Entity("LapStore.DAL.Entities.Category", b =>
                 {
-                    b.HasOne("LapStore.DAL.Data.Entities.Category", "parentCategory")
+                    b.HasOne("LapStore.DAL.Entities.Category", "parentCategory")
                         .WithMany("childCategories")
                         .HasForeignKey("ParentCategoryId")
                         .OnDelete(DeleteBehavior.Restrict);
@@ -359,9 +351,9 @@ namespace LapStore.DAL.Migrations
                     b.Navigation("parentCategory");
                 });
 
-            modelBuilder.Entity("LapStore.DAL.Data.Entities.Order", b =>
+            modelBuilder.Entity("LapStore.DAL.Entities.Order", b =>
                 {
-                    b.HasOne("LapStore.DAL.Data.Entities.User", "user")
+                    b.HasOne("LapStore.DAL.Entities.User", "user")
                         .WithMany("orders")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -370,15 +362,15 @@ namespace LapStore.DAL.Migrations
                     b.Navigation("user");
                 });
 
-            modelBuilder.Entity("LapStore.DAL.Data.Entities.OrderItem", b =>
+            modelBuilder.Entity("LapStore.DAL.Entities.OrderItem", b =>
                 {
-                    b.HasOne("LapStore.DAL.Data.Entities.Order", "order")
+                    b.HasOne("LapStore.DAL.Entities.Order", "order")
                         .WithMany("orderItems")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("LapStore.DAL.Data.Entities.Product", "product")
+                    b.HasOne("LapStore.DAL.Entities.Product", "product")
                         .WithMany("orderItems")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -389,9 +381,9 @@ namespace LapStore.DAL.Migrations
                     b.Navigation("product");
                 });
 
-            modelBuilder.Entity("LapStore.DAL.Data.Entities.Product", b =>
+            modelBuilder.Entity("LapStore.DAL.Entities.Product", b =>
                 {
-                    b.HasOne("LapStore.DAL.Data.Entities.Category", "category")
+                    b.HasOne("LapStore.DAL.Entities.Category", "category")
                         .WithMany("products")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -400,9 +392,9 @@ namespace LapStore.DAL.Migrations
                     b.Navigation("category");
                 });
 
-            modelBuilder.Entity("LapStore.DAL.Data.Entities.ProductImage", b =>
+            modelBuilder.Entity("LapStore.DAL.Entities.ProductImage", b =>
                 {
-                    b.HasOne("LapStore.DAL.Data.Entities.Product", "product")
+                    b.HasOne("LapStore.DAL.Entities.Product", "product")
                         .WithMany("productImages")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -411,15 +403,15 @@ namespace LapStore.DAL.Migrations
                     b.Navigation("product");
                 });
 
-            modelBuilder.Entity("LapStore.DAL.Data.Entities.Review", b =>
+            modelBuilder.Entity("LapStore.DAL.Entities.Review", b =>
                 {
-                    b.HasOne("LapStore.DAL.Data.Entities.Product", "product")
+                    b.HasOne("LapStore.DAL.Entities.Product", "product")
                         .WithMany("productReviews")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("LapStore.DAL.Data.Entities.User", "user")
+                    b.HasOne("LapStore.DAL.Entities.User", "user")
                         .WithMany("userReviews")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -430,9 +422,9 @@ namespace LapStore.DAL.Migrations
                     b.Navigation("user");
                 });
 
-            modelBuilder.Entity("LapStore.DAL.Data.Entities.User", b =>
+            modelBuilder.Entity("LapStore.DAL.Entities.User", b =>
                 {
-                    b.HasOne("LapStore.DAL.Data.Entities.Address", "address")
+                    b.HasOne("LapStore.DAL.Entities.Address", "address")
                         .WithMany("users")
                         .HasForeignKey("AddressId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -441,29 +433,29 @@ namespace LapStore.DAL.Migrations
                     b.Navigation("address");
                 });
 
-            modelBuilder.Entity("LapStore.DAL.Data.Entities.Address", b =>
+            modelBuilder.Entity("LapStore.DAL.Entities.Address", b =>
                 {
                     b.Navigation("users");
                 });
 
-            modelBuilder.Entity("LapStore.DAL.Data.Entities.Cart", b =>
+            modelBuilder.Entity("LapStore.DAL.Entities.Cart", b =>
                 {
                     b.Navigation("cartItems");
                 });
 
-            modelBuilder.Entity("LapStore.DAL.Data.Entities.Category", b =>
+            modelBuilder.Entity("LapStore.DAL.Entities.Category", b =>
                 {
                     b.Navigation("childCategories");
 
                     b.Navigation("products");
                 });
 
-            modelBuilder.Entity("LapStore.DAL.Data.Entities.Order", b =>
+            modelBuilder.Entity("LapStore.DAL.Entities.Order", b =>
                 {
                     b.Navigation("orderItems");
                 });
 
-            modelBuilder.Entity("LapStore.DAL.Data.Entities.Product", b =>
+            modelBuilder.Entity("LapStore.DAL.Entities.Product", b =>
                 {
                     b.Navigation("cartItems");
 
@@ -474,7 +466,7 @@ namespace LapStore.DAL.Migrations
                     b.Navigation("productReviews");
                 });
 
-            modelBuilder.Entity("LapStore.DAL.Data.Entities.User", b =>
+            modelBuilder.Entity("LapStore.DAL.Entities.User", b =>
                 {
                     b.Navigation("cart");
 

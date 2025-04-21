@@ -1,44 +1,46 @@
-﻿using LapStore.BLL.Interfaces;
+﻿using LapStore.DAL;
 using LapStore.DAL.Data.Entities;
 using LapStore.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace LapStore.Web.Controllers
 {
     public class ProductController : Controller
     {
-        private readonly IProductService _productService;
-        private readonly ICategoryService _categoryService;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public ProductController(IProductService productService, ICategoryService categoryService)
+
+
+        public ProductController(IUnitOfWork unitOfWork)
         {
-            _productService = productService;
-            _categoryService = categoryService;
+            _unitOfWork = unitOfWork;
         }
-
+        #region GetAll
         public async Task<IActionResult> Index()
         {
-            if (TempData["ErrorMessage"] != null)
+            try
             {
-                ViewBag.ErrorMessage = TempData["ErrorMessage"].ToString();
+                var products = await _unitOfWork.GenericRepository<Product>().GetAllAsync();
+                var productVMs = products.Select(ProductVM.FromProduct);
+                return View(productVMs);
             }
-            if (TempData["SuccessMessage"] != null)
+            catch (Exception ex)
             {
-                ViewBag.SuccessMessage = TempData["SuccessMessage"].ToString();
+                TempData["ErrorMessage"] = "Error loading products: " + ex.Message;
+                return View(new List<ProductVM>());
             }
-
-            var products = await _productService.GetAllProductsAsync();
-            var productVMs = products.Select(ProductVM.FromProduct).ToList();
-            return View(productVMs);
         }
+        #endregion
 
+        #region Add
         [HttpGet]
         public async Task<IActionResult> Add()
         {
             try
             {
-                var categories = await _categoryService.GetAllCategoriesAsync();
+                var categories = await _unitOfWork.GenericRepository<Category>().GetAllAsync();
                 ViewBag.Categories = new SelectList(categories, "Id", "Name");
                 return View();
             }
@@ -57,16 +59,9 @@ namespace LapStore.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (productVM.MainImageFile == null)
-                    {
-                        ModelState.AddModelError("MainImageFile", "Main image is required when adding a new product");
-                        var categories = await _categoryService.GetAllCategoriesAsync();
-                        ViewBag.Categories = new SelectList(categories, "Id", "Name", productVM.CategoryId);
-                        return View(productVM);
-                    }
-
                     var product = ProductVM.FromProductVM(productVM);
-                    await _productService.AddProductAsync(product, productVM.MainImageFile, productVM.AdditionalImageFiles);
+                    await _unitOfWork.GenericRepository<Product>().AddAsync(product);
+                    await _unitOfWork.CompleteAsync();
                     TempData["SuccessMessage"] = "Product added successfully.";
                     return RedirectToAction(nameof(Index));
                 }
@@ -77,11 +72,13 @@ namespace LapStore.Web.Controllers
             }
 
             // If we got this far, something failed; redisplay form
-            var categoriesForError = await _categoryService.GetAllCategoriesAsync();
-            ViewBag.Categories = new SelectList(categoriesForError, "Id", "Name", productVM.CategoryId);
+            var categories = await _unitOfWork.GenericRepository<Category>().GetAllAsync();
+            ViewBag.Categories = new SelectList(categories, "Id", "Name", productVM.CategoryId);
             return View(productVM);
         }
+        #endregion
 
+        #region GetById
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -91,7 +88,8 @@ namespace LapStore.Web.Controllers
 
             try
             {
-                var product = await _productService.GetProductByIdAsync(id.Value);
+                var product = await _unitOfWork.GenericRepository<Product>().GetByIdAsync(id);
+
                 if (product == null)
                 {
                     return NotFound();
@@ -105,7 +103,9 @@ namespace LapStore.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
         }
+        #endregion
 
+        #region Edit
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -115,13 +115,13 @@ namespace LapStore.Web.Controllers
 
             try
             {
-                var product = await _productService.GetProductByIdAsync(id.Value);
+                var product = await _unitOfWork.GenericRepository<Product>().GetByIdAsync(id);
                 if (product == null)
                 {
                     return NotFound();
                 }
 
-                var categories = await _categoryService.GetAllCategoriesAsync();
+                var categories = await _unitOfWork.GenericRepository<Category>().GetAllAsync();
                 ViewBag.Categories = new SelectList(categories, "Id", "Name", product.CategoryId);
                 
                 var productVM = ProductVM.FromProduct(product);
@@ -136,7 +136,7 @@ namespace LapStore.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, ProductVM productVM, List<string>? imagesToDelete)
+        public async Task<IActionResult> Edit(int id, ProductVM productVM)
         {
             if (id != productVM.Id)
             {
@@ -148,7 +148,8 @@ namespace LapStore.Web.Controllers
                 if (ModelState.IsValid)
                 {
                     var product = ProductVM.FromProductVM(productVM);
-                    await _productService.UpdateProductAsync(product, productVM.MainImageFile, productVM.AdditionalImageFiles, imagesToDelete);
+                    _unitOfWork.GenericRepository<Product>().Update(product);
+                    await _unitOfWork.CompleteAsync();
                     TempData["SuccessMessage"] = "Product updated successfully.";
                     return RedirectToAction(nameof(Index));
                 }
@@ -159,11 +160,13 @@ namespace LapStore.Web.Controllers
             }
 
             // If we got this far, something failed; redisplay form
-            var categories = await _categoryService.GetAllCategoriesAsync();
+            var categories = await _unitOfWork.GenericRepository<Category>().GetAllAsync();
             ViewBag.Categories = new SelectList(categories, "Id", "Name", productVM.CategoryId);
             return View(productVM);
         }
+        #endregion
 
+        #region Delete
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -173,7 +176,7 @@ namespace LapStore.Web.Controllers
 
             try
             {
-                var product = await _productService.GetProductByIdAsync(id.Value);
+                var product = await _unitOfWork.GenericRepository<Product>().GetByIdAsync(id);
                 if (product == null)
                 {
                     return NotFound();
@@ -195,17 +198,13 @@ namespace LapStore.Web.Controllers
         {
             try
             {
-                var product = await _productService.GetProductByIdAsync(id);
+                var product = await _unitOfWork.GenericRepository<Product>().GetByIdAsync(id);
                 if (product != null)
                 {
-                    await _productService.DeleteProduct(product);
+                    _unitOfWork.GenericRepository<Product>().Delete(product);
+                    await _unitOfWork.CompleteAsync();
                     TempData["SuccessMessage"] = "Product deleted successfully.";
                 }
-                return RedirectToAction(nameof(Index));
-            }
-            catch (InvalidOperationException ex) when (ex.Message.Contains("Cannot delete a product that has related records"))
-            {
-                TempData["ErrorMessage"] = "Cannot delete this product because it has related records (cart items, order items, or reviews).";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -214,18 +213,7 @@ namespace LapStore.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
         }
+        #endregion
 
-        public async Task<IActionResult> IsProductNameExist(string name, int? id)
-        {
-            var product = await _productService.GetProductByNameAsync(name);
-            if (product == null)
-                return Json(true);
-            
-            // If we're editing an existing product, the name is valid if it belongs to the same product
-            if (id.HasValue && product.Id == id.Value)
-                return Json(true);
-
-            return Json(false);
-        }
     }
 }

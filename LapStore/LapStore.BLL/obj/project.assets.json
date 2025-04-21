@@ -3784,23 +3784,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\waelb\\.nuget\\packages\\": {},
-    "D:\\ProgramFiles(x86)\\MicrosoftVisualStudio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\hp\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\DEPI\\E-Commerce_LaptopStore\\LapStore\\LapStore.BLL\\LapStore.BLL.csproj",
+      "projectUniqueName": "E:\\E-Commerce_LaptopStore\\LapStore\\LapStore.BLL\\LapStore.BLL.csproj",
       "projectName": "LapStore.BLL",
-      "projectPath": "D:\\DEPI\\E-Commerce_LaptopStore\\LapStore\\LapStore.BLL\\LapStore.BLL.csproj",
-      "packagesPath": "C:\\Users\\waelb\\.nuget\\packages\\",
-      "outputPath": "D:\\DEPI\\E-Commerce_LaptopStore\\LapStore\\LapStore.BLL\\obj\\",
+      "projectPath": "E:\\E-Commerce_LaptopStore\\LapStore\\LapStore.BLL\\LapStore.BLL.csproj",
+      "packagesPath": "C:\\Users\\hp\\.nuget\\packages\\",
+      "outputPath": "E:\\E-Commerce_LaptopStore\\LapStore\\LapStore.BLL\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "D:\\ProgramFiles(x86)\\MicrosoftVisualStudio\\Shared\\NuGetPackages"
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\waelb\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\hp\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -3815,8 +3815,8 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "D:\\DEPI\\E-Commerce_LaptopStore\\LapStore\\LapStore.DAL\\LapStore.DAL.csproj": {
-              "projectPath": "D:\\DEPI\\E-Commerce_LaptopStore\\LapStore\\LapStore.DAL\\LapStore.DAL.csproj"
+            "E:\\E-Commerce_LaptopStore\\LapStore\\LapStore.DAL\\LapStore.DAL.csproj": {
+              "projectPath": "E:\\E-Commerce_LaptopStore\\LapStore\\LapStore.DAL\\LapStore.DAL.csproj"
             }
           }
         }
@@ -3831,7 +3831,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.100"
+      "SdkAnalysisLevel": "9.0.200"
     },
     "frameworks": {
       "net9.0": {
@@ -3861,7 +3861,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.105/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

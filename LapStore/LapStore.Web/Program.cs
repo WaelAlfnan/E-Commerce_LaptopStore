@@ -22,13 +22,11 @@ namespace LapStore.Web
 
             // Register repositories
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-            builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
             // Create one instance for the same request
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IFileService, FileService>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
-            builder.Services.AddScoped<IProductService, ProductService>();
 
             var app = builder.Build();
 

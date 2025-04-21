@@ -11,7 +11,7 @@ namespace LapStore.DAL.Repositories
     {
         Task<IEnumerable<Product>> GetProductsByCategoryAsync(int categoryId);
         Task<Product> GetProductByNameAsync(string name);
-        Task<bool> IsProductNameExistAsync(string productName);
-        void RemoveProductImage(ProductImage image);
     }
+
+
 }

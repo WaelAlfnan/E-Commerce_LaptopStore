@@ -30,7 +30,6 @@
   <ItemGroup>
     <ProjectReference Include="..\LapStore.BLL\LapStore.BLL.csproj" />
     <ProjectReference Include="..\LapStore.DAL\LapStore.DAL.csproj" />
-    <ProjectReference Include="..\LapStore.Web\LapStore.Web.csproj" />
   </ItemGroup>
 
 </Project>

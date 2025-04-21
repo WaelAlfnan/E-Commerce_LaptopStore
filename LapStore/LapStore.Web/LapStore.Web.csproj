@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\Imgs\Products\" />
+    <Folder Include="wwwroot\Imgs\Categories\" />
   </ItemGroup>
 
 </Project>

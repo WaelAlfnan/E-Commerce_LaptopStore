@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 using LapStore.Test.Helpers;
 using LapStore.DAL.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Xunit;
-using LapStore.DAL.Data.Contexts;
 
 namespace LapStore.Test.RepositoriesTest.GenericRepositoryTest
 {
@@ -16,7 +14,7 @@ namespace LapStore.Test.RepositoriesTest.GenericRepositoryTest
         [Fact]
         public async Task Update_UpdatesEntity()
         {
-            var options = new DbContextOptionsBuilder<LapStoreDbContext>()
+            var options = new DbContextOptionsBuilder<TestDbContext>()
                 .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
                 .Options;
 

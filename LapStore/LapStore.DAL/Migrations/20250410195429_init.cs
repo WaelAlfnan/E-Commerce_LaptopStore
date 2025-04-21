@@ -148,7 +148,6 @@ namespace LapStore.DAL.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "10000, 1"),
                     URL = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    IsMain = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     ProductId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
