@@ -1,9 +1,54 @@
+<<<<<<< HEAD
+﻿@model IEnumerable<ProductVM>
+=======
 ﻿@model List<GetProductVM>
+>>>>>>> WaelBranch
 
 @{
-    ViewData["Title"] = "Products";
+    ViewData["Title"] = "Products Page";
 }
 
+<<<<<<< HEAD
+<h2>Products</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Weight</th>
+            <th>Category Id</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.Id</td>
+                <td>@product.Name</td>
+                <td>@product.Description</td>
+                <td>@product.Price</td>
+                <td>@product.Weight</td>
+                <td>@product.CategoryId</td>
+
+                <td>
+                    <a asp-action="Details" asp-route-id="@product.Id" class="btn btn-info">Details</a>
+                    <a asp-action="Edit" asp-route-id="@product.Id" class="btn btn-primary">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger">Delete</a>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    <a asp-action="Add" class="btn btn-success">Add New Product</a>
+</div>
+=======
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1>Products</h1>
@@ -84,3 +129,4 @@
         </div>
     }
 </div>
+>>>>>>> WaelBranch

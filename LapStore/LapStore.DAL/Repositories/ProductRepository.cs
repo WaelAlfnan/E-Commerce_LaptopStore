@@ -1,5 +1,4 @@
 ﻿using LapStore.DAL.Data.Entities;
-using LapStore.DAL.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -7,8 +6,13 @@ using System.Linq;
 
 namespace LapStore.DAL.Repositories
 {
+
     public class ProductRepository : GenericRepository<Product>, IProductRepository
     {
+<<<<<<< HEAD
+        public ProductRepository(DbContext context) : base(context)
+        {
+=======
         public ProductRepository(LapStoreDbContext context) : base(context)
         {
         }
@@ -35,18 +39,19 @@ namespace LapStore.DAL.Repositories
                 .Include(p => p.productImages)
                 .Include(p => p.category)
                 .FirstOrDefaultAsync(p => p.Id == id);
+>>>>>>> WaelBranch
         }
 
         public async Task<IEnumerable<Product>> GetProductsByCategoryAsync(int categoryId)
         {
-            return await _context.products
-                .Include(p => p.productImages)
-                .Where(p => p.CategoryId == categoryId)
-                .ToListAsync();
+            return await _dbSet.Where(p => p.CategoryId == categoryId).ToListAsync();
         }
 
         public async Task<Product> GetProductByNameAsync(string name)
         {
+<<<<<<< HEAD
+            return await _dbSet.FirstOrDefaultAsync(p => p.Name == name);
+=======
             return await _context.products
                 .Include(p => p.productImages)
                 .FirstOrDefaultAsync(p => p.Name.ToLower() == name.ToLower());
@@ -60,6 +65,7 @@ namespace LapStore.DAL.Repositories
         public void RemoveProductImage(ProductImage image)
         {
             _context.productImages.Remove(image);
+>>>>>>> WaelBranch
         }
 
         public async Task AddProductImageAsync(ProductImage image)
@@ -94,4 +100,9 @@ namespace LapStore.DAL.Repositories
             _context.productImages.UpdateRange(productImages);
         }
     }
+<<<<<<< HEAD
+
 }
+=======
+}
+>>>>>>> WaelBranch

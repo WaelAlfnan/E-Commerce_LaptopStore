@@ -11,7 +11,15 @@
   </ItemGroup>
 
   <ItemGroup>
+<<<<<<< HEAD
+    <ProjectReference Include="..\LapStore.BLL\LapStore.BLL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\Imgs\Categories\" />
+=======
     <ProjectReference Include="..\LapStore.DAL\LapStore.DAL.csproj" />
+>>>>>>> WaelBranch
   </ItemGroup>
 
 </Project>

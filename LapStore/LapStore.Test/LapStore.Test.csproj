@@ -22,10 +22,13 @@
     <ProjectReference Include="..\LapStore.API\LapStore.API.csproj" />
     <ProjectReference Include="..\LapStore.BLL\LapStore.BLL.csproj" />
     <ProjectReference Include="..\LapStore.DAL\LapStore.DAL.csproj" />
+<<<<<<< HEAD
+=======
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="ServicesTest\" />
+>>>>>>> WaelBranch
   </ItemGroup>
 
 </Project>

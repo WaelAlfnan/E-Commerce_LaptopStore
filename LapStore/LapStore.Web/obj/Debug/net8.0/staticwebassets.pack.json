@@ -5,12 +5,17 @@
       "PackagePath": "staticwebassets\\LapStore.Web.ru8tkr168h.bundle.scp.css"
     },
     {
+<<<<<<< HEAD:LapStore/LapStore.Web/obj/Debug/net9.0/staticwebassets.pack.json
+      "Id": "D:\\DEPI\\E-Commerce_LaptopStore\\LapStore\\LapStore.Web\\wwwroot\\Imgs\\Categories\\76c99a1270b64a1bbb014e4c86d5bae7.png",
+      "PackagePath": "staticwebassets\\Imgs\\Categories\\76c99a1270b64a1bbb014e4c86d5bae7.png"
+=======
       "Id": "D:\\DEPI\\E-Commerce_LaptopStore\\LapStore\\LapStore.Web\\wwwroot\\css\\account.css",
       "PackagePath": "staticwebassets\\css\\account.css"
     },
     {
       "Id": "D:\\DEPI\\E-Commerce_LaptopStore\\LapStore\\LapStore.Web\\wwwroot\\css\\bootstrap.min.css",
       "PackagePath": "staticwebassets\\css\\bootstrap.min.css"
+>>>>>>> WaelBranch:LapStore/LapStore.Web/obj/Debug/net8.0/staticwebassets.pack.json
     },
     {
       "Id": "D:\\DEPI\\E-Commerce_LaptopStore\\LapStore\\LapStore.Web\\wwwroot\\css\\font-awesome.min.css",

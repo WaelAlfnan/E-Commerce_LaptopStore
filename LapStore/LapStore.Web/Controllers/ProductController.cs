@@ -1,14 +1,47 @@
+<<<<<<< HEAD
+﻿using LapStore.DAL;
+using LapStore.DAL.Data.Entities;
+using LapStore.Web.ViewModels;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+=======
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
 using System.Text;
 using LapStore.Web.ViewModels.ProductVM;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Authorization;
+>>>>>>> WaelBranch
 
 namespace LapStore.Web.Controllers
 {
     public class ProductController : Controller
     {
+<<<<<<< HEAD
+        private readonly IUnitOfWork _unitOfWork;
+
+
+
+        public ProductController(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
+        #region GetAll
+        public async Task<IActionResult> Index()
+        {
+            try
+            {
+                var products = await _unitOfWork.GenericRepository<Product>().GetAllAsync();
+                var productVMs = products.Select(ProductVM.FromProduct);
+                return View(productVMs);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Error loading products: " + ex.Message;
+                return View(new List<ProductVM>());
+            }
+=======
         private readonly HttpClient _httpClient;
         private readonly IConfiguration _configuration;
 
@@ -25,16 +58,25 @@ namespace LapStore.Web.Controllers
             {
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             }
+>>>>>>> WaelBranch
         }
+        #endregion
 
+        #region Add
         [HttpGet]
         public async Task<IActionResult> Index()
         {
             var response = await _httpClient.GetAsync("/api/product");
             if (response.IsSuccessStatusCode)
             {
+<<<<<<< HEAD
+                var categories = await _unitOfWork.GenericRepository<Category>().GetAllAsync();
+                ViewBag.Categories = new SelectList(categories, "Id", "Name");
+                return View();
+=======
                 var products = JsonConvert.DeserializeObject<List<GetProductVM>>(await response.Content.ReadAsStringAsync());
                 return View(products);
+>>>>>>> WaelBranch
             }
 
             TempData["Error"] = "Could not retrieve products.";
@@ -79,12 +121,51 @@ namespace LapStore.Web.Controllers
                 var categoriesResponse = await _httpClient.GetAsync("/api/category");
                 if (categoriesResponse.IsSuccessStatusCode)
                 {
+<<<<<<< HEAD
+                    var product = ProductVM.FromProductVM(productVM);
+                    await _unitOfWork.GenericRepository<Product>().AddAsync(product);
+                    await _unitOfWork.CompleteAsync();
+                    TempData["SuccessMessage"] = "Product added successfully.";
+                    return RedirectToAction(nameof(Index));
+=======
                     ViewBag.Categories = JsonConvert.DeserializeObject<List<ViewModels.CategoryVM.GetCategoryVM>>(await categoriesResponse.Content.ReadAsStringAsync());
+>>>>>>> WaelBranch
                 }
 
                 return View(model);
             }
 
+<<<<<<< HEAD
+            // If we got this far, something failed; redisplay form
+            var categories = await _unitOfWork.GenericRepository<Category>().GetAllAsync();
+            ViewBag.Categories = new SelectList(categories, "Id", "Name", productVM.CategoryId);
+            return View(productVM);
+        }
+        #endregion
+
+        #region GetById
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                var product = await _unitOfWork.GenericRepository<Product>().GetByIdAsync(id);
+
+                if (product == null)
+                {
+                    return NotFound();
+                }
+                var productVM = ProductVM.FromProduct(product);
+                return View(productVM);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Error loading product details: " + ex.Message;
+=======
             SetBearerToken();
             var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync("/api/product", content);
@@ -92,6 +173,7 @@ namespace LapStore.Web.Controllers
             if (response.IsSuccessStatusCode)
             {
                 TempData["Success"] = "Product created successfully.";
+>>>>>>> WaelBranch
                 return RedirectToAction(nameof(Index));
             }
 
@@ -107,16 +189,45 @@ namespace LapStore.Web.Controllers
 
             return View(model);
         }
+        #endregion
 
+<<<<<<< HEAD
+        #region Edit
+        public async Task<IActionResult> Edit(int? id)
+=======
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id)
+>>>>>>> WaelBranch
         {
             SetBearerToken();
             var response = await _httpClient.GetAsync($"/api/product/{id}");
             if (!response.IsSuccessStatusCode)
             {
+<<<<<<< HEAD
+                return NotFound();
+            }
+
+            try
+            {
+                var product = await _unitOfWork.GenericRepository<Product>().GetByIdAsync(id);
+                if (product == null)
+                {
+                    return NotFound();
+                }
+
+                var categories = await _unitOfWork.GenericRepository<Category>().GetAllAsync();
+                ViewBag.Categories = new SelectList(categories, "Id", "Name", product.CategoryId);
+                
+                var productVM = ProductVM.FromProduct(product);
+                return View(productVM);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Error loading product for editing: " + ex.Message;
+=======
                 TempData["Error"] = "Product not found.";
+>>>>>>> WaelBranch
                 return RedirectToAction(nameof(Index));
             }
 
@@ -135,8 +246,12 @@ namespace LapStore.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+<<<<<<< HEAD
+        public async Task<IActionResult> Edit(int id, ProductVM productVM)
+=======
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, UpdateProductVM model)
+>>>>>>> WaelBranch
         {
             if (!ModelState.IsValid)
             {
@@ -144,7 +259,43 @@ namespace LapStore.Web.Controllers
                 var categoriesResponse = await _httpClient.GetAsync("/api/category");
                 if (categoriesResponse.IsSuccessStatusCode)
                 {
+<<<<<<< HEAD
+                    var product = ProductVM.FromProductVM(productVM);
+                    _unitOfWork.GenericRepository<Product>().Update(product);
+                    await _unitOfWork.CompleteAsync();
+                    TempData["SuccessMessage"] = "Product updated successfully.";
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "Error updating product: " + ex.Message);
+            }
+
+            // If we got this far, something failed; redisplay form
+            var categories = await _unitOfWork.GenericRepository<Category>().GetAllAsync();
+            ViewBag.Categories = new SelectList(categories, "Id", "Name", productVM.CategoryId);
+            return View(productVM);
+        }
+        #endregion
+
+        #region Delete
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                var product = await _unitOfWork.GenericRepository<Product>().GetByIdAsync(id);
+                if (product == null)
+                {
+                    return NotFound();
+=======
                     ViewBag.Categories = JsonConvert.DeserializeObject<List<ViewModels.CategoryVM.GetCategoryVM>>(await categoriesResponse.Content.ReadAsStringAsync());
+>>>>>>> WaelBranch
                 }
 
                 return View(model);
@@ -199,14 +350,32 @@ namespace LapStore.Web.Controllers
 
             if (response.IsSuccessStatusCode)
             {
+<<<<<<< HEAD
+                var product = await _unitOfWork.GenericRepository<Product>().GetByIdAsync(id);
+                if (product != null)
+                {
+                    _unitOfWork.GenericRepository<Product>().Delete(product);
+                    await _unitOfWork.CompleteAsync();
+                    TempData["SuccessMessage"] = "Product deleted successfully.";
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Error deleting product: " + ex.Message;
+=======
                 TempData["Success"] = "Product deleted successfully.";
+>>>>>>> WaelBranch
                 return RedirectToAction(nameof(Index));
             }
 
             TempData["Error"] = "Could not delete the product.";
             return RedirectToAction(nameof(Index));
         }
+        #endregion
 
+<<<<<<< HEAD
+=======
         [HttpGet]
         public async Task<IActionResult> ByCategory(int categoryId)
         {
@@ -247,5 +416,6 @@ namespace LapStore.Web.Controllers
             TempData["Error"] = "Could not retrieve search results.";
             return RedirectToAction(nameof(Index));
         }
+>>>>>>> WaelBranch
     }
 }

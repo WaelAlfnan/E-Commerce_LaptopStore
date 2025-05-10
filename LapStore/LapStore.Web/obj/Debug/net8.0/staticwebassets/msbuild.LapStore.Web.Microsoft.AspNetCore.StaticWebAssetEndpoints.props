@@ -216,6 +216,19 @@
       <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-JnJrrEBgq7EibmzuvBM26Ekw/np68bOJWhCdBn9bXcw="}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"1380"},{"Name":"Content-Type","Value":"application/font-woff"},{"Name":"ETag","Value":"\u0022JnJrrEBgq7EibmzuvBM26Ekw/np68bOJWhCdBn9bXcw=\u0022"},{"Name":"Last-Modified","Value":"Sat, 07 Jul 2018 06:39:13 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
+<<<<<<< HEAD:LapStore/LapStore.Web/obj/Debug/net9.0/staticwebassets/msbuild.LapStore.Web.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+    <StaticWebAssetEndpoint Include="_content/LapStore.Web/Imgs/Categories/76c99a1270b64a1bbb014e4c86d5bae7.d5vx5a2ley.png">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\Imgs\Categories\76c99a1270b64a1bbb014e4c86d5bae7.png'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"d5vx5a2ley"},{"Name":"integrity","Value":"sha256-D/c9bP6fNHnnkKDDNotG7wCv50PnMHzP/cGNmuRygks="},{"Name":"label","Value":"_content/LapStore.Web/Imgs/Categories/76c99a1270b64a1bbb014e4c86d5bae7.png"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"222026"},{"Name":"Content-Type","Value":"image/png"},{"Name":"ETag","Value":"\u0022D/c9bP6fNHnnkKDDNotG7wCv50PnMHzP/cGNmuRygks=\u0022"},{"Name":"Last-Modified","Value":"Sat, 19 Apr 2025 00:13:04 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/LapStore.Web/Imgs/Categories/76c99a1270b64a1bbb014e4c86d5bae7.png">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\Imgs\Categories\76c99a1270b64a1bbb014e4c86d5bae7.png'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-D/c9bP6fNHnnkKDDNotG7wCv50PnMHzP/cGNmuRygks="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"222026"},{"Name":"Content-Type","Value":"image/png"},{"Name":"ETag","Value":"\u0022D/c9bP6fNHnnkKDDNotG7wCv50PnMHzP/cGNmuRygks=\u0022"},{"Name":"Last-Modified","Value":"Sat, 19 Apr 2025 00:13:04 GMT"}]]]></ResponseHeaders>
+=======
     <StaticWebAssetEndpoint Include="_content/LapStore.Web/js/bootstrap.min.js">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\bootstrap.min.js'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
@@ -245,6 +258,7 @@
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"2xyd1z85ky"},{"Name":"integrity","Value":"sha256-\u002BkAcWA0klKCshjLIEEFOV51LntaiEdbldotJbI99Bh0="},{"Name":"label","Value":"_content/LapStore.Web/js/jquery.zoom.min.js"}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"2607"},{"Name":"Content-Type","Value":"text/javascript"},{"Name":"ETag","Value":"\u0022\u002BkAcWA0klKCshjLIEEFOV51LntaiEdbldotJbI99Bh0=\u0022"},{"Name":"Last-Modified","Value":"Sat, 07 Jul 2018 06:39:13 GMT"}]]]></ResponseHeaders>
+>>>>>>> WaelBranch:LapStore/LapStore.Web/obj/Debug/net8.0/staticwebassets/msbuild.LapStore.Web.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/LapStore.Web/js/jquery.zoom.min.js">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\jquery.zoom.min.js'))</AssetFile>
@@ -292,13 +306,21 @@
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\LapStore.Web.ru8tkr168h.bundle.scp.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-E0L1JWQrhkMMjZUAhAMp16wj3Gs3gSO9Tpqe45\u002BW41g="}]]]></EndpointProperties>
+<<<<<<< HEAD:LapStore/LapStore.Web/obj/Debug/net9.0/staticwebassets/msbuild.LapStore.Web.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"1130"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022E0L1JWQrhkMMjZUAhAMp16wj3Gs3gSO9Tpqe45\u002BW41g=\u0022"},{"Name":"Last-Modified","Value":"Sat, 19 Apr 2025 13:48:55 GMT"}]]]></ResponseHeaders>
+=======
       <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"1130"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022E0L1JWQrhkMMjZUAhAMp16wj3Gs3gSO9Tpqe45\u002BW41g=\u0022"},{"Name":"Last-Modified","Value":"Sat, 10 May 2025 04:33:46 GMT"}]]]></ResponseHeaders>
+>>>>>>> WaelBranch:LapStore/LapStore.Web/obj/Debug/net8.0/staticwebassets/msbuild.LapStore.Web.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/LapStore.Web/LapStore.Web.ru8tkr168h.bundle.scp.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\LapStore.Web.ru8tkr168h.bundle.scp.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"ru8tkr168h"},{"Name":"integrity","Value":"sha256-E0L1JWQrhkMMjZUAhAMp16wj3Gs3gSO9Tpqe45\u002BW41g="},{"Name":"label","Value":"_content/LapStore.Web/LapStore.Web.bundle.scp.css"}]]]></EndpointProperties>
+<<<<<<< HEAD:LapStore/LapStore.Web/obj/Debug/net9.0/staticwebassets/msbuild.LapStore.Web.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"1130"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022E0L1JWQrhkMMjZUAhAMp16wj3Gs3gSO9Tpqe45\u002BW41g=\u0022"},{"Name":"Last-Modified","Value":"Sat, 19 Apr 2025 13:48:55 GMT"}]]]></ResponseHeaders>
+=======
       <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"1130"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022E0L1JWQrhkMMjZUAhAMp16wj3Gs3gSO9Tpqe45\u002BW41g=\u0022"},{"Name":"Last-Modified","Value":"Sat, 10 May 2025 04:33:46 GMT"}]]]></ResponseHeaders>
+>>>>>>> WaelBranch:LapStore/LapStore.Web/obj/Debug/net8.0/staticwebassets/msbuild.LapStore.Web.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/LapStore.Web/lib/bootstrap/css/bootstrap-grid.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\lib\bootstrap\css\bootstrap-grid.css'))</AssetFile>

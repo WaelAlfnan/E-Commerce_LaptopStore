@@ -11,6 +11,16 @@ namespace LapStore.Web
             // Add services to the container.
             builder.Services.AddGeneralDependencyInjection();
 
+<<<<<<< HEAD
+            // Register repositories
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+
+            // Create one instance for the same request
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<IFileService, FileService>();
+            builder.Services.AddScoped<ICategoryService, CategoryService>();
+=======
+>>>>>>> WaelBranch
 
             var app = builder.Build();
 
