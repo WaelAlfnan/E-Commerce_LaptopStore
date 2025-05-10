@@ -1,0 +1,19 @@
+﻿@model AddressInfoVM
+
+@{
+    ViewData["Title"] = "Address Information";
+}
+
+<h2>Your Address</h2>
+
+<div class="card">
+    <div class="card-body">
+        <p><strong>Street:</strong> @Model.Street</p>
+        <p><strong>City:</strong> @Model.City</p>
+        <p><strong>Governorate:</strong> @Model.Governorate</p>
+        <p><strong>Zip Code:</strong> @Model.ZipCode</p>
+        <p><strong>Country:</strong> @Model.Country</p>
+    </div>
+</div>
+
+<a asp-action="EditAddress" asp-route-id="@Model.Id" class="btn btn-primary mt-3">Edit Address</a>

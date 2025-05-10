@@ -1,231 +1,251 @@
-﻿using LapStore.BLL.Interfaces;
-using LapStore.DAL.Data.Entities;
-using LapStore.Web.ViewModels;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Net.Http.Headers;
+using System.Text;
+using LapStore.Web.ViewModels.ProductVM;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LapStore.Web.Controllers
 {
     public class ProductController : Controller
     {
-        private readonly IProductService _productService;
-        private readonly ICategoryService _categoryService;
+        private readonly HttpClient _httpClient;
+        private readonly IConfiguration _configuration;
 
-        public ProductController(IProductService productService, ICategoryService categoryService)
+        public ProductController(IHttpClientFactory httpClientFactory, IConfiguration configuration)
         {
-            _productService = productService;
-            _categoryService = categoryService;
+            _httpClient = httpClientFactory.CreateClient("ApiClient");
+            _configuration = configuration;
         }
 
-        public async Task<IActionResult> Index()
+        private void SetBearerToken()
         {
-            if (TempData["ErrorMessage"] != null)
+            var token = HttpContext.Session.GetString("Token");
+            if (!string.IsNullOrEmpty(token))
             {
-                ViewBag.ErrorMessage = TempData["ErrorMessage"].ToString();
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             }
-            if (TempData["SuccessMessage"] != null)
-            {
-                ViewBag.SuccessMessage = TempData["SuccessMessage"].ToString();
-            }
-
-            var products = await _productService.GetAllProductsAsync();
-            var productVMs = products.Select(ProductVM.FromProduct).ToList();
-            return View(productVMs);
         }
 
         [HttpGet]
-        public async Task<IActionResult> Add()
+        public async Task<IActionResult> Index()
         {
-            try
+            var response = await _httpClient.GetAsync("/api/product");
+            if (response.IsSuccessStatusCode)
             {
-                var categories = await _categoryService.GetAllCategoriesAsync();
-                ViewBag.Categories = new SelectList(categories, "Id", "Name");
-                return View();
+                var products = JsonConvert.DeserializeObject<List<GetProductVM>>(await response.Content.ReadAsStringAsync());
+                return View(products);
             }
-            catch (Exception ex)
+
+            TempData["Error"] = "Could not retrieve products.";
+            return View(new List<GetProductVM>());
+        }
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            var response = await _httpClient.GetAsync($"/api/product/{id}");
+            if (response.IsSuccessStatusCode)
             {
-                TempData["ErrorMessage"] = "Error loading categories: " + ex.Message;
-                return RedirectToAction(nameof(Index));
+                var product = JsonConvert.DeserializeObject<GetProductVM>(await response.Content.ReadAsStringAsync());
+                return View(product);
             }
+
+            TempData["Error"] = "Product not found.";
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Create()
+        {
+            // We may need to get categories for dropdown
+            var response = await _httpClient.GetAsync("/api/category");
+            if (response.IsSuccessStatusCode)
+            {
+                ViewBag.Categories = JsonConvert.DeserializeObject<List<ViewModels.CategoryVM.GetCategoryVM>>(await response.Content.ReadAsStringAsync());
+            }
+
+            return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Add(ProductVM productVM)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Create(AddProductVM model)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                // Get categories again for the dropdown
+                var categoriesResponse = await _httpClient.GetAsync("/api/category");
+                if (categoriesResponse.IsSuccessStatusCode)
                 {
-                    if (productVM.MainImageFile == null)
-                    {
-                        ModelState.AddModelError("MainImageFile", "Main image is required when adding a new product");
-                        var categories = await _categoryService.GetAllCategoriesAsync();
-                        ViewBag.Categories = new SelectList(categories, "Id", "Name", productVM.CategoryId);
-                        return View(productVM);
-                    }
-
-                    var product = ProductVM.FromProductVM(productVM);
-                    await _productService.AddProductAsync(product, productVM.MainImageFile, productVM.AdditionalImageFiles);
-                    TempData["SuccessMessage"] = "Product added successfully.";
-                    return RedirectToAction(nameof(Index));
+                    ViewBag.Categories = JsonConvert.DeserializeObject<List<ViewModels.CategoryVM.GetCategoryVM>>(await categoriesResponse.Content.ReadAsStringAsync());
                 }
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", "Error adding product: " + ex.Message);
+
+                return View(model);
             }
 
-            // If we got this far, something failed; redisplay form
-            var categoriesForError = await _categoryService.GetAllCategoriesAsync();
-            ViewBag.Categories = new SelectList(categoriesForError, "Id", "Name", productVM.CategoryId);
-            return View(productVM);
-        }
+            SetBearerToken();
+            var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("/api/product", content);
 
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
+            if (response.IsSuccessStatusCode)
             {
-                return NotFound();
-            }
-
-            try
-            {
-                var product = await _productService.GetProductByIdAsync(id.Value);
-                if (product == null)
-                {
-                    return NotFound();
-                }
-                var productVM = ProductVM.FromProduct(product);
-                return View(productVM);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = "Error loading product details: " + ex.Message;
+                TempData["Success"] = "Product created successfully.";
                 return RedirectToAction(nameof(Index));
             }
+
+            var error = await response.Content.ReadAsStringAsync();
+            ModelState.AddModelError("", error);
+
+            // Get categories again for the dropdown
+            var catResponse = await _httpClient.GetAsync("/api/category");
+            if (catResponse.IsSuccessStatusCode)
+            {
+                ViewBag.Categories = JsonConvert.DeserializeObject<List<ViewModels.CategoryVM.GetCategoryVM>>(await catResponse.Content.ReadAsStringAsync());
+            }
+
+            return View(model);
         }
 
-        public async Task<IActionResult> Edit(int? id)
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null)
+            SetBearerToken();
+            var response = await _httpClient.GetAsync($"/api/product/{id}");
+            if (!response.IsSuccessStatusCode)
             {
-                return NotFound();
-            }
-
-            try
-            {
-                var product = await _productService.GetProductByIdAsync(id.Value);
-                if (product == null)
-                {
-                    return NotFound();
-                }
-
-                var categories = await _categoryService.GetAllCategoriesAsync();
-                ViewBag.Categories = new SelectList(categories, "Id", "Name", product.CategoryId);
-                
-                var productVM = ProductVM.FromProduct(product);
-                return View(productVM);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = "Error loading product for editing: " + ex.Message;
+                TempData["Error"] = "Product not found.";
                 return RedirectToAction(nameof(Index));
             }
+
+            var product = JsonConvert.DeserializeObject<GetProductVM>(await response.Content.ReadAsStringAsync());
+            var updateModel = UpdateProductVM.FromProductVM(product);
+
+            // Get categories for dropdown
+            var categoriesResponse = await _httpClient.GetAsync("/api/category");
+            if (categoriesResponse.IsSuccessStatusCode)
+            {
+                ViewBag.Categories = JsonConvert.DeserializeObject<List<ViewModels.CategoryVM.GetCategoryVM>>(await categoriesResponse.Content.ReadAsStringAsync());
+            }
+
+            return View(updateModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, ProductVM productVM, List<string>? imagesToDelete)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Edit(int id, UpdateProductVM model)
         {
-            if (id != productVM.Id)
+            if (!ModelState.IsValid)
             {
-                return NotFound();
-            }
-
-            try
-            {
-                if (ModelState.IsValid)
+                // Get categories again for the dropdown
+                var categoriesResponse = await _httpClient.GetAsync("/api/category");
+                if (categoriesResponse.IsSuccessStatusCode)
                 {
-                    var product = ProductVM.FromProductVM(productVM);
-                    await _productService.UpdateProductAsync(product, productVM.MainImageFile, productVM.AdditionalImageFiles, imagesToDelete);
-                    TempData["SuccessMessage"] = "Product updated successfully.";
-                    return RedirectToAction(nameof(Index));
-                }
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", "Error updating product: " + ex.Message);
-            }
-
-            // If we got this far, something failed; redisplay form
-            var categories = await _categoryService.GetAllCategoriesAsync();
-            ViewBag.Categories = new SelectList(categories, "Id", "Name", productVM.CategoryId);
-            return View(productVM);
-        }
-
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            try
-            {
-                var product = await _productService.GetProductByIdAsync(id.Value);
-                if (product == null)
-                {
-                    return NotFound();
+                    ViewBag.Categories = JsonConvert.DeserializeObject<List<ViewModels.CategoryVM.GetCategoryVM>>(await categoriesResponse.Content.ReadAsStringAsync());
                 }
 
-                var productVM = ProductVM.FromProduct(product);
-                return View(productVM);
+                return View(model);
             }
-            catch (Exception ex)
+
+            SetBearerToken();
+            var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+            var response = await _httpClient.PutAsync($"/api/product/{id}", content);
+
+            if (response.IsSuccessStatusCode)
             {
-                TempData["ErrorMessage"] = "Error loading product for deletion: " + ex.Message;
+                TempData["Success"] = "Product updated successfully.";
                 return RedirectToAction(nameof(Index));
             }
+
+            var error = await response.Content.ReadAsStringAsync();
+            ModelState.AddModelError("", error);
+
+            // Get categories again for the dropdown
+            var catResponse = await _httpClient.GetAsync("/api/category");
+            if (catResponse.IsSuccessStatusCode)
+            {
+                ViewBag.Categories = JsonConvert.DeserializeObject<List<ViewModels.CategoryVM.GetCategoryVM>>(await catResponse.Content.ReadAsStringAsync());
+            }
+
+            return View(model);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            SetBearerToken();
+            var response = await _httpClient.GetAsync($"/api/product/{id}");
+            if (!response.IsSuccessStatusCode)
+            {
+                TempData["Error"] = "Product not found.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            var product = JsonConvert.DeserializeObject<GetProductVM>(await response.Content.ReadAsStringAsync());
+            return View(product);
         }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            try
+            SetBearerToken();
+            var response = await _httpClient.DeleteAsync($"/api/product/{id}");
+
+            if (response.IsSuccessStatusCode)
             {
-                var product = await _productService.GetProductByIdAsync(id);
-                if (product != null)
-                {
-                    await _productService.DeleteProduct(product);
-                    TempData["SuccessMessage"] = "Product deleted successfully.";
-                }
+                TempData["Success"] = "Product deleted successfully.";
                 return RedirectToAction(nameof(Index));
             }
-            catch (InvalidOperationException ex) when (ex.Message.Contains("Cannot delete a product that has related records"))
-            {
-                TempData["ErrorMessage"] = "Cannot delete this product because it has related records (cart items, order items, or reviews).";
-                return RedirectToAction(nameof(Index));
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = "Error deleting product: " + ex.Message;
-                return RedirectToAction(nameof(Index));
-            }
+
+            TempData["Error"] = "Could not delete the product.";
+            return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> IsProductNameExist(string name, int? id)
+        [HttpGet]
+        public async Task<IActionResult> ByCategory(int categoryId)
         {
-            var product = await _productService.GetProductByNameAsync(name);
-            if (product == null)
-                return Json(true);
-            
-            // If we're editing an existing product, the name is valid if it belongs to the same product
-            if (id.HasValue && product.Id == id.Value)
-                return Json(true);
+            var response = await _httpClient.GetAsync($"/api/product/category/{categoryId}");
+            if (response.IsSuccessStatusCode)
+            {
+                var products = JsonConvert.DeserializeObject<List<GetProductVM>>(await response.Content.ReadAsStringAsync());
 
-            return Json(false);
+                // Get category name
+                var categoryResponse = await _httpClient.GetAsync($"/api/category/{categoryId}");
+                if (categoryResponse.IsSuccessStatusCode)
+                {
+                    var category = JsonConvert.DeserializeObject<ViewModels.CategoryVM.GetCategoryVM>(await categoryResponse.Content.ReadAsStringAsync());
+                    ViewBag.CategoryName = category.Name;
+                }
+
+                return View("Index", products);
+            }
+
+            TempData["Error"] = "Could not retrieve products for this category.";
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Search(string query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+                return RedirectToAction(nameof(Index));
+
+            var response = await _httpClient.GetAsync($"/api/product/search?query={query}");
+            if (response.IsSuccessStatusCode)
+            {
+                var products = JsonConvert.DeserializeObject<List<GetProductVM>>(await response.Content.ReadAsStringAsync());
+                ViewBag.SearchQuery = query;
+                return View("Index", products);
+            }
+
+            TempData["Error"] = "Could not retrieve search results.";
+            return RedirectToAction(nameof(Index));
         }
     }
 }

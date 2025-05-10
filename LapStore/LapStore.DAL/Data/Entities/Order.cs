@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LapStore.DAL.Data.Entities
 {
-    public enum OrderStatus { None, Pending, Processing, Shipped, Delivered, Cancelled }
     public class Order
     {
         [Key]
@@ -23,6 +22,5 @@ namespace LapStore.DAL.Data.Entities
         // Navigation Properties
         public virtual User user { get; set; }
         public virtual ICollection<OrderItem>? orderItems { get; set; }
-
     }
 }

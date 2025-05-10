@@ -1,4 +1,80 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model HomeVM
+
+@{
+    ViewData["Title"] = "Home";
 }
-        <h1>You are welcome in your LapStore</h1>
+
+<div class="container mt-4">
+    <!-- Hero Section -->
+    <div class="jumbotron">
+        <h1 class="display-4">Welcome to LapStore</h1>
+        <p class="lead">Your one-stop shop for the latest laptops and accessories.</p>
+        <hr class="my-4">
+        <p>Explore our wide range of products from top brands at competitive prices.</p>
+        <a class="btn btn-primary btn-lg" href="@Url.Action("Index", "Product")" role="button">Shop Now</a>
+    </div>
+
+    <!-- Categories Section -->
+    <h2 class="mt-5 mb-4">Shop by Category</h2>
+    <div class="row">
+        @foreach (var category in Model.Categories)
+        {
+            <div class="col-md-4 col-sm-6 mb-4">
+                <div class="card h-100">
+                    @if (!string.IsNullOrEmpty(category.ImageUrl))
+                    {
+                        <img src="@category.ImageUrl" class="card-img-top" alt="@category.Name">
+                    }
+                    else
+                    {
+                        <div class="card-img-top bg-light" style="height: 200px; display: flex; align-items: center; justify-content: center;">
+                            <span class="text-muted">No Image</span>
+                        </div>
+                    }
+                    <div class="card-body">
+                        <h5 class="card-title">@category.Name</h5>
+                        @if (!string.IsNullOrEmpty(category.Description))
+                        {
+                            <p class="card-text">@category.Description</p>
+                        }
+                        <a href="@Url.Action("Index", "Product", new { categoryId = category.Id })" class="btn btn-outline-primary">Browse Products</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- Featured Products Section -->
+    <h2 class="mt-5 mb-4">Featured Products</h2>
+    <div class="row">
+        @foreach (var product in Model.FeaturedProducts)
+        {
+            <div class="col-md-4 col-sm-6 mb-4">
+                <div class="card h-100">
+                    @if (!string.IsNullOrEmpty(product.MainImageUrl))
+                    {
+                        <img src="@product.MainImageUrl" class="card-img-top" alt="@product.Name">
+                    }
+                    else
+                    {
+                        <div class="card-img-top bg-light" style="height: 200px; display: flex; align-items: center; justify-content: center;">
+                            <span class="text-muted">No Image</span>
+                        </div>
+                    }
+                    <div class="card-body">
+                        <h5 class="card-title">@product.Name</h5>
+                        <p class="card-text">@(product.Description?.Length > 100 ? product.Description.Substring(0, 100) + "..." : product.Description)</p>
+                        <p class="card-text"><strong>Category:</strong> @product.CategoryName</p>
+                        <h5 class="text-primary">$@product.Price.ToString("F2")</h5>
+                    </div>
+                    <div class="card-footer bg-white border-top-0">
+                        <div class="d-flex justify-content-between">
+                            <a href="@Url.Action("Details", "Product", new { id = product.Id })" class="btn btn-info">View Details</a>
+                            <button class="btn btn-success">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

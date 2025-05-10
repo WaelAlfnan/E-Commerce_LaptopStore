@@ -1,74 +1,130 @@
-﻿@model ProductVM
+﻿@model GetProductVM
 
 @{
-    ViewData["Title"] = Model.Name + " Details";
+    ViewData["Title"] = Model.Name;
 }
 
-<div class="container">
-    <h1>@Model.Name Details</h1>
-    <hr />
-    
+<div class="container mt-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item"><a asp-action="Index">Products</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
+        </ol>
+    </nav>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
     <div class="row">
-        <!-- Product Images Section -->
-        <div class="col-md-6">
-            <div class="product-images mb-4">
-                <!-- Main Image -->
-                <div class="main-image mb-3">
-                    @if (!string.IsNullOrEmpty(Model.MainImageUrl))
+        <!-- Product Images Column -->
+        <div class="col-md-6 mb-4">
+            @if (Model.Images != null && Model.Images.Any())
+            {
+                <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        @for (int i = 0; i < Model.Images.Count; i++)
+                        {
+                            <div class="carousel-item @(i == 0 ? "active" : "")">
+                                <img src="@Model.Images[i].URL" class="d-block w-100" alt="@Model.Name" style="height: 400px; object-fit: contain;">
+                            </div>
+                        }
+                    </div>
+                    @if (Model.Images.Count > 1)
                     {
-                        <img src="@Model.MainImageUrl" alt="@Model.Name" class="img-fluid rounded" style="max-width: 100%; height: auto;" />
-                    }
-                    else
-                    {
-                        <img src="/imgs/no-image.png" alt="No Image Available" class="img-fluid rounded" style="max-width: 100%; height: auto;" />
+                        <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
                     }
                 </div>
-                
-                <!-- Additional Images -->
-                @if (Model.AdditionalImageUrls != null && Model.AdditionalImageUrls.Any())
-                {
-                    <div class="additional-images">
-                        <h5>Additional Images</h5>
-                        <div class="row">
-                            @foreach (var imageUrl in Model.AdditionalImageUrls)
-                            {
-                                <div class="col-4 mb-3">
-                                    <img src="@imageUrl" alt="Additional Image" class="img-fluid rounded" style="width: 100%; height: auto;" />
-                                </div>
-                            }
+
+                <div class="row mt-2">
+                    @foreach (var image in Model.Images.Take(5))
+                    {
+                        <div class="col-3 mb-2">
+                            <img src="@image.URL" class="img-thumbnail" alt="@Model.Name" style="height: 70px; object-fit: cover; cursor: pointer;"
+                                 onclick="$('#productCarousel').carousel($('.carousel-item').index(document.querySelector('[src=\'' + this.src + '\']').closest('.carousel-item')))">
                         </div>
-                    </div>
-                }
-            </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="bg-light d-flex align-items-center justify-content-center" style="height: 400px;">
+                    <span class="text-muted">No Images Available</span>
+                </div>
+            }
         </div>
 
-        <!-- Product Details Section -->
+        <!-- Product Details Column -->
         <div class="col-md-6">
-            <dl class="row">
-                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Name)</dt>
-                <dd class="col-sm-8">@Html.DisplayFor(model => model.Name)</dd>
+            <h1 class="mb-3">@Model.Name</h1>
+            <p class="badge bg-secondary mb-3">@Model.CategoryName</p>
+            <h3 class="text-primary mb-4">$@Model.Price.ToString("F2")</h3>
 
-                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Description)</dt>
-                <dd class="col-sm-8">@Html.DisplayFor(model => model.Description)</dd>
-
-                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Price)</dt>
-                <dd class="col-sm-8">@Html.DisplayFor(model => model.Price)</dd>
-
-                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Weight)</dt>
-                <dd class="col-sm-8">@Html.DisplayFor(model => model.Weight)</dd>
-
-                <dt class="col-sm-4">Category</dt>
-                <dd class="col-sm-8">@Html.DisplayFor(model => model.CategoryName)</dd>
-            </dl>
-
-            <div class="mt-4">
-                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">
-                    <i class="fas fa-edit"></i> Edit
-                </a>
-                <a asp-action="Index" class="btn btn-secondary">
-                    <i class="fas fa-arrow-left"></i> Back to List
-                </a>
+            <div class="mb-4">
+                <h5>Description</h5>
+                <p>@Model.Description</p>
             </div>
+
+            <div class="mb-4">
+                <h5>Specifications</h5>
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <th>Weight</th>
+                            <td>@Model.Weight.ToString("F2") kg</td>
+                        </tr>
+                        <tr>
+                            <th>Category</th>
+                            <td>@Model.CategoryName</td>
+                        </tr>
+                        <!-- Add more specifications as needed -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="d-grid gap-2">
+                <button class="btn btn-success btn-lg">
+                    <i class="bi bi-cart-plus"></i> Add to Cart
+                </button>
+            </div>
+
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class="mt-4">
+                    <div class="btn-group w-100">
+                        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">
+                            <i class="bi bi-pencil"></i> Edit
+                        </a>
+                        <a asp-action="Images" asp-route-id="@Model.Id" class="btn btn-info">
+                            <i class="bi bi-images"></i> Manage Images
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">
+                            <i class="bi bi-trash"></i> Delete
+                        </a>
+                    </div>
+                </div>
+            }
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Initialize the carousel
+            $('.carousel').carousel();
+        });
+    </script>
+}

@@ -20,15 +20,9 @@ namespace LapStore.DAL.Repositories
         {
             return await _dbSet.FindAsync(id);
         }
-
-        public async Task<T> GetByIdAsync(int? id, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null)
+        public T? GetById(int? id)
         {
-            IQueryable<T> query = _dbSet;
-            if (include != null)
-            {
-                query = include(query);
-            }
-            return await query.FirstOrDefaultAsync(e => EF.Property<int>(e, "Id") == id);
+            return _dbSet.Find(id);
         }
 
         public async Task<IEnumerable<T>> GetAllAsync()
@@ -36,15 +30,6 @@ namespace LapStore.DAL.Repositories
             return await _dbSet.ToListAsync();
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync(Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null)
-        {
-            IQueryable<T> query = _dbSet;
-            if (include != null)
-            {
-                query = include(query);
-            }
-            return await query.ToListAsync();
-        }
 
         public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)
         {

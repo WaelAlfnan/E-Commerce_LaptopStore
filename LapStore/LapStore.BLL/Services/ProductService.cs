@@ -2,7 +2,6 @@ using LapStore.DAL.Data.Entities;
 using LapStore.DAL.Repositories;
 using LapStore.BLL.Interfaces;
 using LapStore.DAL;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 
 namespace LapStore.BLL.Services
@@ -10,222 +9,134 @@ namespace LapStore.BLL.Services
     public class ProductService : IProductService
     {
         private readonly IProductRepository _productRepository;
-        private readonly IFileService _fileService;
+        private readonly IFileStorageService _fileStorageService;
         private readonly IUnitOfWork _unitOfWork;
 
-        public ProductService(IProductRepository productRepository, IFileService fileService, IUnitOfWork unitOfWork)
+        public ProductService(
+            IProductRepository productRepository,
+            IFileStorageService fileStorageService,
+            IUnitOfWork unitOfWork)
         {
             _productRepository = productRepository;
-            _fileService = fileService;
+            _fileStorageService = fileStorageService;
             _unitOfWork = unitOfWork;
-        }
-
-        public async Task<Product> GetProductByNameAsync(string name)
-        {
-            return await _productRepository.GetProductByNameAsync(name);
         }
 
         public async Task<Product> GetProductByIdAsync(int id)
         {
-            return await _productRepository.GetByIdAsync(id);
+            return await _productRepository.GetProductWithImagesAsync(id);
+        }
+
+        public Product GetById(int? id)
+        {
+            if (id == null)
+                return null;
+
+            return _productRepository.GetProductWithImages(id.Value);
         }
 
         public async Task<IEnumerable<Product>> GetAllProductsAsync()
         {
-            return await _productRepository.GetAllAsync();
+            return await _productRepository.GetAllProductsWithImagesAsync();
         }
 
-        public async Task<IEnumerable<Product>> GetProductsByCategoryAsync(int categoryId)
+        public async Task AddAsync(Product product)
         {
-            return await _productRepository.GetProductsByCategoryAsync(categoryId);
+            await _productRepository.AddAsync(product);
+            await _unitOfWork.CompleteAsync();
         }
 
-        public async Task AddProductAsync(Product product, IFormFile mainImageFile, List<IFormFile>? additionalImageFiles)
+        public async Task UpdateAsync(Product product)
         {
-            try
-            {
-                // First add the product to get its ID
-                await _productRepository.AddAsync(product);
-                await _unitOfWork.CompleteAsync();
-
-                product.productImages = new List<ProductImage>();
-
-                // Handle main image
-                if (mainImageFile != null)
-                {
-                    var mainImageUrl = await _fileService.Upload(mainImageFile, "/Imgs/Products/");
-                    if (mainImageUrl != "Problem")
-                    {
-                        product.productImages.Add(new ProductImage
-                        {
-                            ProductId = product.Id,
-                            URL = mainImageUrl,
-                            IsMain = true
-                        });
-                    }
-                }
-
-                // Then handle additional image uploads if any
-                if (additionalImageFiles != null && additionalImageFiles.Any())
-                {
-                    foreach (var imageFile in additionalImageFiles)
-                    {
-                        var imageUrl = await _fileService.Upload(imageFile, "/Imgs/Products/");
-                        if (imageUrl != "Problem")
-                        {
-                            product.productImages.Add(new ProductImage
-                            {
-                                ProductId = product.Id,
-                                URL = imageUrl,
-                                IsMain = false
-                            });
-                        }
-                    }
-                }
-
-                await _unitOfWork.CompleteAsync();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Error adding product: {ex.Message}", ex);
-            }
+            _productRepository.Update(product);
+            await _unitOfWork.CompleteAsync();
         }
 
-        public async Task UpdateProductAsync(Product product, IFormFile? mainImageFile, List<IFormFile>? additionalImageFiles, List<string>? imagesToDelete)
+        public async Task DeleteAsync(Product product)
         {
-            try
+            // Get all product images to delete files
+            var images = await _productRepository.GetProductImagesAsync(product.Id);
+
+            // Delete physical files first
+            foreach (var image in images)
             {
-                var existingProduct = await _productRepository.GetByIdAsync(product.Id);
-                if (existingProduct == null)
-                    throw new Exception("Product not found");
-
-                // Update basic product information
-                existingProduct.Name = product.Name;
-                existingProduct.Description = product.Description;
-                existingProduct.Price = product.Price;
-                existingProduct.Weight = product.Weight;
-                existingProduct.CategoryId = product.CategoryId;
-
-                // Handle image deletions if any
-                if (imagesToDelete != null && imagesToDelete.Any())
-                {
-                    foreach (var imageUrl in imagesToDelete)
-                    {
-                        var imageToDelete = existingProduct.productImages?.FirstOrDefault(pi => pi.URL == imageUrl);
-                        if (imageToDelete != null)
-                        {
-                            // First delete the physical file
-                            bool fileDeleted = _fileService.DeletePhysicalFile(imageUrl);
-                            
-                            // Then remove from database regardless of file deletion result
-                            existingProduct.productImages.Remove(imageToDelete);
-                            _productRepository.RemoveProductImage(imageToDelete);
-                        }
-                    }
-                }
-
-                // Handle main image update if provided
-                if (mainImageFile != null)
-                {
-                    // Remove existing main image if any
-                    var existingMainImage = existingProduct.productImages?.FirstOrDefault(pi => pi.IsMain);
-                    if (existingMainImage != null)
-                    {
-                        bool fileDeleted = _fileService.DeletePhysicalFile(existingMainImage.URL);
-                        existingProduct.productImages.Remove(existingMainImage);
-                        _productRepository.RemoveProductImage(existingMainImage);
-                    }
-
-                    // Add new main image
-                    var mainImageUrl = await _fileService.Upload(mainImageFile, "/Imgs/Products/");
-                    if (mainImageUrl != "Problem")
-                    {
-                        if (existingProduct.productImages == null)
-                            existingProduct.productImages = new List<ProductImage>();
-
-                        existingProduct.productImages.Add(new ProductImage
-                        {
-                            ProductId = existingProduct.Id,
-                            URL = mainImageUrl,
-                            IsMain = true
-                        });
-                    }
-                }
-
-                // Handle additional image uploads if any
-                if (additionalImageFiles != null && additionalImageFiles.Any())
-                {
-                    if (existingProduct.productImages == null)
-                        existingProduct.productImages = new List<ProductImage>();
-
-                    foreach (var imageFile in additionalImageFiles)
-                    {
-                        var imageUrl = await _fileService.Upload(imageFile, "/Imgs/Products/");
-                        if (imageUrl != "Problem")
-                        {
-                            existingProduct.productImages.Add(new ProductImage
-                            {
-                                ProductId = existingProduct.Id,
-                                URL = imageUrl,
-                                IsMain = false
-                            });
-                        }
-                    }
-                }
-
-                _productRepository.Update(existingProduct);
-                await _unitOfWork.CompleteAsync();
+                _fileStorageService.DeleteImage(image.URL);
+                _productRepository.RemoveProductImage(image);
             }
-            catch (Exception ex)
-            {
-                throw new Exception($"Error updating product: {ex.Message}", ex);
-            }
-        }
 
-        public async Task DeleteProduct(Product product)
-        {
-            try
-            {
-                // Check if the product has any related records
-                if ((product.cartItems ?? Enumerable.Empty<CartItem>()).Any() ||
-                    (product.orderItems ?? Enumerable.Empty<OrderItem>()).Any() ||
-                    (product.productReviews ?? Enumerable.Empty<Review>()).Any())
-                {
-                    throw new InvalidOperationException("Cannot delete a product that has related records (cart items, order items, or reviews).");
-                }
-
-                // Delete associated product images
-                if (product.productImages != null)
-                {
-                    foreach (var image in product.productImages)
-                    {
-                        if (!string.IsNullOrEmpty(image.URL))
-                        {
-                            bool fileDeleted = _fileService.DeletePhysicalFile(image.URL);
-                            if (!fileDeleted)
-                            {
-                                System.Diagnostics.Debug.WriteLine($"Warning: Could not delete file {image.URL}");
-                            }
-                        }
-                        // Remove the image entity using the repository
-                        _productRepository.RemoveProductImage(image);
-                    }
-                }
-
-                // Then delete the product
-                _productRepository.Delete(product);
-                await _unitOfWork.CompleteAsync();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Error deleting product: {ex.Message}", ex);
-            }
+            _productRepository.Delete(product);
+            await _unitOfWork.CompleteAsync();
         }
 
         public async Task<bool> IsProductNameExistAsync(string productName)
         {
-            var product = await _productRepository.GetProductByNameAsync(productName);
-            return product != null;
+            return await _productRepository.IsProductNameExistAsync(productName);
+        }
+
+        // Image management methods
+        public async Task<ProductImage> AddProductImageAsync(int productId, IFormFile imageFile)
+        {
+            // Save the physical file and get the URL
+            string imageUrl = await _fileStorageService.SaveImageAsync(imageFile, productId);
+
+            // Determine if this should be the main image
+            bool isMain = !(await _productRepository.GetProductImagesAsync(productId)).Any();
+
+            // Create image entity
+            var productImage = new ProductImage
+            {
+                URL = imageUrl,
+                ProductId = productId,
+                IsMain = isMain
+            };
+
+            // Save to database
+            await _productRepository.AddProductImageAsync(productImage);
+            await _unitOfWork.CompleteAsync();
+
+            return productImage;
+        }
+
+        public async Task RemoveProductImageAsync(int imageId)
+        {
+            var image = await _productRepository.GetImageByIdAsync(imageId);
+            if (image != null)
+            {
+                // Delete the physical file
+                _fileStorageService.DeleteImage(image.URL);
+
+                // Delete from database
+                _productRepository.RemoveProductImage(image);
+                await _unitOfWork.CompleteAsync();
+
+                // If this was the main image, set another one as main if available
+                if (image.IsMain)
+                {
+                    var remainingImages = await _productRepository.GetProductImagesAsync(image.ProductId);
+                    var firstImage = remainingImages.FirstOrDefault();
+
+                    if (firstImage != null)
+                    {
+                        await SetMainProductImageAsync(image.ProductId, firstImage.Id);
+                    }
+                }
+            }
+        }
+
+        public async Task<ProductImage> GetImageByIdAsync(int imageId)
+        {
+            return await _productRepository.GetImageByIdAsync(imageId);
+        }
+
+        public async Task<IEnumerable<ProductImage>> GetProductImagesAsync(int productId)
+        {
+            return await _productRepository.GetProductImagesAsync(productId);
+        }
+
+        public async Task SetMainProductImageAsync(int productId, int imageId)
+        {
+            await _productRepository.SetMainImageAsync(productId, imageId);
+            await _unitOfWork.CompleteAsync();
         }
     }
-} 
+}

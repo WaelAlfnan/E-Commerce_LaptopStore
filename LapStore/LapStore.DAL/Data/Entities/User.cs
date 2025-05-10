@@ -1,22 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Identity;
 
 namespace LapStore.DAL.Data.Entities
 {
-
-    public class User
+    public class User : IdentityUser<int>  // Inherit from IdentityUser with int as key type
     {
-        [Key]
-        public int Id { get; set; }
-
-        [Required(ErrorMessage = "Please enter the user name")]
-        public string UserName { get; set; }
-
-        [Required(ErrorMessage = "Please enter your password")]
-        public string PasswordHash { get; set; } // Store the hash, not the plain password
-
-        public UserRole Role { get; set; }
-
         [Required(ErrorMessage = "Please select your gender")]
         public UserGender Gender { get; set; }
 
@@ -62,23 +51,16 @@ namespace LapStore.DAL.Data.Entities
             }
         }
 
-        [Required(ErrorMessage = "Please enter your Email")]
-        [EmailAddress(ErrorMessage = "Please enter a valid email")]
-        public string Email { get; set; }
+        public UserRole Role { get; set; } = UserRole.Customer;
 
-        [Required(ErrorMessage = "Please enter your phone number")]
-        public string PhoneNumber { get; set; }
-
+        // Modified to be nullable to allow registration without an address initially
         [ForeignKey("address")]
-        public int AddressId { get; set; }
+        public int? AddressId { get; set; }
 
         // Navigation Properties
         public virtual ICollection<Order>? orders { get; set; }
         public virtual Cart? cart { get; set; }
         public virtual Address? address { get; set; }
         public virtual ICollection<Review>? userReviews { get; set; }
-
     }
-
-
 }
