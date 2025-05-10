@@ -1,62 +1,8 @@
-﻿@model IEnumerable<CategoryVM>
-
-@{
-    ViewData["Title"] = "Categories Page";
+﻿@{
+    ViewData["Title"] = "Home Page";
 }
 
-<h2>Categories</h2>
-
-@if (ViewBag.ErrorMessage != null)
-{
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        @ViewBag.ErrorMessage
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-}
-
-@if (ViewBag.SuccessMessage != null)
-{
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        @ViewBag.SuccessMessage
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-}
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Image</th>
-            <th>Parent Category</th>
-            <th>Actions</th> 
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var category in Model)
-        {
-            <tr>
-                <td>@category.Id</td>
-                <td>@category.Name</td>
-                <td>@category.Description</td>
-                <td>
-                    @if (!string.IsNullOrEmpty(category.ImageUrl))
-                    {
-                        <img src="@category.ImageUrl" alt="@category.Name" style="width: 50px; height: 50px;" />
-                    }
-                </td>
-                <td>@category.ParentCategoryId</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@category.Id" class="btn btn-info">Details</a>
-                    <a asp-action="Edit" asp-route-id="@category.Id" class="btn btn-primary">Edit</a>
-                    <a asp-action="Delete" asp-route-id="@category.Id" class="btn btn-danger">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-<div>
-    <a asp-action="Add" class="btn btn-success">Add New Category</a>
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>

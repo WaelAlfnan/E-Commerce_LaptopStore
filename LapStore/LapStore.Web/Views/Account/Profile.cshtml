@@ -1,0 +1,24 @@
+﻿@model UserInfoVM
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<h2>Your Profile</h2>
+
+<div class="card">
+    <div class="card-body">
+        <p><strong>Username:</strong> @Model.UserName</p>
+        <p><strong>Email:</strong> @Model.Email</p>
+        <p><strong>First Name:</strong> @Model.FirstName</p>
+        <p><strong>Last Name:</strong> @Model.LastName</p>
+        <p><strong>Gender:</strong> @Model.Gender</p>
+        <p><strong>Phone Number:</strong> @Model.PhoneNumber</p>
+        <p><strong>Birth Date:</strong> @Model.BirthDate</p>
+        <p><strong>Age:</strong> @Model.Age</p>
+    </div>
+</div>
+
+<a asp-action="EditProfile" class="btn btn-primary mt-3">Edit Profile</a>
+<a asp-action="ChangePassword" class="btn btn-warning mt-3">Change Password</a>
+<a asp-action="AddressInfo" class="btn btn-secondary mt-3">View Address</a>

@@ -12,7 +12,7 @@ namespace LapStore.DAL.Repositories
     {
         Task<Category> GetCategoryByNameAsync(string name);
 
-        Task<bool> IsCategoryNameExistAsync(string categoryName);
+        Task<bool> IsCategoryNameExistAsync(string categoryName, int? categoryId = null);
     }
 
 

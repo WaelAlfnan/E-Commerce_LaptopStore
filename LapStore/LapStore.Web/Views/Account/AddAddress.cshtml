@@ -1,0 +1,19 @@
+﻿@model AddAddressVM
+
+@{
+    ViewData["Title"] = "Add Address";
+}
+
+<h2>Add Address</h2>
+
+<form asp-action="AddAddress" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    @Html.EditorForModel(new { htmlAttributes = new { @class = "form-control" } })
+
+    <button type="submit" class="btn btn-success">Save Address</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

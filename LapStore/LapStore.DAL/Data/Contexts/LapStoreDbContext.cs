@@ -1,9 +1,13 @@
 ﻿using LapStore.DAL.Data.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace LapStore.DAL.Data.Contexts
 {
-    public class LapStoreDbContext : DbContext
+    // Change to inherit from IdentityDbContext with the correct generic parameters
+    public class LapStoreDbContext : IdentityDbContext<User, IdentityRole<int>, int, IdentityUserClaim<int>,
+        IdentityUserRole<int>, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
         public LapStoreDbContext(DbContextOptions<LapStoreDbContext> options) : base(options)
         {
@@ -11,7 +15,14 @@ namespace LapStore.DAL.Data.Contexts
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseLazyLoadingProxies();
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseLazyLoadingProxies();
+
+                // Disable database creation warnings
+                optionsBuilder.ConfigureWarnings(warnings =>
+                    warnings.Ignore(Microsoft.EntityFrameworkCore.Diagnostics.CoreEventId.ManyServiceProvidersCreatedWarning));
+            }
         }
 
         public DbSet<Address> addresses { get; set; }
@@ -23,19 +34,43 @@ namespace LapStore.DAL.Data.Contexts
         public DbSet<Product> products { get; set; }
         public DbSet<ProductImage> productImages { get; set; }
         public DbSet<Review> reviews { get; set; }
+        // Users are automatically included by IdentityDbContext, but we can still define it
         public DbSet<User> users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Define primary keys explicitly
+            // Call base first to set up Identity tables
+            base.OnModelCreating(modelBuilder);
+
+            // Configure decimal precision for all price and weight columns
+            modelBuilder.Entity<CartItem>()
+                .Property(ci => ci.UnitPrice)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<Order>()
+                .Property(o => o.TotalAmount)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<OrderItem>()
+                .Property(oi => oi.UnitPrice)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<Product>()
+                .Property(p => p.Price)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<Product>()
+                .Property(p => p.Weight)
+                .HasColumnType("decimal(8,3)");
+
+            // Define primary keys explicitly (except User which is handled by Identity)
             modelBuilder.Entity<Address>().HasKey(a => a.Id);
             modelBuilder.Entity<Cart>().HasKey(c => c.Id);
             modelBuilder.Entity<Category>().HasKey(c => c.Id);
             modelBuilder.Entity<Order>().HasKey(o => o.Id);
             modelBuilder.Entity<Product>().HasKey(p => p.Id);
             modelBuilder.Entity<ProductImage>().HasKey(pi => pi.Id);
-            modelBuilder.Entity<User>().HasKey(u => u.Id);
-
+            // User key is configured by Identity
 
             // Composite Key Configurations
             modelBuilder.Entity<CartItem>()
@@ -47,7 +82,6 @@ namespace LapStore.DAL.Data.Contexts
             modelBuilder.Entity<Review>()
                 .HasKey(r => new { r.UserId, r.ProductId });
 
-
             // Example with Cart and User (One to One)
             modelBuilder.Entity<Cart>()
                 .HasOne(c => c.user)
@@ -56,9 +90,10 @@ namespace LapStore.DAL.Data.Contexts
 
             // Example with Address and User (One to One)
             modelBuilder.Entity<User>()
-            .HasOne(u => u.address)
-            .WithMany(a => a.users)
-            .HasForeignKey(u => u.AddressId);
+                .HasOne(u => u.address)
+                .WithMany(a => a.users)
+                .HasForeignKey(u => u.AddressId)
+                .OnDelete(DeleteBehavior.Restrict);  // Added explicit delete behavior
 
             // Example with Category and ParentCategory (Self-Referencing)
             modelBuilder.Entity<Category>()
@@ -114,26 +149,27 @@ namespace LapStore.DAL.Data.Contexts
                 .WithMany(u => u.userReviews)
                 .HasForeignKey(r => r.UserId);
 
-
             // Enforce 'Restrict' delete behavior for all foreign key relationships
             foreach (var relationship in modelBuilder.Model.GetEntityTypes()
                 .SelectMany(e => e.GetForeignKeys()))
             {
-                relationship.DeleteBehavior = DeleteBehavior.Restrict; // Prevent deletion if related entities exist
+                relationship.DeleteBehavior = DeleteBehavior.Restrict;
             }
-            // Indexers
 
+            // Indexers
             modelBuilder.Entity<User>().HasIndex(u => new { u.UserName, u.Email, u.PhoneNumber })
                 .IsUnique();
 
             modelBuilder.Entity<User>().HasIndex(u => new { u.FirstName, u.LastName });
 
-            //modelBuilder.Entity<User>().ToTable("users", u => u.ExcludeFromMigrations());
-
-            base.OnModelCreating(modelBuilder);
+            // Customize Identity table names if needed
+            modelBuilder.Entity<User>().ToTable("Users");
+            modelBuilder.Entity<IdentityRole<int>>().ToTable("Roles");
+            modelBuilder.Entity<IdentityUserRole<int>>().ToTable("UserRoles");
+            modelBuilder.Entity<IdentityUserClaim<int>>().ToTable("UserClaims");
+            modelBuilder.Entity<IdentityUserLogin<int>>().ToTable("UserLogins");
+            modelBuilder.Entity<IdentityRoleClaim<int>>().ToTable("RoleClaims");
+            modelBuilder.Entity<IdentityUserToken<int>>().ToTable("UserTokens");
         }
-
-
-
     }
 }

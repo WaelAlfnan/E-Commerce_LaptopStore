@@ -1,202 +1,292 @@
-﻿using LapStore.BLL.Interfaces;
-using LapStore.DAL.Data.Entities;
-using LapStore.Web.ViewModels;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Net.Http.Headers;
+using System.Text;
+using LapStore.Web.ViewModels.CategoryVM;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
+using System.Net.Http;
 
 namespace LapStore.Web.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly ICategoryService _categoryService;
-        private readonly IFileService _fileService;
+        private readonly HttpClient _httpClient;
+        private readonly IConfiguration _configuration;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public CategoryController(ICategoryService categoryService, IFileService fileService)
+        public CategoryController(IHttpClientFactory httpClientFactory, IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
-            _categoryService = categoryService;
-            _fileService = fileService;
+            _httpClient = httpClientFactory.CreateClient("ApiClient");
+            _configuration = configuration;
+            _webHostEnvironment = webHostEnvironment;
+        }
+        private void SetBearerToken()
+        {
+            var token = HttpContext.Session.GetString("Token");
+            if (!string.IsNullOrEmpty(token))
+            {
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            }
         }
 
-        public async Task<IActionResult> Add()
+        [HttpGet]
+        public async Task<IActionResult> Index()
         {
-            var categories = await _categoryService.GetAllCategoriesAsync();
-            ViewData["categories"] = new SelectList(categories, "Id", "Name");
+            var response = await _httpClient.GetAsync("/api/category");
+            if (response.IsSuccessStatusCode)
+            {
+                var categories = JsonConvert.DeserializeObject<List<GetCategoryVM>>(await response.Content.ReadAsStringAsync());
+                return View(categories);
+            }
+
+            TempData["Error"] = "Could not retrieve categories.";
+            return View(new List<GetCategoryVM>());
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            var response = await _httpClient.GetAsync($"/api/category/{id}");
+            if (response.IsSuccessStatusCode)
+            {
+                var category = JsonConvert.DeserializeObject<GetCategoryVM>(await response.Content.ReadAsStringAsync());
+                return View(category);
+            }
+
+            TempData["Error"] = "Category not found.";
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Create()
+        {
+            // Get parent categories for dropdown
+            var response = await _httpClient.GetAsync("/api/category");
+            if (response.IsSuccessStatusCode)
+            {
+                ViewBag.ParentCategories = JsonConvert.DeserializeObject<List<GetCategoryVM>>(await response.Content.ReadAsStringAsync());
+            }
+
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Add(CategoryVM categoryVM)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Create(AddCategoryVM model)
         {
-            var categories = await _categoryService.GetAllCategoriesAsync();
-            ViewData["categories"] = new SelectList(categories, "Id", "Name");
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var path = "";
-                if (categoryVM.File != null)
+                // Get parent categories again for the dropdown
+                var categoriesResponse = await _httpClient.GetAsync("/api/category");
+                if (categoriesResponse.IsSuccessStatusCode)
                 {
-                    path = await _fileService.Upload(categoryVM.File, "/Imgs/Categories/");
-                    if (path == "Problem")
-                    {
-                        return BadRequest();
-                    }
+                    ViewBag.ParentCategories = JsonConvert.DeserializeObject<List<GetCategoryVM>>(await categoriesResponse.Content.ReadAsStringAsync());
                 }
-                categoryVM.ImageUrl = path;
 
-                var category = CategoryVM.FromCategoryVM(categoryVM);
-                await _categoryService.AddCategoryAsync(category);
+                return View(model);
+            }
+
+            // Handle file upload if present
+            if (model.File != null && model.File.Length > 0)
+            {
+                var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images", "categories");
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+
+                var uniqueFileName = Guid.NewGuid().ToString() + "_" + model.File.FileName;
+                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await model.File.CopyToAsync(fileStream);
+                }
+
+                // Set the image URL relative to the web root
+                model.ImageUrl = "/images/categories/" + uniqueFileName;
+            }
+
+            SetBearerToken();
+            var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("/api/category", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                TempData["Success"] = "Category created successfully.";
                 return RedirectToAction(nameof(Index));
             }
-            return View(categoryVM);
+
+            var error = await response.Content.ReadAsStringAsync();
+            ModelState.AddModelError("", error);
+
+            // Get parent categories again for the dropdown
+            var catResponse = await _httpClient.GetAsync("/api/category");
+            if (catResponse.IsSuccessStatusCode)
+            {
+                ViewBag.ParentCategories = JsonConvert.DeserializeObject<List<GetCategoryVM>>(await catResponse.Content.ReadAsStringAsync());
+            }
+
+            return View(model);
         }
 
-        public async Task<IActionResult> Details(int? id)
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null)
+            SetBearerToken();
+            var response = await _httpClient.GetAsync($"/api/category/{id}");
+            if (!response.IsSuccessStatusCode)
             {
-                return NotFound();
+                TempData["Error"] = "Category not found.";
+                return RedirectToAction(nameof(Index));
             }
 
-            var category = await _categoryService.GetCategoryByIdAsync(id.Value);
-            if (category == null)
-            {
-                return NotFound();
-            }
-            var categoryVM = CategoryVM.FromCategory(category);
-            return View(categoryVM);
-        }
+            var category = JsonConvert.DeserializeObject<GetCategoryVM>(await response.Content.ReadAsStringAsync());
+            var updateModel = UpdateCategoryVM.FromGetCategoryVM(category);
 
-        public async Task<IActionResult> Index()
-        {
-            if (TempData["ErrorMessage"] != null)
+            // Get parent categories for dropdown, excluding the current category
+            var categoriesResponse = await _httpClient.GetAsync("/api/category");
+            if (categoriesResponse.IsSuccessStatusCode)
             {
-                ViewBag.ErrorMessage = TempData["ErrorMessage"].ToString();
-            }
-            if (TempData["SuccessMessage"] != null)
-            {
-                ViewBag.SuccessMessage = TempData["SuccessMessage"].ToString();
+                var allCategories = JsonConvert.DeserializeObject<List<GetCategoryVM>>(await categoriesResponse.Content.ReadAsStringAsync());
+                // Remove the current category and its children (if any) to prevent circular references
+                ViewBag.ParentCategories = allCategories.Where(c => c.Id != id).ToList();
             }
 
-            var categories = await _categoryService.GetAllCategoriesAsync();
-            var categoryVMs = categories.Select(CategoryVM.FromCategory).ToList();
-            return View(categoryVMs);
-        }
-        
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var category = await _categoryService.GetCategoryByIdAsync(id.Value);
-            if (category == null)
-            {
-                return NotFound();
-            }
-
-            var categoryVM = CategoryVM.FromCategory(category);
-            return View(categoryVM);
+            return View(updateModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, CategoryVM categoryVM)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Edit(int id, UpdateCategoryVM model)
         {
-            if (id != categoryVM.Id)
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                // Get parent categories again for the dropdown
+                var categoriesResponse = await _httpClient.GetAsync("/api/category");
+                if (categoriesResponse.IsSuccessStatusCode)
+                {
+                    var allCategories = JsonConvert.DeserializeObject<List<GetCategoryVM>>(await categoriesResponse.Content.ReadAsStringAsync());
+                    ViewBag.ParentCategories = allCategories.Where(c => c.Id != id).ToList();
+                }
+
+                return View(model);
             }
 
-            if (ModelState.IsValid)
+            // Handle file upload if present
+            if (model.File != null && model.File.Length > 0)
             {
-                try
+                // Delete old image if it exists
+                if (!string.IsNullOrEmpty(model.ImageUrl))
                 {
-                    // Handle file upload if a new file is provided
-                    if (categoryVM.File != null)
+                    var oldImagePath = Path.Combine(_webHostEnvironment.WebRootPath, model.ImageUrl.TrimStart('/'));
+                    if (System.IO.File.Exists(oldImagePath))
                     {
-                        // Upload new image
-                        var newImagePath = await _fileService.Upload(categoryVM.File, "/Imgs/Categories/");
-                        if (newImagePath == "Problem")
-                        {
-                            ModelState.AddModelError("", "Error uploading the new image.");
-                            return View(categoryVM);
-                        }
-
-                        // Delete old image if it exists
-                        if (!string.IsNullOrEmpty(categoryVM.ImageUrl))
-                        {
-                            _fileService.DeletePhysicalFile(categoryVM.ImageUrl);
-                        }
-
-                        // Update the image URL
-                        categoryVM.ImageUrl = newImagePath;
+                        System.IO.File.Delete(oldImagePath);
                     }
+                }
 
-                    var category = CategoryVM.FromCategoryVM(categoryVM);
-                    await _categoryService.UpdateCategoryAsync(category);
-                    TempData["SuccessMessage"] = "Category updated successfully.";
-                    return RedirectToAction(nameof(Index));
-                }
-                catch (Exception ex)
+                var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images", "categories");
+                if (!Directory.Exists(uploadsFolder))
                 {
-                    ModelState.AddModelError("", "Error updating category: " + ex.Message);
+                    Directory.CreateDirectory(uploadsFolder);
                 }
+
+                var uniqueFileName = Guid.NewGuid().ToString() + "_" + model.File.FileName;
+                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await model.File.CopyToAsync(fileStream);
+                }
+
+                // Set the image URL relative to the web root
+                model.ImageUrl = "/images/categories/" + uniqueFileName;
             }
-            return View(categoryVM);
+
+            SetBearerToken();
+            var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+            var response = await _httpClient.PutAsync($"/api/category/{id}", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                TempData["Success"] = "Category updated successfully.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            var error = await response.Content.ReadAsStringAsync();
+            ModelState.AddModelError("", error);
+
+            // Get parent categories again for the dropdown
+            var catResponse = await _httpClient.GetAsync("/api/category");
+            if (catResponse.IsSuccessStatusCode)
+            {
+                var allCategories = JsonConvert.DeserializeObject<List<GetCategoryVM>>(await catResponse.Content.ReadAsStringAsync());
+                ViewBag.ParentCategories = allCategories.Where(c => c.Id != id).ToList();
+            }
+
+            return View(model);
         }
 
-        public async Task<IActionResult> Delete(int? id)
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null)
+            SetBearerToken();
+            var response = await _httpClient.GetAsync($"/api/category/{id}");
+            if (!response.IsSuccessStatusCode)
             {
-                return NotFound();
+                TempData["Error"] = "Category not found.";
+                return RedirectToAction(nameof(Index));
             }
 
-            var category = await _categoryService.GetCategoryByIdAsync(id.Value);
-            if (category == null)
-            {
-                return NotFound();
-            }
-
-            var categoryVM = CategoryVM.FromCategory(category);
-            return View(categoryVM);
+            var category = JsonConvert.DeserializeObject<GetCategoryVM>(await response.Content.ReadAsStringAsync());
+            return View(category);
         }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            try
+            SetBearerToken();
+            var response = await _httpClient.DeleteAsync($"/api/category/{id}");
+
+            if (response.IsSuccessStatusCode)
             {
-                var category = await _categoryService.GetCategoryByIdAsync(id);
-                if (category != null)
-                {
-                    await _categoryService.DeleteCategory(category);
-                    TempData["SuccessMessage"] = "Category deleted successfully.";
-                }
+                TempData["Success"] = "Category deleted successfully.";
                 return RedirectToAction(nameof(Index));
             }
-            catch (InvalidOperationException ex) when (ex.Message.Contains("Cannot delete a category that has products"))
-            {
-                // Specific error for categories with products
-                TempData["ErrorMessage"] = "Cannot delete this category because it contains products. Please delete or move the products to another category first.";
-                return RedirectToAction(nameof(Index));
-            }
-            catch (Exception ex)
-            {
-                // General error handling
-                TempData["ErrorMessage"] = "Error deleting category: " + ex.Message;
-                return RedirectToAction(nameof(Index));
-            }
+
+            TempData["Error"] = "Could not delete the category. It may have associated products.";
+            return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> IsCategoryNameExist(string name)
+        [HttpGet]
+        public async Task<IActionResult> SubCategories(int parentId)
         {
-            var result = await _categoryService.IsCategoryNameExistAsync(name);
-            if (result)
-                return Json(false);
-            return Json(true);
+            var response = await _httpClient.GetAsync($"/api/category/subcategories/{parentId}");
+            if (response.IsSuccessStatusCode)
+            {
+                var categories = JsonConvert.DeserializeObject<List<GetCategoryVM>>(await response.Content.ReadAsStringAsync());
+
+                // Get parent category name
+                var parentResponse = await _httpClient.GetAsync($"/api/category/{parentId}");
+                if (parentResponse.IsSuccessStatusCode)
+                {
+                    var parentCategory = JsonConvert.DeserializeObject<GetCategoryVM>(await parentResponse.Content.ReadAsStringAsync());
+                    ViewBag.ParentCategoryName = parentCategory.Name;
+                }
+
+                return View("Index", categories);
+            }
+
+            TempData["Error"] = "Could not retrieve subcategories.";
+            return RedirectToAction(nameof(Index));
         }
     }
 }

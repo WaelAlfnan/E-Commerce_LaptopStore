@@ -1,0 +1,6 @@
+@LapStore.API_HostAddress = http://localhost:5152
+
+GET {{LapStore.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

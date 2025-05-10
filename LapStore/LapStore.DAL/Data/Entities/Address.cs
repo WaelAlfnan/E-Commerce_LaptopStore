@@ -25,6 +25,7 @@ namespace LapStore.DAL.Data.Entities
         public string Country { get; set; }
 
 
+
         // Navigation Properties
         public virtual ICollection<User> users { get; set; }
 

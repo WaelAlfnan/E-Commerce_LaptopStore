@@ -1,8 +1,11 @@
 {
   "ExpandedNodes": [
     "",
-    "\\LapStore.Test\\UnitOfWorkTest"
+    "\\LapStore.API\\Controllers",
+    "\\LapStore.BLL\\DependencyInjections",
+    "\\LapStore.BLL\\Interfaces",
+    "\\LapStore.BLL\\Services"
   ],
-  "SelectedNode": "\\LapStore.sln",
+  "SelectedNode": "\\LapStore.BLL",
   "PreviewInSolutionExplorer": false
 }

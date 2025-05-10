@@ -10,7 +10,7 @@ namespace LapStore.Test.UnitOfWorkTest
     {
         [Fact]
         public async Task CompleteAsync_SavesChanges()
-        {
+        { //Arrange
             // Arrange: Set up in-memory database for testing
             var options = new DbContextOptionsBuilder<LapStoreDbContext>()
                 .UseInMemoryDatabase(databaseName: "SaveTestDB")

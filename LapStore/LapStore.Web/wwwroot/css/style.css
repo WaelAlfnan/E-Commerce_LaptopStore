@@ -1,9 +1,3 @@
-:root {
-  --primary-color: #D10024;
-  --dark-color: #15161D;
-  --body-color: #333;
-}
-
 /*
 Template Name: Electro - HTML Ecommerce Template
 Author: yaminncco
@@ -422,20 +416,6 @@ textarea.input {
   background-color: #1E1F29;
 }
 
-.header-links {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.header-links.pull-left {
-  float: left;
-}
-
-.header-links.pull-right {
-  float: right;
-}
-
 .header-links li {
   display: inline-block;
   margin-right: 15px;
@@ -448,21 +428,15 @@ textarea.input {
 
 .header-links li a {
   color: #FFF;
-  opacity: 0.9;
-  font-weight: 500;
-  letter-spacing: 0.3px;
-  text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
 }
 
 .header-links li a:hover {
   color: #D10024;
-  opacity: 1;
 }
 
 .header-links li i {
   color: #D10024;
   margin-right: 5px;
-  text-shadow: 1px 1px 1px rgba(0,0,0,0.1);
 }
 
 /*----------------------------*\
@@ -477,6 +451,9 @@ textarea.input {
 
 .header-logo {
   float: left;
+  display: flex;
+  align-items: center;
+  height: 70px;
 }
 
 .header-logo .logo {
@@ -484,16 +461,11 @@ textarea.input {
   text-decoration: none;
 }
 
-.header-logo .logo h1 {
-  display: inline-block;
-  color: #FFF;
-  font-size: 40px;
-  line-height: 70px;
-  margin: 0;
-}
 
-.header-logo .logo h1 span {
-  color: #D10024;
+
+.header-logo .logo:hover,
+.header-logo .logo:focus {
+  text-decoration: none;
 }
 
 /*----------------------------*\
@@ -529,7 +501,7 @@ textarea.input {
 }
 
 /*----------------------------*\
-	Cart & Wishlist
+	Cart
 \*----------------------------*/
 
 .header-ctn {
@@ -537,15 +509,15 @@ textarea.input {
   padding: 15px 0px;
 }
 
-.header-ctn > div {
+.header-ctn>div {
   display: inline-block;
 }
 
-.header-ctn > div + div {
+.header-ctn>div+div {
   margin-left: 15px;
 }
 
-.header-ctn > div > a {
+.header-ctn>div>a {
   display: block;
   position: relative;
   width: 90px;
@@ -553,16 +525,16 @@ textarea.input {
   color: #FFF;
 }
 
-.header-ctn > div > a > i {
+.header-ctn>div>a>i {
   display: block;
   font-size: 18px;
 }
 
-.header-ctn > div > a > span {
+.header-ctn>div>a>span {
   font-size: 12px;
 }
 
-.header-ctn > div > a > .qty {
+.header-ctn>div>a>.qty {
   position: absolute;
   right: 15px;
   top: -10px;
@@ -588,7 +560,7 @@ textarea.input {
   -webkit-box-shadow: 0px 0px 0px 2px #E4E7ED;
   box-shadow: 0px 0px 0px 2px #E4E7ED;
   z-index: 99;
-  right: -15px;
+  right: 0;
   opacity: 0;
   visibility: hidden;
 }
@@ -674,9 +646,6 @@ textarea.input {
 
 .main-nav>li>a {
   padding: 20px 0px;
-  color: #2B2D42;
-  text-transform: uppercase;
-  font-weight: 700;
 }
 
 .main-nav>li>a:hover, .main-nav>li>a:focus, .main-nav>li.active>a {
@@ -2063,50 +2032,29 @@ textarea.input {
   margin: 0px 0px 30px;
 }
 
-.footer p {
-  color: #B9BABC;
-  font-weight: 400;
-  margin-bottom: 20px;
-  line-height: 1.6;
-}
-
-.footer-links {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.footer-links li {
-  margin-bottom: 10px;
+.footer-links li+li {
+  margin-top: 15px;
 }
 
 .footer-links li a {
   color: #B9BABC;
-  font-weight: 400;
-  font-size: 13px;
-  transition: color 0.3s;
-}
-
-.footer-links li a:hover {
-  color: #D10024;
-  text-decoration: none;
 }
 
 .footer-links li i {
-  margin-right: 10px;
+  margin-right: 15px;
   color: #D10024;
   width: 14px;
   text-align: center;
 }
 
-.footer-payments {
+.footer-links li a:hover {
+  color: #D10024;
+}
+
+.copyright {
   margin-top: 30px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  display: block;
+  font-size: 12px;
 }
 
 .footer-payments li {
@@ -2118,17 +2066,6 @@ textarea.input {
   color: #15161D;
   font-size: 36px;
   display: block;
-}
-
-.copyright {
-  margin-top: 30px;
-  display: block;
-  font-size: 12px;
-}
-
-.copyright a {
-  color: #D10024;
-  font-weight: 500;
 }
 
 /*=========================================================
