@@ -12,24 +12,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LapStore.DAL.Migrations
 {
     [DbContext(typeof(LapStoreDbContext))]
-<<<<<<<< HEAD:LapStore/LapStore.DAL/Migrations/20250410195429_init.Designer.cs
-    [Migration("20250410195429_init")]
-    partial class init
-========
     [Migration("20250504174327_AddIdentity")]
     partial class AddIdentity
->>>>>>>> WaelBranch:LapStore/LapStore.DAL/Migrations/20250504174327_AddIdentity.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
-#pragma warning disable 612, 618
             modelBuilder
-<<<<<<<< HEAD:LapStore/LapStore.DAL/Migrations/20250410195429_init.Designer.cs
-                .HasAnnotation("ProductVersion", "9.0.3")
-========
                 .HasAnnotation("ProductVersion", "9.0.4")
->>>>>>>> WaelBranch:LapStore/LapStore.DAL/Migrations/20250504174327_AddIdentity.Designer.cs
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -620,9 +610,6 @@ namespace LapStore.DAL.Migrations
                     b.Navigation("address");
                 });
 
-<<<<<<<< HEAD:LapStore/LapStore.DAL/Migrations/20250410195429_init.Designer.cs
-            modelBuilder.Entity("LapStore.DAL.Entities.Address", b =>
-========
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<int>", null)
@@ -675,7 +662,6 @@ namespace LapStore.DAL.Migrations
                 });
 
             modelBuilder.Entity("LapStore.DAL.Data.Entities.Address", b =>
->>>>>>>> WaelBranch:LapStore/LapStore.DAL/Migrations/20250504174327_AddIdentity.Designer.cs
                 {
                     b.Navigation("users");
                 });
@@ -716,7 +702,6 @@ namespace LapStore.DAL.Migrations
 
                     b.Navigation("userReviews");
                 });
-#pragma warning restore 612, 618
         }
     }
 }

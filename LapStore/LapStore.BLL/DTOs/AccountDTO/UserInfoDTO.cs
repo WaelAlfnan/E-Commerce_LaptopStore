@@ -21,6 +21,7 @@ namespace LapStore.BLL.DTOs.AccountDTO
             return new UserInfoDTO
             {
                 Gender = user.Gender,
+                UserName = user.UserName,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 BirthDate = user.BirthDate,

@@ -8,12 +8,6 @@ namespace LapStore.DAL.Repositories
         Task<Product> GetProductWithImagesAsync(int id);
         Task<IEnumerable<Product>> GetProductsByCategoryAsync(int categoryId);
         Task<Product> GetProductByNameAsync(string name);
-<<<<<<< HEAD
-    }
-
-
-}
-=======
         Task<bool> IsProductNameExistAsync(string productName);
 
         // Image-related methods
@@ -24,4 +18,3 @@ namespace LapStore.DAL.Repositories
         Task SetMainImageAsync(int productId, int imageId);
     }
 }
->>>>>>> WaelBranch

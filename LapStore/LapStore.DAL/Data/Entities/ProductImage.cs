@@ -9,7 +9,7 @@ namespace LapStore.DAL.Data.Entities
         public int Id { get; set; }
         public string URL { get; set; }
 
-
+        public bool IsMain { get; set; }
         [ForeignKey("product")]
         [Required]
         public int ProductId { get; set; }

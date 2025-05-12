@@ -11,7 +11,15 @@ namespace LapStore.BLL.DependencyInjections
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "LapStore API",
+                    Description = "API documentation for LapStore"
+                });
+            });
 
 
             // Add CORS (allow any origin for development)
