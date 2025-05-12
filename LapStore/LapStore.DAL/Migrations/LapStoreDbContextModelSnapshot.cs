@@ -13,14 +13,7 @@ namespace LapStore.DAL.Migrations
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
-#pragma warning disable 612, 618
-            modelBuilder
-<<<<<<< HEAD
-                .HasAnnotation("ProductVersion", "9.0.3")
-=======
-                .HasAnnotation("ProductVersion", "9.0.4")
->>>>>>> WaelBranch
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+            modelBuilder.HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
