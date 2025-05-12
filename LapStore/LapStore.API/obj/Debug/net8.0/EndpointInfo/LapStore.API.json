@@ -1,8 +1,9 @@
 {
-  "openapi": "3.0.1",
+  "openapi": "3.0.4",
   "info": {
-    "title": "LapStore.API",
-    "version": "1.0"
+    "title": "LapStore API",
+    "description": "API documentation for LapStore",
+    "version": "v1"
   },
   "paths": {
     "/api/Account/Register": {

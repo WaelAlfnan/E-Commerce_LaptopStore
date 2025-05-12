@@ -278,14 +278,10 @@ namespace LapStore.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-<<<<<<<< HEAD:LapStore/LapStore.DAL/Migrations/20250410195429_init.cs
-                        .Annotation("SqlServer:Identity", "10000, 1"),
-                    URL = table.Column<string>(type: "nvarchar(450)", nullable: false),
-========
+
                         .Annotation("SqlServer:Identity", "1, 1"),
                     URL = table.Column<string>(type: "nvarchar(500)", nullable: false),
                     IsMain = table.Column<bool>(type: "bit", nullable: false),
->>>>>>>> WaelBranch:LapStore/LapStore.DAL/Migrations/20250427005236_init.cs
                     ProductId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
