@@ -95,7 +95,7 @@ For detailed information about the project, including the project proposal, plan
 - **[Wael B.Alfnan](https://github.com/WaelAlfnan)**: Team Lead & Backend Developer.
 - **[Abdelrahman Hassan](https://github.com/AbdelRahmanHassan01)**: Frontend Developer.
 - **[Shehab Eisa](https://github.com/ShehabEisa)**: Database Designer.
-- **[Dina Gamal](https://github.com/Dina-Hawas)**: Quality Assurance Engineer.
+- **[Dina Hawas](https://github.com/Dina-Hawas)**: Quality Assurance Engineer.
 
 ---
 
