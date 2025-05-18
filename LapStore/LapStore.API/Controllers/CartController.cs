@@ -2,6 +2,7 @@ using LapStore.BLL.DTOs.CartDTOs;
 using LapStore.BLL.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace LapStore.API.Controllers
 {
@@ -20,7 +21,17 @@ namespace LapStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<CartDetailsDTO>> GetUserCart()
         {
-            var userId = int.Parse(User.FindFirst("UserId")?.Value);
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim == null)
+            {
+                return Unauthorized(new { message = "Invalid token" });
+            }
+
+            if (!int.TryParse(userIdClaim.Value, out int userId))
+            {
+                return Unauthorized(new { message = "Invalid user ID in token" });
+            }
+
             var cart = await _cartService.GetUserCart(userId);
             return Ok(cart);
         }
@@ -28,7 +39,17 @@ namespace LapStore.API.Controllers
         [HttpPost("items")]
         public async Task<ActionResult<CartDetailsDTO>> AddItemToCart(CreateCartItemDTO itemDto)
         {
-            var userId = int.Parse(User.FindFirst("UserId")?.Value);
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim == null)
+            {
+                return Unauthorized(new { message = "Invalid token" });
+            }
+
+            if (!int.TryParse(userIdClaim.Value, out int userId))
+            {
+                return Unauthorized(new { message = "Invalid user ID in token" });
+            }
+
             var cart = await _cartService.AddItemToCart(userId, itemDto);
             return Ok(cart);
         }
@@ -36,7 +57,16 @@ namespace LapStore.API.Controllers
         [HttpPut("items/{productId}")]
         public async Task<ActionResult<CartDetailsDTO>> UpdateCartItem(int productId, UpdateCartItemDTO itemDto)
         {
-            var userId = int.Parse(User.FindFirst("UserId")?.Value);
+            var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+            if (userIdClaim == null)
+            {
+                return Unauthorized(new { message = "Invalid token" });
+            }
+
+            if (!int.TryParse(userIdClaim.Value, out int userId))
+            {
+                return Unauthorized(new { message = "Invalid user ID in token" });
+            }
             var cart = await _cartService.UpdateCartItem(userId, productId, itemDto);
             return Ok(cart);
         }
@@ -44,7 +74,17 @@ namespace LapStore.API.Controllers
         [HttpDelete("items/{productId}")]
         public async Task<ActionResult<CartDetailsDTO>> RemoveItemFromCart(int productId)
         {
-            var userId = int.Parse(User.FindFirst("UserId")?.Value);
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim == null)
+            {
+                return Unauthorized(new { message = "Invalid token" });
+            }
+
+            if (!int.TryParse(userIdClaim.Value, out int userId))
+            {
+                return Unauthorized(new { message = "Invalid user ID in token" });
+            }
+
             var cart = await _cartService.RemoveItemFromCart(userId, productId);
             return Ok(cart);
         }
@@ -52,7 +92,17 @@ namespace LapStore.API.Controllers
         [HttpDelete]
         public async Task<IActionResult> ClearCart()
         {
-            var userId = int.Parse(User.FindFirst("UserId")?.Value);
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim == null)
+            {
+                return Unauthorized(new { message = "Invalid token" });
+            }
+
+            if (!int.TryParse(userIdClaim.Value, out int userId))
+            {
+                return Unauthorized(new { message = "Invalid user ID in token" });
+            }
+
             await _cartService.ClearCart(userId);
             return NoContent();
         }

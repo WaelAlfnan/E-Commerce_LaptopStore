@@ -194,6 +194,7 @@ D:\E-CommerceLapStore\LapStore\LapStore.API\obj\Debug\net8.0\LapStore.API.genrun
 D:\E-CommerceLapStore\LapStore\LapStore.API\obj\Debug\net8.0\ref\LapStore.API.dll
 D:\DEPI\E-Commerce_LaptopStore\LapStore\LapStore.API\bin\Debug\net8.0\appsettings.Development.json
 D:\DEPI\E-Commerce_LaptopStore\LapStore\LapStore.API\bin\Debug\net8.0\appsettings.json
+D:\DEPI\E-Commerce_LaptopStore\LapStore\LapStore.API\bin\Debug\net8.0\Postman_Collection.json
 D:\DEPI\E-Commerce_LaptopStore\LapStore\LapStore.API\bin\Debug\net8.0\LapStore.API.staticwebassets.runtime.json
 D:\DEPI\E-Commerce_LaptopStore\LapStore\LapStore.API\bin\Debug\net8.0\LapStore.API.staticwebassets.endpoints.json
 D:\DEPI\E-Commerce_LaptopStore\LapStore\LapStore.API\bin\Debug\net8.0\LapStore.API.exe
@@ -386,4 +387,3 @@ D:\DEPI\E-Commerce_LaptopStore\LapStore\LapStore.API\obj\Debug\net8.0\refint\Lap
 D:\DEPI\E-Commerce_LaptopStore\LapStore\LapStore.API\obj\Debug\net8.0\LapStore.API.pdb
 D:\DEPI\E-Commerce_LaptopStore\LapStore\LapStore.API\obj\Debug\net8.0\LapStore.API.genruntimeconfig.cache
 D:\DEPI\E-Commerce_LaptopStore\LapStore\LapStore.API\obj\Debug\net8.0\ref\LapStore.API.dll
-D:\DEPI\E-Commerce_LaptopStore\LapStore\LapStore.API\bin\Debug\net8.0\Postman_Collection.json

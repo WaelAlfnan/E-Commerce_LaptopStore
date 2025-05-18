@@ -32,7 +32,7 @@ namespace LapStore.BLL.Services
             {
                 cart = new Cart { UserId = userId, cartItems = new List<CartItem>() };
                 await _cartRepository.AddAsync(cart);
-                await _unitOfWork.CompleteAsync();
+                await _unitOfWork.CompleteAsync(); // Save to get a permanent Id
             }
 
             return MapToCartDetailsDTO(cart);
@@ -41,13 +41,16 @@ namespace LapStore.BLL.Services
         public async Task<CartDetailsDTO> AddItemToCart(int userId, CreateCartItemDTO itemDto)
         {
             var cart = await _cartRepository.GetUserCart(userId);
+            bool isNewCart = false;
             if (cart == null)
             {
                 cart = new Cart { UserId = userId, cartItems = new List<CartItem>() };
                 await _cartRepository.AddAsync(cart);
+                await _unitOfWork.CompleteAsync(); // Save to get a permanent Id
+                isNewCart = true;
             }
 
-            var product = _productRepository.GetById(itemDto.ProductId);
+            var product = await _productRepository.GetByIdAsync(itemDto.ProductId);
             if (product == null)
                 throw new ArgumentException("Product not found");
 
@@ -65,7 +68,10 @@ namespace LapStore.BLL.Services
                 });
             }
 
-             _cartRepository.Update(cart);
+            if (!isNewCart)
+            {
+                _cartRepository.Update(cart);
+            }
             await _unitOfWork.CompleteAsync();
 
             return MapToCartDetailsDTO(cart);
@@ -83,7 +89,7 @@ namespace LapStore.BLL.Services
 
             cartItem.Quantity = itemDto.Quantity;
 
-             _cartRepository.Update(cart);
+            _cartRepository.Update(cart);
             await _unitOfWork.CompleteAsync();
 
             return MapToCartDetailsDTO(cart);
@@ -124,18 +130,18 @@ namespace LapStore.BLL.Services
             var items = cart.cartItems?.Select(ci => new CartItemDetailsDTO
             {
                 ProductId = ci.ProductId,
-                ProductName = ci.product.Name,
-                ProductImage = ci.product.productImages.FirstOrDefault()?.URL,
-                UnitPrice = ci.product.Price,
+                ProductName = ci.product?.Name ?? string.Empty,
+                ProductImage = ci.product?.productImages?.FirstOrDefault()?.URL ?? string.Empty,
+                UnitPrice = ci.product?.Price ?? 0,
                 Quantity = ci.Quantity,
-                TotalPrice = ci.product.Price * ci.Quantity
+                TotalPrice = (ci.product?.Price ?? 0) * ci.Quantity
             }).ToList() ?? new List<CartItemDetailsDTO>();
 
             return new CartDetailsDTO
             {
                 Id = cart.Id,
                 UserId = cart.UserId,
-                UserName = cart.user.UserName,
+                UserName = cart.user?.UserName ?? string.Empty,
                 CartItems = items,
                 TotalAmount = items.Sum(i => i.TotalPrice)
             };

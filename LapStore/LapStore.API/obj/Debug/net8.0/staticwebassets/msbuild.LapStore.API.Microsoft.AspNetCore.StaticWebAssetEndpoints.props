@@ -1,5 +1,29 @@
 ﻿<Project>
   <ItemGroup>
+    <StaticWebAssetEndpoint Include="_content/LapStore.API/uploads/categories/2127bfd6-f19f-40b6-9798-30b17a5d74c1_product04.png">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\categories\2127bfd6-f19f-40b6-9798-30b17a5d74c1_product04.png'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-KSDPjbzyr\u002BM8FatKqFqnVH\u002BSXy0x\u002BFcf4kl8dyCwUQY="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"197972"},{"Name":"Content-Type","Value":"image/png"},{"Name":"ETag","Value":"\u0022KSDPjbzyr\u002BM8FatKqFqnVH\u002BSXy0x\u002BFcf4kl8dyCwUQY=\u0022"},{"Name":"Last-Modified","Value":"Sun, 18 May 2025 15:20:43 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/LapStore.API/uploads/categories/2127bfd6-f19f-40b6-9798-30b17a5d74c1_product04.tn9dyfbonr.png">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\categories\2127bfd6-f19f-40b6-9798-30b17a5d74c1_product04.png'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"tn9dyfbonr"},{"Name":"integrity","Value":"sha256-KSDPjbzyr\u002BM8FatKqFqnVH\u002BSXy0x\u002BFcf4kl8dyCwUQY="},{"Name":"label","Value":"_content/LapStore.API/uploads/categories/2127bfd6-f19f-40b6-9798-30b17a5d74c1_product04.png"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"197972"},{"Name":"Content-Type","Value":"image/png"},{"Name":"ETag","Value":"\u0022KSDPjbzyr\u002BM8FatKqFqnVH\u002BSXy0x\u002BFcf4kl8dyCwUQY=\u0022"},{"Name":"Last-Modified","Value":"Sun, 18 May 2025 15:20:43 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/LapStore.API/uploads/categories/4eb2dc44-9be5-42b3-aec7-0c6b3d665fc2_product04.png">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\categories\4eb2dc44-9be5-42b3-aec7-0c6b3d665fc2_product04.png'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-KSDPjbzyr\u002BM8FatKqFqnVH\u002BSXy0x\u002BFcf4kl8dyCwUQY="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"197972"},{"Name":"Content-Type","Value":"image/png"},{"Name":"ETag","Value":"\u0022KSDPjbzyr\u002BM8FatKqFqnVH\u002BSXy0x\u002BFcf4kl8dyCwUQY=\u0022"},{"Name":"Last-Modified","Value":"Sun, 18 May 2025 15:40:38 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/LapStore.API/uploads/categories/4eb2dc44-9be5-42b3-aec7-0c6b3d665fc2_product04.tn9dyfbonr.png">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\categories\4eb2dc44-9be5-42b3-aec7-0c6b3d665fc2_product04.png'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"tn9dyfbonr"},{"Name":"integrity","Value":"sha256-KSDPjbzyr\u002BM8FatKqFqnVH\u002BSXy0x\u002BFcf4kl8dyCwUQY="},{"Name":"label","Value":"_content/LapStore.API/uploads/categories/4eb2dc44-9be5-42b3-aec7-0c6b3d665fc2_product04.png"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"197972"},{"Name":"Content-Type","Value":"image/png"},{"Name":"ETag","Value":"\u0022KSDPjbzyr\u002BM8FatKqFqnVH\u002BSXy0x\u002BFcf4kl8dyCwUQY=\u0022"},{"Name":"Last-Modified","Value":"Sun, 18 May 2025 15:40:38 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/LapStore.API/uploads/categories/cb0320cf-af3f-40c9-a787-1bae8ef3bda2_shop01.png">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\categories\cb0320cf-af3f-40c9-a787-1bae8ef3bda2_shop01.png'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
