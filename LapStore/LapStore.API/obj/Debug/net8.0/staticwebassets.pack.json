@@ -1,6 +1,14 @@
 {
   "Files": [
     {
+      "Id": "D:\\DEPI\\E-Commerce_LaptopStore\\LapStore\\LapStore.API\\wwwroot\\uploads\\categories\\2127bfd6-f19f-40b6-9798-30b17a5d74c1_product04.png",
+      "PackagePath": "staticwebassets\\uploads\\categories\\2127bfd6-f19f-40b6-9798-30b17a5d74c1_product04.png"
+    },
+    {
+      "Id": "D:\\DEPI\\E-Commerce_LaptopStore\\LapStore\\LapStore.API\\wwwroot\\uploads\\categories\\4eb2dc44-9be5-42b3-aec7-0c6b3d665fc2_product04.png",
+      "PackagePath": "staticwebassets\\uploads\\categories\\4eb2dc44-9be5-42b3-aec7-0c6b3d665fc2_product04.png"
+    },
+    {
       "Id": "D:\\DEPI\\E-Commerce_LaptopStore\\LapStore\\LapStore.API\\wwwroot\\uploads\\categories\\cb0320cf-af3f-40c9-a787-1bae8ef3bda2_shop01.png",
       "PackagePath": "staticwebassets\\uploads\\categories\\cb0320cf-af3f-40c9-a787-1bae8ef3bda2_shop01.png"
     },

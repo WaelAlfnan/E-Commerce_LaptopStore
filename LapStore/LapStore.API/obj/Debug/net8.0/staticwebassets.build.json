@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "kauY6hUPOBDcjassc/IAcn5DUCrETSp4JfMx/4HG5fQ=",
+  "Hash": "YFbzfcdSWLyqahO5MtmyKMQZQpBJqoqVe1rQBIc425Q=",
   "Source": "LapStore.API",
   "BasePath": "_content/LapStore.API",
   "Mode": "Default",
@@ -16,6 +16,48 @@
     }
   ],
   "Assets": [
+    {
+      "Identity": "D:\\DEPI\\E-Commerce_LaptopStore\\LapStore\\LapStore.API\\wwwroot\\uploads\\categories\\2127bfd6-f19f-40b6-9798-30b17a5d74c1_product04.png",
+      "SourceId": "LapStore.API",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\DEPI\\E-Commerce_LaptopStore\\LapStore\\LapStore.API\\wwwroot\\",
+      "BasePath": "_content/LapStore.API",
+      "RelativePath": "uploads/categories/2127bfd6-f19f-40b6-9798-30b17a5d74c1_product04#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "tn9dyfbonr",
+      "Integrity": "KSDPjbzyr+M8FatKqFqnVH+SXy0x+Fcf4kl8dyCwUQY=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\categories\\2127bfd6-f19f-40b6-9798-30b17a5d74c1_product04.png"
+    },
+    {
+      "Identity": "D:\\DEPI\\E-Commerce_LaptopStore\\LapStore\\LapStore.API\\wwwroot\\uploads\\categories\\4eb2dc44-9be5-42b3-aec7-0c6b3d665fc2_product04.png",
+      "SourceId": "LapStore.API",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\DEPI\\E-Commerce_LaptopStore\\LapStore\\LapStore.API\\wwwroot\\",
+      "BasePath": "_content/LapStore.API",
+      "RelativePath": "uploads/categories/4eb2dc44-9be5-42b3-aec7-0c6b3d665fc2_product04#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "tn9dyfbonr",
+      "Integrity": "KSDPjbzyr+M8FatKqFqnVH+SXy0x+Fcf4kl8dyCwUQY=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\categories\\4eb2dc44-9be5-42b3-aec7-0c6b3d665fc2_product04.png"
+    },
     {
       "Identity": "D:\\DEPI\\E-Commerce_LaptopStore\\LapStore\\LapStore.API\\wwwroot\\uploads\\categories\\cb0320cf-af3f-40c9-a787-1bae8ef3bda2_shop01.png",
       "SourceId": "LapStore.API",
@@ -81,6 +123,170 @@
     }
   ],
   "Endpoints": [
+    {
+      "Route": "uploads/categories/2127bfd6-f19f-40b6-9798-30b17a5d74c1_product04.png",
+      "AssetFile": "D:\\DEPI\\E-Commerce_LaptopStore\\LapStore\\LapStore.API\\wwwroot\\uploads\\categories\\2127bfd6-f19f-40b6-9798-30b17a5d74c1_product04.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "197972"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"KSDPjbzyr+M8FatKqFqnVH+SXy0x+Fcf4kl8dyCwUQY=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 18 May 2025 15:20:43 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-KSDPjbzyr+M8FatKqFqnVH+SXy0x+Fcf4kl8dyCwUQY="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/categories/2127bfd6-f19f-40b6-9798-30b17a5d74c1_product04.tn9dyfbonr.png",
+      "AssetFile": "D:\\DEPI\\E-Commerce_LaptopStore\\LapStore\\LapStore.API\\wwwroot\\uploads\\categories\\2127bfd6-f19f-40b6-9798-30b17a5d74c1_product04.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "197972"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"KSDPjbzyr+M8FatKqFqnVH+SXy0x+Fcf4kl8dyCwUQY=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 18 May 2025 15:20:43 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "tn9dyfbonr"
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/categories/2127bfd6-f19f-40b6-9798-30b17a5d74c1_product04.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-KSDPjbzyr+M8FatKqFqnVH+SXy0x+Fcf4kl8dyCwUQY="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/categories/4eb2dc44-9be5-42b3-aec7-0c6b3d665fc2_product04.png",
+      "AssetFile": "D:\\DEPI\\E-Commerce_LaptopStore\\LapStore\\LapStore.API\\wwwroot\\uploads\\categories\\4eb2dc44-9be5-42b3-aec7-0c6b3d665fc2_product04.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "197972"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"KSDPjbzyr+M8FatKqFqnVH+SXy0x+Fcf4kl8dyCwUQY=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 18 May 2025 15:40:38 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-KSDPjbzyr+M8FatKqFqnVH+SXy0x+Fcf4kl8dyCwUQY="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/categories/4eb2dc44-9be5-42b3-aec7-0c6b3d665fc2_product04.tn9dyfbonr.png",
+      "AssetFile": "D:\\DEPI\\E-Commerce_LaptopStore\\LapStore\\LapStore.API\\wwwroot\\uploads\\categories\\4eb2dc44-9be5-42b3-aec7-0c6b3d665fc2_product04.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "197972"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"KSDPjbzyr+M8FatKqFqnVH+SXy0x+Fcf4kl8dyCwUQY=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 18 May 2025 15:40:38 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "tn9dyfbonr"
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/categories/4eb2dc44-9be5-42b3-aec7-0c6b3d665fc2_product04.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-KSDPjbzyr+M8FatKqFqnVH+SXy0x+Fcf4kl8dyCwUQY="
+        }
+      ]
+    },
     {
       "Route": "uploads/categories/cb0320cf-af3f-40c9-a787-1bae8ef3bda2_shop01.png",
       "AssetFile": "D:\\DEPI\\E-Commerce_LaptopStore\\LapStore\\LapStore.API\\wwwroot\\uploads\\categories\\cb0320cf-af3f-40c9-a787-1bae8ef3bda2_shop01.png",

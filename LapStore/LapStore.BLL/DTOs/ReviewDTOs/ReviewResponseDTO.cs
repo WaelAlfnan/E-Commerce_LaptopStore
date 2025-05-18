@@ -3,9 +3,9 @@ using System.ComponentModel.DataAnnotations;
 namespace LapStore.BLL.DTOs.ReviewDTOs
 {
     /// <summary>
-    /// Data Transfer Object for detailed review information
+    /// Data Transfer Object for review responses
     /// </summary>
-    public class ReviewDetailsDTO
+    public class ReviewResponseDTO
     {
         /// <summary>
         /// The ID of the user who wrote the review
@@ -44,5 +44,15 @@ namespace LapStore.BLL.DTOs.ReviewDTOs
         /// The date when the review was created
         /// </summary>
         public DateTime Date { get; set; }
+
+        /// <summary>
+        /// The average rating for the product
+        /// </summary>
+        public double AverageRating { get; set; }
+
+        /// <summary>
+        /// The total number of reviews for the product
+        /// </summary>
+        public int TotalReviews { get; set; }
     }
 } 

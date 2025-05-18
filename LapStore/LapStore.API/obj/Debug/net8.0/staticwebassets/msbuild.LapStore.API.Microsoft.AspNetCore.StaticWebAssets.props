@@ -1,5 +1,41 @@
 ﻿<Project>
   <ItemGroup>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\categories\2127bfd6-f19f-40b6-9798-30b17a5d74c1_product04.png'))">
+      <SourceType>Package</SourceType>
+      <SourceId>LapStore.API</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/LapStore.API</BasePath>
+      <RelativePath>uploads/categories/2127bfd6-f19f-40b6-9798-30b17a5d74c1_product04.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>tn9dyfbonr</Fingerprint>
+      <Integrity>KSDPjbzyr+M8FatKqFqnVH+SXy0x+Fcf4kl8dyCwUQY=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\categories\2127bfd6-f19f-40b6-9798-30b17a5d74c1_product04.png'))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\categories\4eb2dc44-9be5-42b3-aec7-0c6b3d665fc2_product04.png'))">
+      <SourceType>Package</SourceType>
+      <SourceId>LapStore.API</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/LapStore.API</BasePath>
+      <RelativePath>uploads/categories/4eb2dc44-9be5-42b3-aec7-0c6b3d665fc2_product04.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>tn9dyfbonr</Fingerprint>
+      <Integrity>KSDPjbzyr+M8FatKqFqnVH+SXy0x+Fcf4kl8dyCwUQY=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\categories\4eb2dc44-9be5-42b3-aec7-0c6b3d665fc2_product04.png'))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\categories\cb0320cf-af3f-40c9-a787-1bae8ef3bda2_shop01.png'))">
       <SourceType>Package</SourceType>
       <SourceId>LapStore.API</SourceId>
