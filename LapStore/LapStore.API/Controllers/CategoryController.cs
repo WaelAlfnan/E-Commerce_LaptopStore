@@ -104,7 +104,7 @@ namespace LapStore.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateCategory(int id, [FromForm] UpdateCategoryDTO categoryDto, IFormFile file)
+        public async Task<IActionResult> UpdateCategory(int id, [FromForm] UpdateCategoryDTO categoryDto)
         {
             if (id != categoryDto.Id)
             {
@@ -118,12 +118,6 @@ namespace LapStore.API.Controllers
 
             try
             {
-                // Handle file upload
-                if (file != null)
-                {
-                    await _fileHandler.HandleUpdateCategoryFileUpload(categoryDto, file);
-                }
-
                 await _categoryService.UpdateCategoryAsync(categoryDto);
                 return NoContent();
             }

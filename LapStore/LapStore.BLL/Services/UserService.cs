@@ -285,8 +285,11 @@ namespace LapStore.BLL.Services
                     return new Result { Success = false, Message = "Address not found." };
                 }
 
-                var address = UpdateAddressDTO.FromAddressDTO(addressDTO);
-                _addressRepository.Update(address);
+                user.address.Street = addressDTO.Street;
+                user.address.City = addressDTO.City;
+                user.address.Governorate = addressDTO.Governorate;
+                user.address.Country = addressDTO.Country;
+                user.address.ZipCode = addressDTO.ZipCode;
                 await _unitOfWork.CompleteAsync();
 
                 return new Result { Success = true, Message = "Address updated successfully." };

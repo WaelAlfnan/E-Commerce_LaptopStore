@@ -1,0 +1,40 @@
+﻿<Project>
+  <ItemGroup>
+    <StaticWebAssetEndpoint Include="_content/LapStore.API/uploads/categories/cb0320cf-af3f-40c9-a787-1bae8ef3bda2_shop01.png">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\categories\cb0320cf-af3f-40c9-a787-1bae8ef3bda2_shop01.png'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-cKQDP5zURDB4Bxv9l9/h3j/18Nz8snlmJQDVkqDOiNc="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"175826"},{"Name":"Content-Type","Value":"image/png"},{"Name":"ETag","Value":"\u0022cKQDP5zURDB4Bxv9l9/h3j/18Nz8snlmJQDVkqDOiNc=\u0022"},{"Name":"Last-Modified","Value":"Sun, 18 May 2025 11:50:08 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/LapStore.API/uploads/categories/cb0320cf-af3f-40c9-a787-1bae8ef3bda2_shop01.sl6gnmdrk2.png">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\categories\cb0320cf-af3f-40c9-a787-1bae8ef3bda2_shop01.png'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"sl6gnmdrk2"},{"Name":"integrity","Value":"sha256-cKQDP5zURDB4Bxv9l9/h3j/18Nz8snlmJQDVkqDOiNc="},{"Name":"label","Value":"_content/LapStore.API/uploads/categories/cb0320cf-af3f-40c9-a787-1bae8ef3bda2_shop01.png"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"175826"},{"Name":"Content-Type","Value":"image/png"},{"Name":"ETag","Value":"\u0022cKQDP5zURDB4Bxv9l9/h3j/18Nz8snlmJQDVkqDOiNc=\u0022"},{"Name":"Last-Modified","Value":"Sun, 18 May 2025 11:50:08 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/LapStore.API/uploads/products/1/78a22ba2-e6fc-42a2-ba19-f2d80569633d_product06.f4xhu752yv.png">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\products\1\78a22ba2-e6fc-42a2-ba19-f2d80569633d_product06.png'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"f4xhu752yv"},{"Name":"integrity","Value":"sha256-7\u002BvN8MOGXUkXOampcrdFu4vYlDL2c8kz5yGl/lhoPFw="},{"Name":"label","Value":"_content/LapStore.API/uploads/products/1/78a22ba2-e6fc-42a2-ba19-f2d80569633d_product06.png"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"222902"},{"Name":"Content-Type","Value":"image/png"},{"Name":"ETag","Value":"\u00227\u002BvN8MOGXUkXOampcrdFu4vYlDL2c8kz5yGl/lhoPFw=\u0022"},{"Name":"Last-Modified","Value":"Sun, 18 May 2025 10:45:15 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/LapStore.API/uploads/products/1/78a22ba2-e6fc-42a2-ba19-f2d80569633d_product06.png">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\products\1\78a22ba2-e6fc-42a2-ba19-f2d80569633d_product06.png'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-7\u002BvN8MOGXUkXOampcrdFu4vYlDL2c8kz5yGl/lhoPFw="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"222902"},{"Name":"Content-Type","Value":"image/png"},{"Name":"ETag","Value":"\u00227\u002BvN8MOGXUkXOampcrdFu4vYlDL2c8kz5yGl/lhoPFw=\u0022"},{"Name":"Last-Modified","Value":"Sun, 18 May 2025 10:45:15 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/LapStore.API/uploads/products/1/f4b6565e-3115-42db-8f3d-9574adc4399f_product03.png">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\products\1\f4b6565e-3115-42db-8f3d-9574adc4399f_product03.png'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-h3jdxV1uxxIydT77Hr5Nu3ROnPI\u002BpYZfedWASKmxodM="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"234903"},{"Name":"Content-Type","Value":"image/png"},{"Name":"ETag","Value":"\u0022h3jdxV1uxxIydT77Hr5Nu3ROnPI\u002BpYZfedWASKmxodM=\u0022"},{"Name":"Last-Modified","Value":"Sun, 18 May 2025 10:43:56 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/LapStore.API/uploads/products/1/f4b6565e-3115-42db-8f3d-9574adc4399f_product03.rriuibaral.png">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\products\1\f4b6565e-3115-42db-8f3d-9574adc4399f_product03.png'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"rriuibaral"},{"Name":"integrity","Value":"sha256-h3jdxV1uxxIydT77Hr5Nu3ROnPI\u002BpYZfedWASKmxodM="},{"Name":"label","Value":"_content/LapStore.API/uploads/products/1/f4b6565e-3115-42db-8f3d-9574adc4399f_product03.png"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"234903"},{"Name":"Content-Type","Value":"image/png"},{"Name":"ETag","Value":"\u0022h3jdxV1uxxIydT77Hr5Nu3ROnPI\u002BpYZfedWASKmxodM=\u0022"},{"Name":"Last-Modified","Value":"Sun, 18 May 2025 10:43:56 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+  </ItemGroup>
+</Project>

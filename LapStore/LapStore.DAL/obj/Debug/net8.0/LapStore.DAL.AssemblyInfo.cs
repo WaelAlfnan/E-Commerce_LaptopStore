@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LapStore.DAL")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ae20183383b37c2a4e6d862a8da6cbf7986a3e68")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+56f65fd2006d55259e6c78a60c6b1c757f11131a")]
 [assembly: System.Reflection.AssemblyProductAttribute("LapStore.DAL")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LapStore.DAL")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

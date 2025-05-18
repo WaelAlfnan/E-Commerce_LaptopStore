@@ -4,14 +4,12 @@ using Microsoft.AspNetCore.Http;
 
 namespace LapStore.BLL.Services
 {
-    public class CategoryFileHandler
+    public class CategoryFileHandler : ICategoryFileHandler
     {
         private readonly IFileStorageService _fileStorageService;
-        private readonly ICategoryFileHandler _categoryFileHandler;
-        public CategoryFileHandler(IFileStorageService fileStorageService, ICategoryFileHandler categoryFileHandler)
+        public CategoryFileHandler(IFileStorageService fileStorageService)
         {
             _fileStorageService = fileStorageService;
-            _categoryFileHandler = categoryFileHandler;
         }
 
         public async Task<AddCategoryDTO> HandleAddCategoryFileUpload(AddCategoryDTO categoryDto, IFormFile file)
