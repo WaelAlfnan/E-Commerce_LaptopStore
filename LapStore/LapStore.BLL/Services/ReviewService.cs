@@ -97,6 +97,9 @@ namespace LapStore.BLL.Services
 
         private ReviewDetailsDTO MapToReviewDetailsDTO(Review review)
         {
+            if (review == null)
+                throw new ArgumentNullException(nameof(review));
+
             return new ReviewDetailsDTO
             {
                 UserId = review.UserId,

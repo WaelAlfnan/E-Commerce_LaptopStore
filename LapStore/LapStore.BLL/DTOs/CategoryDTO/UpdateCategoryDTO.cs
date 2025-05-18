@@ -26,19 +26,6 @@ namespace LapStore.BLL.DTOs
         public int? ParentCategoryId { get; set; }
         #endregion
 
-        #region Methods
-
-        public static Category FromCategoryDTO(UpdateCategoryDTO categoryDTO)
-        {
-            return new Category
-            {
-                Id = categoryDTO.Id,
-                Name = categoryDTO.Name,
-                Description = categoryDTO.Description,
-                ImageUrl = categoryDTO.ImageUrl,
-                ParentCategoryId = categoryDTO.ParentCategoryId,
-            };
-        }
-        #endregion
+  
     }
 }

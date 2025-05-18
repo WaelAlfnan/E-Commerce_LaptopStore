@@ -159,42 +159,46 @@ namespace LapStore.BLL.Services
                 throw new InvalidOperationException($"Category with ID {categoryId} not found.");
             }
 
-            try
+            // Check if the category has any products
+            if ((category.products ?? Enumerable.Empty<Product>()).Any())
             {
-                await _unitOfWork.BeginTransactionAsync();
-
-                // Check if the category has any products
-                if ((category.products ?? Enumerable.Empty<Product>()).Any())
-                {
-                    throw new InvalidOperationException("Cannot delete a category that has products. Please ensure the category is empty before attempting to delete it.");
-                }
-
-                // Check if the category has any child categories
-                if ((category.childCategories ?? Enumerable.Empty<Category>()).Any())
-                {
-                    throw new InvalidOperationException("Cannot delete a category that has child categories. Please delete or reassign the child categories first.");
-                }
-
-                // Store image URL for deletion after the database operation succeeds
-                string imageUrl = category.ImageUrl;
-
-                // Delete from database
-                _categoryRepository.Delete(category);
-                await _unitOfWork.CompleteAsync();
-
-                // Delete the image file if it exists
-                if (!string.IsNullOrEmpty(imageUrl))
-                {
-                    _fileStorageService.DeleteImage(imageUrl);
-                }
-
-                await _unitOfWork.CommitTransactionAsync();
+                throw new InvalidOperationException("Cannot delete a category that has products. Please ensure the category is empty before attempting to delete it.");
             }
-            catch (Exception)
+
+            // Check if the category has any child categories
+            if ((category.childCategories ?? Enumerable.Empty<Category>()).Any())
             {
-                await _unitOfWork.RollbackTransactionAsync();
-                throw;
+                throw new InvalidOperationException("Cannot delete a category that has child categories. Please delete or reassign the child categories first.");
             }
+
+            // Store image URL for deletion after the database operation succeeds
+            string imageUrl = category.ImageUrl;
+
+            // Use the execution strategy to handle the transaction
+            var strategy = _unitOfWork.Context.Database.CreateExecutionStrategy();
+            await strategy.ExecuteAsync(async () =>
+            {
+                using var transaction = await _unitOfWork.Context.Database.BeginTransactionAsync();
+                try
+                {
+                    // Delete from database
+                    _categoryRepository.Delete(category);
+                    await _unitOfWork.CompleteAsync();
+
+                    // Delete the image file if it exists
+                    if (!string.IsNullOrEmpty(imageUrl))
+                    {
+                        _fileStorageService.DeleteImage(imageUrl);
+                    }
+
+                    await transaction.CommitAsync();
+                }
+                catch (Exception)
+                {
+                    await transaction.RollbackAsync();
+                    throw;
+                }
+            });
         }
 
         public async Task<bool> IsCategoryNameExistAsync(string categoryName, int? categoryId = null)

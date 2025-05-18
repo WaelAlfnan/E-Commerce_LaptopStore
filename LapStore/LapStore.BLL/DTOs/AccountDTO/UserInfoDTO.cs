@@ -25,6 +25,7 @@ namespace LapStore.BLL.DTOs.AccountDTO
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 BirthDate = user.BirthDate,
+                Age = user.Age,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
             };

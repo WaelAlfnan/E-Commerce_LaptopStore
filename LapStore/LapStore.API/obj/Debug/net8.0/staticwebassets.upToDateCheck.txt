@@ -1,0 +1,3 @@
+wwwroot\uploads\categories\cb0320cf-af3f-40c9-a787-1bae8ef3bda2_shop01.png
+wwwroot\uploads\products\1\78a22ba2-e6fc-42a2-ba19-f2d80569633d_product06.png
+wwwroot\uploads\products\1\f4b6565e-3115-42db-8f3d-9574adc4399f_product03.png

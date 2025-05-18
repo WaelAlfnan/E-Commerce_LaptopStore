@@ -1,0 +1,37 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\DEPI\\E-Commerce_LaptopStore\\LapStore\\LapStore.API\\wwwroot\\uploads\\categories\\cb0320cf-af3f-40c9-a787-1bae8ef3bda2_shop01.png",
+      "PackagePath": "staticwebassets\\uploads\\categories\\cb0320cf-af3f-40c9-a787-1bae8ef3bda2_shop01.png"
+    },
+    {
+      "Id": "D:\\DEPI\\E-Commerce_LaptopStore\\LapStore\\LapStore.API\\wwwroot\\uploads\\products\\1\\78a22ba2-e6fc-42a2-ba19-f2d80569633d_product06.png",
+      "PackagePath": "staticwebassets\\uploads\\products\\1\\78a22ba2-e6fc-42a2-ba19-f2d80569633d_product06.png"
+    },
+    {
+      "Id": "D:\\DEPI\\E-Commerce_LaptopStore\\LapStore\\LapStore.API\\wwwroot\\uploads\\products\\1\\f4b6565e-3115-42db-8f3d-9574adc4399f_product03.png",
+      "PackagePath": "staticwebassets\\uploads\\products\\1\\f4b6565e-3115-42db-8f3d-9574adc4399f_product03.png"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.LapStore.API.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.LapStore.API.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.LapStore.API.props",
+      "PackagePath": "build\\LapStore.API.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.LapStore.API.props",
+      "PackagePath": "buildMultiTargeting\\LapStore.API.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.LapStore.API.props",
+      "PackagePath": "buildTransitive\\LapStore.API.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

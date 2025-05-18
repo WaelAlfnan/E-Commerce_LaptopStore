@@ -1,9 +1,14 @@
 ﻿using LapStore.BLL.DTOs;
 using LapStore.BLL.DTOs.ProductDTO;
 using LapStore.BLL.Interfaces;
-using LapStore.DAL;
+using LapStore.DAL.Data.Entities;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
 namespace LapStore.API.Controllers
 {
     [Route("api/[controller]")]
@@ -11,45 +16,20 @@ namespace LapStore.API.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
-        private readonly IUnitOfWork _unitOfWork;
 
-        public ProductController(IProductService productService, IUnitOfWork unitOfWork)
+        public ProductController(IProductService productService)
         {
             _productService = productService;
-            _unitOfWork = unitOfWork;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
-        {
-            var products = await _productService.GetAllProductsAsync();
-            var productDTOs = products.Select(ProductReadDTO.FromProduct).ToList();
-            return Ok(productDTOs);
-        }
-
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
-        {
-            var product = await _productService.GetProductByIdAsync(id);
-            if (product == null)
-            {
-                return NotFound();
-            }
-
-            var productDTO = ProductReadDTO.FromProduct(product);
-            return Ok(productDTO);
-        }
-
+        // Add Product with Images
         [Authorize]
         [HttpPost]
-        public async Task<ActionResult> Create([FromBody] ProductWriteDTO productDTO)
+        public async Task<IActionResult> Create([FromForm] ProductWriteDTO productDTO, [FromForm] List<IFormFile> images)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
 
-            // Check if product name already exists
             if (await _productService.IsProductNameExistAsync(productDTO.Name))
             {
                 ModelState.AddModelError("Name", "Product name already exists");
@@ -57,27 +37,23 @@ namespace LapStore.API.Controllers
             }
 
             var product = ProductWriteDTO.FromProductDTO(productDTO);
-            await _productService.AddAsync(product);
-
-            return CreatedAtAction(nameof(GetById), new { id = product.Id }, ProductReadDTO.FromProduct(product));
+            await _productService.AddProductWithImagesAsync(product, images);
+            var productReadDto = ProductReadDTO.FromProduct(product);
+            return CreatedAtAction(nameof(GetById), new { id = product.Id }, productReadDto);
         }
 
+        // Update Product with Images
         [Authorize]
         [HttpPut("{id}")]
-        public async Task<ActionResult> Update(int id, [FromBody] ProductUpdateDTO productDTO)
+        public async Task<IActionResult> Update(int id, [FromForm] ProductUpdateDTO productDTO, [FromForm] List<IFormFile> images)
         {
             if (id != productDTO.Id || !ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
 
             var existingProduct = await _productService.GetProductByIdAsync(id);
             if (existingProduct == null)
-            {
                 return NotFound();
-            }
 
-            // Check if the updated name conflicts with another product
             if (productDTO.Name != existingProduct.Name &&
                 await _productService.IsProductNameExistAsync(productDTO.Name))
             {
@@ -86,112 +62,53 @@ namespace LapStore.API.Controllers
             }
 
             var product = ProductUpdateDTO.FromProductDTO(productDTO);
-
-            // Preserve existing images
-            product.productImages = existingProduct.productImages;
-
-            await _productService.UpdateAsync(product);
-
+            await _productService.UpdateProductWithImagesAsync(product, images);
             return NoContent();
         }
 
+        // Delete Product and Its Images
         [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             var product = await _productService.GetProductByIdAsync(id);
             if (product == null)
-            {
                 return NotFound();
-            }
 
-            await _productService.DeleteAsync(product);
+            await _productService.DeleteProductWithImagesAsync(id);
             return NoContent();
         }
 
-        // Image related endpoints
-        [Authorize]
-        [HttpPost("{productId}/images")]
-        public async Task<IActionResult> AddImage(int productId, IFormFile file)
+        // Get Product by ID with All Images
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
         {
-            if (file == null || file.Length == 0)
-            {
-                return BadRequest("No file uploaded");
-            }
-
-            var product = await _productService.GetProductByIdAsync(productId);
+            var product = await _productService.GetProductByIdAsync(id);
             if (product == null)
+                return NotFound();
+
+            var productDTO = ProductReadDTO.FromProduct(product);
+            return Ok(productDTO);
+        }
+
+        // Get All Products with Main Image Only
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var products = await _productService.GetAllProductsAsync();
+            var productDTOs = products.Select(p =>
             {
-                return NotFound("Product not found");
-            }
-
-            // Add the image
-            var productImage = await _productService.AddProductImageAsync(productId, file);
-
-            return CreatedAtAction(
-                nameof(GetById),
-                new { id = productId },
-                new
+                var dto = ProductReadDTO.FromProduct(p);
+                if (dto.Images != null && dto.Images.Any())
                 {
-                    id = productImage.Id,
-                    url = productImage.URL,
-                    isMain = productImage.IsMain,
-                    productId = productImage.ProductId
-                });
-        }
+                    var main = dto.Images.FirstOrDefault(i => i.IsMain) ?? dto.Images.First();
+                    dto.Images = new List<GetProductImageDTO> { main };
+                    dto.MainImageUrl = main.URL;
+                }
+                return dto;
+            }).ToList();
 
-        [HttpGet("{productId}/images")]
-        public async Task<IActionResult> GetProductImages(int productId)
-        {
-            var product = await _productService.GetProductByIdAsync(productId);
-            if (product == null)
-            {
-                return NotFound("Product not found");
-            }
-
-            var images = await _productService.GetProductImagesAsync(productId);
-            var imagesDto = images.Select(i => new {
-                id = i.Id,
-                url = i.URL,
-                isMain = i.IsMain,
-                productId = i.ProductId
-            });
-
-            return Ok(imagesDto);
-        }
-
-        [Authorize]
-        [HttpDelete("images/{imageId}")]
-        public async Task<IActionResult> DeleteImage(int imageId)
-        {
-            var image = await _productService.GetImageByIdAsync(imageId);
-            if (image == null)
-            {
-                return NotFound("Image not found");
-            }
-
-            await _productService.RemoveProductImageAsync(imageId);
-            return NoContent();
-        }
-
-        [Authorize]
-        [HttpPut("{productId}/images/{imageId}/main")]
-        public async Task<IActionResult> SetMainImage(int productId, int imageId)
-        {
-            var product = await _productService.GetProductByIdAsync(productId);
-            if (product == null)
-            {
-                return NotFound("Product not found");
-            }
-
-            var image = await _productService.GetImageByIdAsync(imageId);
-            if (image == null || image.ProductId != productId)
-            {
-                return NotFound("Image not found for this product");
-            }
-
-            await _productService.SetMainProductImageAsync(productId, imageId);
-            return NoContent();
+            return Ok(productDTOs);
         }
     }
 }

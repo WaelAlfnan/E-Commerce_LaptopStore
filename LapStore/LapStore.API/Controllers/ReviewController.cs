@@ -27,7 +27,12 @@ namespace LapStore.API.Controllers
         [HttpGet("user")]
         public async Task<ActionResult<IEnumerable<ReviewDetailsDTO>>> GetUserReviews()
         {
-            var userId = int.Parse(User.FindFirst("UserId")?.Value);
+            var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userIdClaim))
+            {
+                return Unauthorized("User ID claim not found.");
+            }
+            var userId = int.Parse(userIdClaim);
             var reviews = await _reviewService.GetUserReviews(userId);
             return Ok(reviews);
         }
@@ -36,7 +41,13 @@ namespace LapStore.API.Controllers
         [HttpGet("user/product/{productId}")]
         public async Task<ActionResult<ReviewDetailsDTO>> GetUserProductReview(int productId)
         {
-            var userId = int.Parse(User.FindFirst("UserId")?.Value);
+            var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userIdClaim))
+            {
+                return Unauthorized("User ID claim not found.");
+            }
+            var userId = int.Parse(userIdClaim);
+
             var review = await _reviewService.GetUserProductReview(userId, productId);
             if (review == null)
                 return NotFound();
@@ -48,7 +59,13 @@ namespace LapStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<ReviewDetailsDTO>> CreateReview(CreateReviewDTO reviewDto)
         {
-            var userId = int.Parse(User.FindFirst("UserId")?.Value);
+            var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userIdClaim))
+            {
+                return Unauthorized("User ID claim not found.");
+            }
+            var userId = int.Parse(userIdClaim);
+
             var review = await _reviewService.CreateReview(userId, reviewDto);
             return CreatedAtAction(nameof(GetUserProductReview), new { productId = review.ProductId }, review);
         }
@@ -57,7 +74,13 @@ namespace LapStore.API.Controllers
         [HttpPut("product/{productId}")]
         public async Task<ActionResult<ReviewDetailsDTO>> UpdateReview(int productId, UpdateReviewDTO reviewDto)
         {
-            var userId = int.Parse(User.FindFirst("UserId")?.Value);
+            var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userIdClaim))
+            {
+                return Unauthorized("User ID claim not found.");
+            }
+            var userId = int.Parse(userIdClaim);
+
             var review = await _reviewService.UpdateReview(userId, productId, reviewDto);
             return Ok(review);
         }
@@ -66,7 +89,13 @@ namespace LapStore.API.Controllers
         [HttpDelete("product/{productId}")]
         public async Task<IActionResult> DeleteReview(int productId)
         {
-            var userId = int.Parse(User.FindFirst("UserId")?.Value);
+            var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userIdClaim))
+            {
+                return Unauthorized("User ID claim not found.");
+            }
+            var userId = int.Parse(userIdClaim);
+
             await _reviewService.DeleteReview(userId, productId);
             return NoContent();
         }

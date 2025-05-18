@@ -18,6 +18,7 @@ namespace LapStore.BLL.DependencyInjections
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IFileStorageService, FileStorageService>();
+            services.AddScoped<ICategoryFileHandler, CategoryFileHandler>();
             services.AddSingleton<IFileProvider>(
                 new PhysicalFileProvider(
                     Path.Combine(Builder.Environment.WebRootPath, "uploads")));
@@ -25,7 +26,6 @@ namespace LapStore.BLL.DependencyInjections
             services.AddScoped<IReviewService, ReviewService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<ICartService, CartService>();
-
 
             services.AddScoped<IJwtService, JwtService>();
             services.AddScoped<IUserService, UserService>();

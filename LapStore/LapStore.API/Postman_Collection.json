@@ -1,0 +1,330 @@
+{
+  "info": {
+    "name": "LapStore API",
+    "_postman_id": "e1b2c3d4-5678-1234-9abc-def012345678",
+    "description": "Postman collection for LapStore Product, Category, Account, Cart, Order, and Review APIs",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://localhost:7260/api"
+    }
+  ],
+  "item": [
+    {
+      "name": "Product",
+      "item": [
+        {
+          "name": "Get All Products (main image only)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/product",
+              "host": ["{{baseUrl}}"],
+              "path": ["product"]
+            }
+          }
+        },
+        {
+          "name": "Get Product By Id (with all images)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/product/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["product", "1"]
+            }
+          }
+        },
+        {
+          "name": "Create Product (with images)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "Name", "value": "Laptop X", "type": "text" },
+                { "key": "Description", "value": "A great laptop", "type": "text" },
+                { "key": "Price", "value": "999.99", "type": "text" },
+                { "key": "Weight", "value": "2.5", "type": "text" },
+                { "key": "CategoryId", "value": "1", "type": "text" },
+                { "key": "images", "type": "file", "src": "" }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/product",
+              "host": ["{{baseUrl}}"],
+              "path": ["product"]
+            }
+          }
+        },
+        {
+          "name": "Update Product (with images)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "Id", "value": "1", "type": "text" },
+                { "key": "Name", "value": "Laptop X Updated", "type": "text" },
+                { "key": "Description", "value": "Updated description", "type": "text" },
+                { "key": "Price", "value": "1099.99", "type": "text" },
+                { "key": "Weight", "value": "2.4", "type": "text" },
+                { "key": "CategoryId", "value": "1", "type": "text" },
+                { "key": "images", "type": "file", "src": "" }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/product/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["product", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Product (and images)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/product/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["product", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Category",
+      "item": [
+        {
+          "name": "Get All Categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/categories",
+              "host": ["{{baseUrl}}"],
+              "path": ["categories"]
+            }
+          }
+        },
+        {
+          "name": "Get Category By Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/categories/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["categories", "1"]
+            }
+          }
+        },
+        {
+          "name": "Create Category (with image)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "Name", "value": "Electronics", "type": "text" },
+                { "key": "Description", "value": "All electronics", "type": "text" },
+                { "key": "ParentCategoryId", "value": "", "type": "text" },
+                { "key": "file", "type": "file", "src": "" }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/categories",
+              "host": ["{{baseUrl}}"],
+              "path": ["categories"]
+            }
+          }
+        },
+        {
+          "name": "Update Category (with image)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "Id", "value": "1", "type": "text" },
+                { "key": "Name", "value": "Electronics Updated", "type": "text" },
+                { "key": "Description", "value": "Updated description", "type": "text" },
+                { "key": "ParentCategoryId", "value": "", "type": "text" },
+                { "key": "file", "type": "file", "src": "" }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/categories/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["categories", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Category",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/categories/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["categories", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Account",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userName\": \"user1\",\n  \"email\": \"user1@email.com\",\n  \"password\": \"Password123!\",\n  \"confirmPassword\": \"Password123!\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"gender\": 1,\n  \"birthDate\": \"1990-01-01\",\n  \"phoneNumber\": \"1234567890\",\n  \"role\": 2\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/account/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["account", "register"]
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": { "mode": "raw", "raw": "{\n  \"userName\": \"user1\",\n  \"password\": \"Password123!\"\n}", "options": { "raw": { "language": "json" } } },
+            "url": { "raw": "{{baseUrl}}/account/login", "host": ["{{baseUrl}}"], "path": ["account", "login"] }
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" } ],
+            "url": { "raw": "{{baseUrl}}/account/logout", "host": ["{{baseUrl}}"], "path": ["account", "logout"] }
+          }
+        },
+        {
+          "name": "Get Profile",
+          "request": {
+            "method": "GET",
+            "header": [ { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" } ],
+            "url": { "raw": "{{baseUrl}}/account/profile", "host": ["{{baseUrl}}"], "path": ["account", "profile"] }
+          }
+        },
+        {
+          "name": "Update Profile",
+          "request": {
+            "method": "PUT",
+            "header": [ { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" } ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userName\": \"user1\",\n  \"email\": \"user1@email.com\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"gender\": 1,\n  \"birthDate\": \"1990-01-01\",\n  \"phoneNumber\": \"1234567890\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/account/profile",
+              "host": ["{{baseUrl}}"],
+              "path": ["account", "profile"]
+            }
+          }
+        },
+        {
+          "name": "Change Password",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" } ],
+            "body": { "mode": "raw", "raw": "{\n  \"currentPassword\": \"Password123!\",\n  \"newPassword\": \"NewPassword123!\"\n}", "options": { "raw": { "language": "json" } } },
+            "url": { "raw": "{{baseUrl}}/account/changepassword", "host": ["{{baseUrl}}"], "path": ["account", "changepassword"] }
+          }
+        },
+        {
+          "name": "Get Address",
+          "request": {
+            "method": "GET",
+            "header": [ { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" } ],
+            "url": { "raw": "{{baseUrl}}/account/address", "host": ["{{baseUrl}}"], "path": ["account", "address"] }
+          }
+        },
+        {
+          "name": "Add Address",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" } ],
+            "body": { "mode": "raw", "raw": "{\n  \"street\": \"123 Main St\",\n  \"city\": \"City\",\n  \"zipCode\": \"12345\"\n}", "options": { "raw": { "language": "json" } } },
+            "url": { "raw": "{{baseUrl}}/account/address", "host": ["{{baseUrl}}"], "path": ["account", "address"] }
+          }
+        },
+        {
+          "name": "Update Address",
+          "request": {
+            "method": "PUT",
+            "header": [ { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" } ],
+            "body": { "mode": "raw", "raw": "{\n  \"street\": \"456 Main St\",\n  \"city\": \"New City\",\n  \"zipCode\": \"54321\"\n}", "options": { "raw": { "language": "json" } } },
+            "url": { "raw": "{{baseUrl}}/account/address/1", "host": ["{{baseUrl}}"], "path": ["account", "address", "1"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Cart",
+      "item": [
+        { "name": "Get User Cart", "request": { "method": "GET", "header": [ { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" } ], "url": { "raw": "{{baseUrl}}/cart", "host": ["{{baseUrl}}"], "path": ["cart"] } } },
+        { "name": "Add Item to Cart", "request": { "method": "POST", "header": [ { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" } ], "body": { "mode": "raw", "raw": "{\n  \"productId\": 1,\n  \"quantity\": 2\n}", "options": { "raw": { "language": "json" } } }, "url": { "raw": "{{baseUrl}}/cart/items", "host": ["{{baseUrl}}"], "path": ["cart", "items"] } } },
+        { "name": "Update Cart Item", "request": { "method": "PUT", "header": [ { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" } ], "body": { "mode": "raw", "raw": "{\n  \"quantity\": 3\n}", "options": { "raw": { "language": "json" } } }, "url": { "raw": "{{baseUrl}}/cart/items/1", "host": ["{{baseUrl}}"], "path": ["cart", "items", "1"] } } },
+        { "name": "Remove Item from Cart", "request": { "method": "DELETE", "header": [ { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" } ], "url": { "raw": "{{baseUrl}}/cart/items/1", "host": ["{{baseUrl}}"], "path": ["cart", "items", "1"] } } },
+        { "name": "Clear Cart", "request": { "method": "DELETE", "header": [ { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" } ], "url": { "raw": "{{baseUrl}}/cart", "host": ["{{baseUrl}}"], "path": ["cart"] } } }
+      ]
+    },
+    {
+      "name": "Order",
+      "item": [
+        { "name": "Get User Orders", "request": { "method": "GET", "header": [ { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" } ], "url": { "raw": "{{baseUrl}}/order", "host": ["{{baseUrl}}"], "path": ["order"] } } },
+        { "name": "Get Order Details", "request": { "method": "GET", "header": [ { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" } ], "url": { "raw": "{{baseUrl}}/order/1", "host": ["{{baseUrl}}"], "path": ["order", "1"] } } },
+        { "name": "Get Orders By Status (Admin)", "request": { "method": "GET", "header": [ { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" } ], "url": { "raw": "{{baseUrl}}/order/status/Pending", "host": ["{{baseUrl}}"], "path": ["order", "status", "Pending"] } } },
+        { "name": "Create Order", "request": { "method": "POST", "header": [ { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" } ], "body": { "mode": "raw", "raw": "{\n  \"items\": [ { \"productId\": 1, \"quantity\": 2 } ]\n}", "options": { "raw": { "language": "json" } } }, "url": { "raw": "{{baseUrl}}/order", "host": ["{{baseUrl}}"], "path": ["order"] } } },
+        { "name": "Update Order Status (Admin)", "request": { "method": "PUT", "header": [ { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" } ], "body": { "mode": "raw", "raw": "{\n  \"status\": \"Shipped\"\n}", "options": { "raw": { "language": "json" } } }, "url": { "raw": "{{baseUrl}}/order/1/status", "host": ["{{baseUrl}}"], "path": ["order", "1", "status"] } } }
+      ]
+    },
+    {
+      "name": "Review",
+      "item": [
+        { "name": "Get Product Reviews", "request": { "method": "GET", "header": [], "url": { "raw": "{{baseUrl}}/review/product/1", "host": ["{{baseUrl}}"], "path": ["review", "product", "1"] } } },
+        { "name": "Get User Reviews", "request": { "method": "GET", "header": [ { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" } ], "url": { "raw": "{{baseUrl}}/review/user", "host": ["{{baseUrl}}"], "path": ["review", "user"] } } },
+        { "name": "Get User Product Review", "request": { "method": "GET", "header": [ { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" } ], "url": { "raw": "{{baseUrl}}/review/user/product/1", "host": ["{{baseUrl}}"], "path": ["review", "user", "product", "1"] } } },
+        { "name": "Create Review", "request": { "method": "POST", "header": [ { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" } ], "body": { "mode": "raw", "raw": "{\n  \"productId\": 1,\n  \"rating\": 5,\n  \"comment\": \"Great product!\"\n}", "options": { "raw": { "language": "json" } } }, "url": { "raw": "{{baseUrl}}/review", "host": ["{{baseUrl}}"], "path": ["review"] } } },
+        { "name": "Update Review", "request": { "method": "PUT", "header": [ { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" } ], "body": { "mode": "raw", "raw": "{\n  \"rating\": 4,\n  \"comment\": \"Updated comment\"\n}", "options": { "raw": { "language": "json" } } }, "url": { "raw": "{{baseUrl}}/review/product/1", "host": ["{{baseUrl}}"], "path": ["review", "product", "1"] } } },
+        { "name": "Delete Review", "request": { "method": "DELETE", "header": [ { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" } ], "url": { "raw": "{{baseUrl}}/review/product/1", "host": ["{{baseUrl}}"], "path": ["review", "product", "1"] } } }
+      ]
+    }
+  ]
+} 

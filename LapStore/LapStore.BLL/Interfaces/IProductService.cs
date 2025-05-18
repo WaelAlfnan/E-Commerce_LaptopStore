@@ -8,19 +8,15 @@ namespace LapStore.BLL.Interfaces
     public interface IProductService
     {
         Task<Product> GetProductByIdAsync(int id);
-        Product GetById(int? id);
         Task<IEnumerable<Product>> GetAllProductsAsync();
         Task<bool> IsProductNameExistAsync(string productName);
 
-        Task AddAsync(Product product);
-        Task UpdateAsync(Product product);
-        Task DeleteAsync(Product product);
+        Task<Product> AddProductWithImagesAsync(Product product, IEnumerable<IFormFile> images);
+        Task<Product> UpdateProductWithImagesAsync(Product product, IEnumerable<IFormFile> newImages);
+        Task DeleteProductWithImagesAsync(int productId);
 
-        // Image-related methods
         Task<ProductImage> AddProductImageAsync(int productId, IFormFile imageFile);
         Task RemoveProductImageAsync(int imageId);
-        Task<ProductImage> GetImageByIdAsync(int imageId);
         Task<IEnumerable<ProductImage>> GetProductImagesAsync(int productId);
-        Task SetMainProductImageAsync(int productId, int imageId);
     }
 }

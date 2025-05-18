@@ -3,6 +3,9 @@ using LapStore.DAL.Repositories;
 using LapStore.BLL.Interfaces;
 using LapStore.DAL;
 using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace LapStore.BLL.Services
 {
@@ -27,37 +30,68 @@ namespace LapStore.BLL.Services
             return await _productRepository.GetProductWithImagesAsync(id);
         }
 
-        public Product GetById(int? id)
-        {
-            if (id == null)
-                return null;
-
-            return _productRepository.GetProductWithImages(id.Value);
-        }
-
         public async Task<IEnumerable<Product>> GetAllProductsAsync()
         {
             return await _productRepository.GetAllProductsWithImagesAsync();
         }
 
-        public async Task AddAsync(Product product)
+        public async Task<bool> IsProductNameExistAsync(string productName)
+        {
+            return await _productRepository.IsProductNameExistAsync(productName);
+        }
+
+        public async Task<Product> AddProductWithImagesAsync(Product product, IEnumerable<IFormFile> images)
         {
             await _productRepository.AddAsync(product);
             await _unitOfWork.CompleteAsync();
+
+            if (images != null)
+            {
+                foreach (var image in images)
+                {
+                    await AddProductImageAsync(product.Id, image);
+                }
+            }
+
+            return product;
         }
 
-        public async Task UpdateAsync(Product product)
+        public async Task<Product> UpdateProductWithImagesAsync(Product product, IEnumerable<IFormFile> newImages)
         {
-            _productRepository.Update(product);
+            var existingProduct = await _productRepository.GetProductWithImagesAsync(product.Id);
+            if (existingProduct == null)
+                throw new KeyNotFoundException("Product not found.");
+
+            // Update fields
+            existingProduct.Name = product.Name;
+            existingProduct.Description = product.Description;
+            existingProduct.Price = product.Price;
+            existingProduct.Weight = product.Weight;
+            existingProduct.CategoryId = product.CategoryId;
+
+            _productRepository.Update(existingProduct);
             await _unitOfWork.CompleteAsync();
+
+            // Add new images if provided
+            if (newImages != null)
+            {
+                foreach (var image in newImages)
+                {
+                    await AddProductImageAsync(existingProduct.Id, image);
+                }
+            }
+
+            return existingProduct;
         }
 
-        public async Task DeleteAsync(Product product)
+        public async Task DeleteProductWithImagesAsync(int productId)
         {
-            // Get all product images to delete files
-            var images = await _productRepository.GetProductImagesAsync(product.Id);
+            var product = await _productRepository.GetProductWithImagesAsync(productId);
+            if (product == null)
+                throw new KeyNotFoundException("Product not found.");
 
-            // Delete physical files first
+            // Delete all images (DB and physical)
+            var images = product.productImages?.ToList() ?? new List<ProductImage>();
             foreach (var image in images)
             {
                 _fileStorageService.DeleteImage(image.URL);
@@ -68,21 +102,13 @@ namespace LapStore.BLL.Services
             await _unitOfWork.CompleteAsync();
         }
 
-        public async Task<bool> IsProductNameExistAsync(string productName)
-        {
-            return await _productRepository.IsProductNameExistAsync(productName);
-        }
-
-        // Image management methods
         public async Task<ProductImage> AddProductImageAsync(int productId, IFormFile imageFile)
         {
-            // Save the physical file and get the URL
             string imageUrl = await _fileStorageService.SaveImageAsync(imageFile, productId);
 
             // Determine if this should be the main image
             bool isMain = !(await _productRepository.GetProductImagesAsync(productId)).Any();
 
-            // Create image entity
             var productImage = new ProductImage
             {
                 URL = imageUrl,
@@ -90,7 +116,6 @@ namespace LapStore.BLL.Services
                 IsMain = isMain
             };
 
-            // Save to database
             await _productRepository.AddProductImageAsync(productImage);
             await _unitOfWork.CompleteAsync();
 
@@ -102,41 +127,15 @@ namespace LapStore.BLL.Services
             var image = await _productRepository.GetImageByIdAsync(imageId);
             if (image != null)
             {
-                // Delete the physical file
                 _fileStorageService.DeleteImage(image.URL);
-
-                // Delete from database
                 _productRepository.RemoveProductImage(image);
                 await _unitOfWork.CompleteAsync();
-
-                // If this was the main image, set another one as main if available
-                if (image.IsMain)
-                {
-                    var remainingImages = await _productRepository.GetProductImagesAsync(image.ProductId);
-                    var firstImage = remainingImages.FirstOrDefault();
-
-                    if (firstImage != null)
-                    {
-                        await SetMainProductImageAsync(image.ProductId, firstImage.Id);
-                    }
-                }
             }
-        }
-
-        public async Task<ProductImage> GetImageByIdAsync(int imageId)
-        {
-            return await _productRepository.GetImageByIdAsync(imageId);
         }
 
         public async Task<IEnumerable<ProductImage>> GetProductImagesAsync(int productId)
         {
             return await _productRepository.GetProductImagesAsync(productId);
-        }
-
-        public async Task SetMainProductImageAsync(int productId, int imageId)
-        {
-            await _productRepository.SetMainImageAsync(productId, imageId);
-            await _unitOfWork.CompleteAsync();
         }
     }
 }
