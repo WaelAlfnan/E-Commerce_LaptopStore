@@ -28,6 +28,7 @@ namespace LapStore.DAL.Repositories
             return await _context.orders
                 .Include(o => o.orderItems)
                     .ThenInclude(oi => oi.product)
+                        .ThenInclude(p => p.productImages)
                 .Include(o => o.user)
                 .FirstOrDefaultAsync(o => o.Id == orderId);
         }
