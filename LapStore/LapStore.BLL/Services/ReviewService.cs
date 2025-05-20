@@ -85,7 +85,10 @@ namespace LapStore.BLL.Services
             await _reviewRepository.AddAsync(review);
             await _unitOfWork.CompleteAsync();
 
-            return MapToReviewDetailsDTO(review);
+            // Reload the review with navigation properties loaded
+            var createdReview = await _reviewRepository.GetUserProductReview(userId, reviewDto.ProductId);
+
+            return MapToReviewDetailsDTO(createdReview);
         }
 
         public async Task<ReviewDetailsDTO> UpdateReview(int userId, int productId, UpdateReviewDTO reviewDto)

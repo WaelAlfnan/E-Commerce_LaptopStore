@@ -17,6 +17,7 @@ namespace LapStore.DAL.Repositories
         {
             return await _context.reviews
                 .Include(r => r.user)
+                .Include(r => r.product)
                 .Where(r => r.ProductId == productId)
                 .OrderByDescending(r => r.Date)
                 .ToListAsync();
@@ -25,6 +26,7 @@ namespace LapStore.DAL.Repositories
         public async Task<IEnumerable<Review>> GetUserReviews(int userId)
         {
             return await _context.reviews
+                .Include(r => r.user)
                 .Include(r => r.product)
                 .Where(r => r.UserId == userId)
                 .OrderByDescending(r => r.Date)
@@ -34,6 +36,8 @@ namespace LapStore.DAL.Repositories
         public async Task<Review?> GetUserProductReview(int userId, int productId)
         {
             return await _context.reviews
+                .Include(r => r.user)
+                .Include(r => r.product)
                 .FirstOrDefaultAsync(r => r.UserId == userId && r.ProductId == productId);
         }
     }

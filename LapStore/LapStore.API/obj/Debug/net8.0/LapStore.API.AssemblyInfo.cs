@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LapStore.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2004c4b974832fb39e20b1e1996bf4011c805476")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d14f7e5844d2cd4a8621ffca0ad64c3df98dc845")]
 [assembly: System.Reflection.AssemblyProductAttribute("LapStore.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LapStore.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

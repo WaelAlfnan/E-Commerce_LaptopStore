@@ -83,7 +83,9 @@ namespace LapStore.BLL.Services
             await _orderRepository.AddAsync(order);
             await _unitOfWork.CompleteAsync();
 
-            return MapToOrderDetailsDTO(order);
+            // Fetch the complete order with related entities
+            var completeOrder = await _orderRepository.GetOrderWithItems(order.Id);
+            return MapToOrderDetailsDTO(completeOrder);
         }
 
         public async Task<OrderDetailsDTO> UpdateOrderStatus(int orderId, UpdateOrderStatusDTO statusDto)
@@ -101,23 +103,26 @@ namespace LapStore.BLL.Services
 
         private OrderDetailsDTO MapToOrderDetailsDTO(Order order)
         {
+            if (order == null)
+                throw new ArgumentNullException(nameof(order));
+
             return new OrderDetailsDTO
             {
                 Id = order.Id,
                 Date = order.Date,
                 Status = order.Status,
                 TotalAmount = order.TotalAmount,
-                UserName = order.user.UserName,
-                UserEmail = order.user.Email,
-                OrderItems = order.orderItems.Select(oi => new OrderItemDetailsDTO
+                UserName = order.user?.UserName ?? "Unknown User",
+                UserEmail = order.user?.Email ?? "No Email",
+                OrderItems = order.orderItems?.Select(oi => new OrderItemDetailsDTO
                 {
                     ProductId = oi.ProductId,
-                    ProductName = oi.product.Name,
-                    ProductImage = oi.product.productImages.FirstOrDefault()?.URL,
+                    ProductName = oi.product?.Name ?? "Unknown Product",
+                    ProductImage = oi.product?.productImages?.FirstOrDefault()?.URL ?? "default-image-url",
                     Quantity = oi.Quantity,
                     UnitPrice = oi.UnitPrice,
                     TotalPrice = oi.UnitPrice * oi.Quantity
-                }).ToList()
+                }).ToList() ?? new List<OrderItemDetailsDTO>()
             };
         }
     }

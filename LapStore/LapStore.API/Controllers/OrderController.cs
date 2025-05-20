@@ -3,6 +3,7 @@ using LapStore.BLL.Interfaces;
 using LapStore.DAL.Data.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace LapStore.API.Controllers
 {
@@ -21,7 +22,17 @@ namespace LapStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<OrderDetailsDTO>>> GetUserOrders()
         {
-            var userId = int.Parse(User.FindFirst("UserId")?.Value);
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim == null)
+            {
+                return Unauthorized(new { message = "Invalid token" });
+            }
+
+            if (!int.TryParse(userIdClaim.Value, out int userId))
+            {
+                return Unauthorized(new { message = "Invalid user ID in token" });
+            }
+
             var orders = await _orderService.GetUserOrders(userId);
             return Ok(orders);
         }
@@ -29,8 +40,15 @@ namespace LapStore.API.Controllers
         [HttpGet("{orderId}")]
         public async Task<ActionResult<OrderDetailsDTO>> GetOrderDetails(int orderId)
         {
-            var order = await _orderService.GetOrderDetails(orderId);
-            return Ok(order);
+            try
+            {
+                var order = await _orderService.GetOrderDetails(orderId);
+                return Ok(order);
+            }
+            catch (ArgumentException ex) when (ex.Message == "Order not found")
+            {
+                return NotFound(new { message = "Order not found" });
+            }
         }
 
         [HttpGet("status/{status}")]
@@ -44,7 +62,17 @@ namespace LapStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<OrderDetailsDTO>> CreateOrder(CreateOrderDTO orderDto)
         {
-            var userId = int.Parse(User.FindFirst("UserId")?.Value);
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim == null)
+            {
+                return Unauthorized(new { message = "Invalid token" });
+            }
+
+            if (!int.TryParse(userIdClaim.Value, out int userId))
+            {
+                return Unauthorized(new { message = "Invalid user ID in token" });
+            }
+
             var order = await _orderService.CreateOrder(userId, orderDto);
             return CreatedAtAction(nameof(GetOrderDetails), new { orderId = order.Id }, order);
         }
