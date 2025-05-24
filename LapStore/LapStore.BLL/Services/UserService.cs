@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using LapStore.BLL.Interfaces;
 using LapStore.BLL.DTOs.AccountDTO;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 
 namespace LapStore.BLL.Services
 {
@@ -297,6 +298,214 @@ namespace LapStore.BLL.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error updating address for user {UserId}", userId);
+                return new Result { Success = false, Message = "An unexpected error occurred." };
+            }
+        }
+
+        public async Task<bool> IsFirstAdminAsync()
+        {
+            try
+            {
+                // Check if any user with Admin role exists
+                var adminExists = await _userManager.Users
+                    .AnyAsync(u => u.Role == UserRole.Admin);
+
+                return !adminExists;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error checking for first admin");
+                throw;
+            }
+        }
+
+        public async Task<AuthResult> RegisterFirstAdminAsync(AdminRegisterDTO adminDTO)
+        {
+            try
+            {
+                // Check if this is the first admin registration
+                if (!await IsFirstAdminAsync())
+                {
+                    _logger.LogWarning("Attempt to register first admin when admin already exists");
+                    return new AuthResult 
+                    { 
+                        Success = false, 
+                        Errors = new[] { "Admin already exists. Please contact the system administrator for access." } 
+                    };
+                }
+
+                // Create the admin user
+                var admin = new User
+                {
+                    UserName = adminDTO.UserName,
+                    Email = adminDTO.Email,
+                    FirstName = adminDTO.FirstName,
+                    LastName = adminDTO.LastName,
+                    PhoneNumber = adminDTO.PhoneNumber,
+                    BirthDate = adminDTO.BirthDate,
+                    Gender = adminDTO.Gender,
+                    Role = UserRole.Admin,
+                    EmailConfirmed = true // Auto-confirm email for first admin
+                };
+
+                // Create the user with password
+                var result = await _userManager.CreateAsync(admin, adminDTO.Password);
+
+                if (!result.Succeeded)
+                {
+                    var errors = result.Errors.Select(e => e.Description);
+                    _logger.LogWarning("First admin registration failed: {Errors}", 
+                        string.Join(", ", errors));
+                    return new AuthResult { Success = false, Errors = errors };
+                }
+
+                // Add admin role
+                await _userManager.AddToRoleAsync(admin, "Admin");
+
+                // Generate JWT token
+                var token = _jwtService.GenerateToken(admin);
+
+                _logger.LogInformation("First admin registered successfully: {Username}", adminDTO.UserName);
+                return new AuthResult { Success = true, Token = token };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error during first admin registration");
+                return new AuthResult 
+                { 
+                    Success = false, 
+                    Errors = new[] { "An unexpected error occurred during registration." } 
+                };
+            }
+        }
+
+        public async Task<IEnumerable<UserInfoDTO>> GetAllUsersAsync()
+        {
+            try
+            {
+                var users = await _userManager.Users.ToListAsync();
+                return users.Select(UserInfoDTO.FromUser);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving all users");
+                return Enumerable.Empty<UserInfoDTO>();
+            }
+        }
+
+        public async Task<UserInfoDTO?> GetUserByIdAsync(int userId)
+        {
+            try
+            {
+                var user = await _userManager.FindByIdAsync(userId.ToString());
+                return user != null ? UserInfoDTO.FromUser(user) : null;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving user by id {UserId}", userId);
+                return null;
+            }
+        }
+
+        public async Task<Result> UpdateUserRoleAsync(int userId, int currentAdminId, UserRole newRole)
+        {
+            try
+            {
+                if (userId == currentAdminId)
+                {
+                    return new Result { Success = false, Message = "You cannot change your own admin role." };
+                }
+                var user = await _userManager.FindByIdAsync(userId.ToString());
+                if (user == null)
+                    return new Result { Success = false, Message = "User not found." };
+
+                user.Role = newRole;
+                var result = await _userManager.UpdateAsync(user);
+                if (!result.Succeeded)
+                {
+                    var errors = result.Errors.Select(e => e.Description);
+                    return new Result { Success = false, Message = string.Join(", ", errors) };
+                }
+                return new Result { Success = true, Message = "User role updated successfully." };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error updating user role for user {UserId}", userId);
+                return new Result { Success = false, Message = "An unexpected error occurred." };
+            }
+        }
+
+        public async Task<Result> DeleteUserAsync(int userId, int currentAdminId)
+        {
+            try
+            {
+                if (userId == currentAdminId)
+                {
+                    return new Result { Success = false, Message = "You cannot delete your own admin account." };
+                }
+                var user = await _userManager.FindByIdAsync(userId.ToString());
+                if (user == null)
+                    return new Result { Success = false, Message = "User not found." };
+
+                var result = await _userManager.DeleteAsync(user);
+                if (!result.Succeeded)
+                {
+                    var errors = result.Errors.Select(e => e.Description);
+                    return new Result { Success = false, Message = string.Join(", ", errors) };
+                }
+                return new Result { Success = true, Message = "User deleted successfully." };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting user {UserId}", userId);
+                return new Result { Success = false, Message = "An unexpected error occurred." };
+            }
+        }
+
+        public async Task<Result> DisableUserAsync(int userId)
+        {
+            try
+            {
+                var user = await _userManager.FindByIdAsync(userId.ToString());
+                if (user == null)
+                    return new Result { Success = false, Message = "User not found." };
+
+                // Lock the user out until a far future date
+                var result = await _userManager.SetLockoutEndDateAsync(user, DateTimeOffset.MaxValue);
+                if (!result.Succeeded)
+                {
+                    var errors = result.Errors.Select(e => e.Description);
+                    return new Result { Success = false, Message = string.Join(", ", errors) };
+                }
+                return new Result { Success = true, Message = "User disabled (locked out) successfully." };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error disabling user {UserId}", userId);
+                return new Result { Success = false, Message = "An unexpected error occurred." };
+            }
+        }
+
+        public async Task<Result> EnableUserAsync(int userId)
+        {
+            try
+            {
+                var user = await _userManager.FindByIdAsync(userId.ToString());
+                if (user == null)
+                    return new Result { Success = false, Message = "User not found." };
+
+                // Remove lockout
+                var result = await _userManager.SetLockoutEndDateAsync(user, null);
+                if (!result.Succeeded)
+                {
+                    var errors = result.Errors.Select(e => e.Description);
+                    return new Result { Success = false, Message = string.Join(", ", errors) };
+                }
+                return new Result { Success = true, Message = "User enabled (lockout removed) successfully." };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error enabling user {UserId}", userId);
                 return new Result { Success = false, Message = "An unexpected error occurred." };
             }
         }

@@ -1,4 +1,4 @@
-﻿using LapStore.BLL.DTOs;
+﻿    using LapStore.BLL.DTOs;
 using LapStore.BLL.Interfaces;
 using LapStore.BLL.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -26,6 +26,7 @@ namespace LapStore.API.Controllers
 
         // GET: api/Categories
         [HttpGet]
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<GetCategoryDTO>>> GetCategories()
         {
@@ -42,6 +43,7 @@ namespace LapStore.API.Controllers
 
         // GET: api/Categories/5
         [HttpGet("{id}")]
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<GetCategoryDTO>> GetCategory(int id)
@@ -57,7 +59,7 @@ namespace LapStore.API.Controllers
         }
 
         // POST: api/Categories
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -98,7 +100,7 @@ namespace LapStore.API.Controllers
         }
 
         // PUT: api/Categories/5
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -140,7 +142,7 @@ namespace LapStore.API.Controllers
         }
 
         // DELETE: api/Categories/5
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -169,6 +171,7 @@ namespace LapStore.API.Controllers
 
         // GET: api/Categories/exists?name=Electronics
         [HttpGet("exists")]
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<bool>> CheckCategoryNameExists([FromQuery] string name, [FromQuery] int? id = null)
         {

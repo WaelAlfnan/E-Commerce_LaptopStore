@@ -4,6 +4,7 @@ using LapStore.BLL.Interfaces;
 using LapStore.BLL.DTOs.AccountDTO;
 using System.Security.Claims;
 using Microsoft.Extensions.Logging;
+using LapStore.DAL.Data.Entities;
 
 namespace LapStore.API.Controllers
 {
@@ -21,6 +22,7 @@ namespace LapStore.API.Controllers
         }
 
         [HttpPost("Register")]
+        [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] RegisterDTO registerDTO)
         {
             try
@@ -41,6 +43,7 @@ namespace LapStore.API.Controllers
         }
 
         [HttpPost("Login")]
+        [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] LoginDTO loginDTO)
         {
             try
@@ -276,6 +279,160 @@ namespace LapStore.API.Controllers
             {
                 _logger.LogError(ex, "Error updating address");
                 return StatusCode(500, new { message = "An unexpected error occurred while updating the address." });
+            }
+        }
+
+        // Admin endpoints
+        [Authorize(Roles = "Admin")]
+        [HttpGet("admin/users")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            try
+            {
+                var users = await _userService.GetAllUsersAsync();
+                return Ok(users);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving all users");
+                return StatusCode(500, new { message = "An unexpected error occurred while retrieving users." });
+            }
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("admin/users/{userId}")]
+        public async Task<IActionResult> GetUserById(int userId)
+        {
+            try
+            {
+                var user = await _userService.GetUserByIdAsync(userId);
+                if (user == null)
+                {
+                    return NotFound(new { message = "User not found" });
+                }
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving user {UserId}", userId);
+                return StatusCode(500, new { message = "An unexpected error occurred while retrieving the user." });
+            }
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPut("admin/users/{userId}/role")]
+        public async Task<IActionResult> UpdateUserRole(int userId, [FromBody] UpdateUserRoleDTO roleDTO)
+        {
+            try
+            {
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+                if (userIdClaim == null || !int.TryParse(userIdClaim.Value, out int currentAdminId))
+                {
+                    return Unauthorized(new { message = "Invalid token" });
+                }
+                var result = await _userService.UpdateUserRoleAsync(userId, currentAdminId, roleDTO.NewRole);
+                if (!result.Success)
+                {
+                    return BadRequest(new { message = result.Message });
+                }
+                return Ok(new { message = result.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error updating role for user {UserId}", userId);
+                return StatusCode(500, new { message = "An unexpected error occurred while updating the user role." });
+            }
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("admin/users/{userId}")]
+        public async Task<IActionResult> DeleteUser(int userId)
+        {
+            try
+            {
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+                if (userIdClaim == null || !int.TryParse(userIdClaim.Value, out int currentAdminId))
+                {
+                    return Unauthorized(new { message = "Invalid token" });
+                }
+                var result = await _userService.DeleteUserAsync(userId, currentAdminId);
+                if (!result.Success)
+                {
+                    return BadRequest(new { message = result.Message });
+                }
+                return Ok(new { message = result.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting user {UserId}", userId);
+                return StatusCode(500, new { message = "An unexpected error occurred while deleting the user." });
+            }
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost("admin/users/{userId}/disable")]
+        public async Task<IActionResult> DisableUser(int userId)
+        {
+            try
+            {
+                var result = await _userService.DisableUserAsync(userId);
+                if (!result.Success)
+                {
+                    return BadRequest(new { message = result.Message });
+                }
+                return Ok(new { message = result.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error disabling user {UserId}", userId);
+                return StatusCode(500, new { message = "An unexpected error occurred while disabling the user." });
+            }
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost("admin/users/{userId}/enable")]
+        public async Task<IActionResult> EnableUser(int userId)
+        {
+            try
+            {
+                var result = await _userService.EnableUserAsync(userId);
+                if (!result.Success)
+                {
+                    return BadRequest(new { message = result.Message });
+                }
+                return Ok(new { message = result.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error enabling user {UserId}", userId);
+                return StatusCode(500, new { message = "An unexpected error occurred while enabling the user." });
+            }
+        }
+
+        [HttpPost("admin/first-admin")]
+        [AllowAnonymous]
+        public async Task<IActionResult> RegisterFirstAdmin([FromBody] AdminRegisterDTO adminDTO)
+        {
+            try
+            {
+                // Check if this is the first admin registration
+                if (!await _userService.IsFirstAdminAsync())
+                {
+                    return BadRequest(new { message = "Admin already exists. Please contact the system administrator for access." });
+                }
+
+                var result = await _userService.RegisterFirstAdminAsync(adminDTO);
+                if (!result.Success)
+                {
+                    return BadRequest(new { errors = result.Errors });
+                }
+
+                return Ok(new { token = result.Token, message = "First admin registered successfully" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error during first admin registration");
+                return StatusCode(500, new { message = "An unexpected error occurred during registration." });
             }
         }
     }

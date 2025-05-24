@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LapStore.Test.Helpers;
+using Xunit;
+using LapStore.DAL.Data.Contexts;
 
 
 namespace LapStore.Test.RepositoriesTest.GenericRepositoryTest
@@ -16,7 +18,7 @@ namespace LapStore.Test.RepositoriesTest.GenericRepositoryTest
         [Fact]
         public async Task Count_ReturnsCorrectCount()
         {
-            var options = new DbContextOptionsBuilder<TestDbContext>()
+            var options = new DbContextOptionsBuilder<LapStoreDbContext>()
                 .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
                 .Options;
 

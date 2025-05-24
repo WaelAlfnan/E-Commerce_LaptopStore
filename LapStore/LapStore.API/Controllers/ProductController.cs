@@ -23,7 +23,7 @@ namespace LapStore.API.Controllers
         }
 
         // Add Product with Images
-        [Authorize]
+        [Authorize(Roles = "Admin,Vendor")]
         [HttpPost]
         public async Task<IActionResult> Create([FromForm] ProductWriteDTO productDTO, [FromForm] List<IFormFile> images)
         {
@@ -43,7 +43,7 @@ namespace LapStore.API.Controllers
         }
 
         // Update Product with Images
-        [Authorize]
+        [Authorize(Roles = "Admin,Vendor")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromForm] ProductUpdateDTO productDTO, [FromForm] List<IFormFile> images)
         {
@@ -67,7 +67,7 @@ namespace LapStore.API.Controllers
         }
 
         // Delete Product and Its Images
-        [Authorize]
+        [Authorize(Roles = "Admin,Vendor")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -81,6 +81,7 @@ namespace LapStore.API.Controllers
 
         // Get Product by ID with All Images
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetById(int id)
         {
             var product = await _productService.GetProductByIdAsync(id);
@@ -93,6 +94,7 @@ namespace LapStore.API.Controllers
 
         // Get All Products with Main Image Only
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAll()
         {
             var products = await _productService.GetAllProductsAsync();
