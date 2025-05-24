@@ -2445,9 +2445,6 @@
             "minLength": 1,
             "type": "string",
             "format": "password"
-          },
-          "rememberMe": {
-            "type": "boolean"
           }
         },
         "additionalProperties": false
