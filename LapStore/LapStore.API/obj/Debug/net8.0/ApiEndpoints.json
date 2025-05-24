@@ -48,6 +48,117 @@
   },
   {
     "ContainingType": "LapStore.API.Controllers.AccountController",
+    "Method": "RegisterFirstAdmin",
+    "RelativePath": "api/Account/admin/first-admin",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "adminDTO",
+        "Type": "LapStore.BLL.DTOs.AccountDTO.AdminRegisterDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LapStore.API.Controllers.AccountController",
+    "Method": "GetAllUsers",
+    "RelativePath": "api/Account/admin/users",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LapStore.API.Controllers.AccountController",
+    "Method": "GetUserById",
+    "RelativePath": "api/Account/admin/users/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LapStore.API.Controllers.AccountController",
+    "Method": "DeleteUser",
+    "RelativePath": "api/Account/admin/users/{userId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LapStore.API.Controllers.AccountController",
+    "Method": "DisableUser",
+    "RelativePath": "api/Account/admin/users/{userId}/disable",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LapStore.API.Controllers.AccountController",
+    "Method": "EnableUser",
+    "RelativePath": "api/Account/admin/users/{userId}/enable",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LapStore.API.Controllers.AccountController",
+    "Method": "UpdateUserRole",
+    "RelativePath": "api/Account/admin/users/{userId}/role",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "roleDTO",
+        "Type": "LapStore.BLL.DTOs.AccountDTO.UpdateUserRoleDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LapStore.API.Controllers.AccountController",
     "Method": "ChangePassword",
     "RelativePath": "api/Account/ChangePassword",
     "HttpMethod": "POST",

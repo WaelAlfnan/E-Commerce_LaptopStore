@@ -1,9 +1,0 @@
-D:\DEPI\E-Commerce_LaptopStore\LapStore\LapStore.Web\obj\Debug\net8.0\LapStore.Web.csproj.AssemblyReference.cache
-D:\DEPI\E-Commerce_LaptopStore\LapStore\LapStore.Web\obj\Debug\net8.0\LapStore.Web.GeneratedMSBuildEditorConfig.editorconfig
-D:\DEPI\E-Commerce_LaptopStore\LapStore\LapStore.Web\obj\Debug\net8.0\LapStore.Web.AssemblyInfoInputs.cache
-D:\DEPI\E-Commerce_LaptopStore\LapStore\LapStore.Web\obj\Debug\net8.0\LapStore.Web.AssemblyInfo.cs
-D:\DEPI\E-Commerce_LaptopStore\LapStore\LapStore.Web\obj\Debug\net8.0\LapStore.Web.csproj.CoreCompileInputs.cache
-D:\DEPI\E-Commerce_LaptopStore\LapStore\LapStore.Web\obj\Debug\net8.0\LapStore.Web.MvcApplicationPartsAssemblyInfo.cache
-D:\DEPI\E-Commerce_LaptopStore\LapStore\LapStore.Web\obj\Debug\net8.0\LapStore.Web.RazorAssemblyInfo.cache
-D:\DEPI\E-Commerce_LaptopStore\LapStore\LapStore.Web\obj\Debug\net8.0\LapStore.Web.RazorAssemblyInfo.cs
-D:\DEPI\E-Commerce_LaptopStore\LapStore\LapStore.Web\obj\Debug\net8.0\LapStore.Web.sourcelink.json

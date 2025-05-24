@@ -200,6 +200,23 @@
       "name": "Account",
       "item": [
         {
+          "name": "Register First Admin",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userName\": \"admin\",\n  \"email\": \"admin@lapstore.com\",\n  \"password\": \"Admin@123\",\n  \"confirmPassword\": \"Admin@123\",\n  \"firstName\": \"Admin\",\n  \"lastName\": \"User\",\n  \"gender\": 1,\n  \"birthDate\": \"1990-01-01\",\n  \"phoneNumber\": \"+1234567890\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/account/admin/first-admin",
+              "host": ["{{baseUrl}}"],
+              "path": ["account", "admin", "first-admin"]
+            }
+          }
+        },
+        {
           "name": "Register",
           "request": {
             "method": "POST",
@@ -292,6 +309,97 @@
             "body": { "mode": "raw", "raw": "{\n  \"street\": \"456 Main St\",\n  \"city\": \"New City\",\n  \"zipCode\": \"54321\"\n}", "options": { "raw": { "language": "json" } } },
             "url": { "raw": "{{baseUrl}}/account/address/1", "host": ["{{baseUrl}}"], "path": ["account", "address", "1"] }
           }
+        },
+        {
+          "name": "Get All Users (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/account/admin/users",
+              "host": ["{{baseUrl}}"],
+              "path": ["account", "admin", "users"]
+            }
+          }
+        },
+        {
+          "name": "Get User By Id (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/account/admin/users/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["account", "admin", "users", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update User Role (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"newRole\": 1\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/account/admin/users/1/role",
+              "host": ["{{baseUrl}}"],
+              "path": ["account", "admin", "users", "1", "role"]
+            },
+            "description": "Change the role of a user. Admins cannot change their own role. If attempted, the API will return an error."
+          }
+        },
+        {
+          "name": "Delete User (Admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/account/admin/users/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["account", "admin", "users", "1"]
+            },
+            "description": "Delete a user. Admins cannot delete their own account. If attempted, the API will return an error."
+          }
+        },
+        {
+          "name": "Disable User (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/account/admin/users/1/disable",
+              "host": ["{{baseUrl}}"],
+              "path": ["account", "admin", "users", "1", "disable"]
+            }
+          }
+        },
+        {
+          "name": "Enable User (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/account/admin/users/1/enable",
+              "host": ["{{baseUrl}}"],
+              "path": ["account", "admin", "users", "1", "enable"]
+            }
+          }
         }
       ]
     },
@@ -321,8 +429,8 @@
         { "name": "Get Product Reviews", "request": { "method": "GET", "header": [], "url": { "raw": "{{baseUrl}}/review/product/1", "host": ["{{baseUrl}}"], "path": ["review", "product", "1"] } } },
         { "name": "Get User Reviews", "request": { "method": "GET", "header": [ { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" } ], "url": { "raw": "{{baseUrl}}/review/user", "host": ["{{baseUrl}}"], "path": ["review", "user"] } } },
         { "name": "Get User Product Review", "request": { "method": "GET", "header": [ { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" } ], "url": { "raw": "{{baseUrl}}/review/user/product/1", "host": ["{{baseUrl}}"], "path": ["review", "user", "product", "1"] } } },
-        { "name": "Create Review", "request": { "method": "POST", "header": [ { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" } ], "body": { "mode": "raw", "raw": "{\n  \"productId\": 1,\n  \"rating\": 5,\n  \"comment\": \"Great product!\"\n}", "options": { "raw": { "language": "json" } } }, "url": { "raw": "{{baseUrl}}/review", "host": ["{{baseUrl}}"], "path": ["review"] } } },
-        { "name": "Update Review", "request": { "method": "PUT", "header": [ { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" } ], "body": { "mode": "raw", "raw": "{\n  \"rating\": 4,\n  \"comment\": \"Updated comment\"\n}", "options": { "raw": { "language": "json" } } }, "url": { "raw": "{{baseUrl}}/review/product/1", "host": ["{{baseUrl}}"], "path": ["review", "product", "1"] } } },
+        { "name": "Create Review", "request": { "method": "POST", "header": [ { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" } ], "body": { "mode": "raw", "raw": "{\n  \"productId\": 1,\n  \"rate\": 5,\n  \"text\": \"Great product!\"\n}", "options": { "raw": { "language": "json" } } }, "url": { "raw": "{{baseUrl}}/review", "host": ["{{baseUrl}}"], "path": ["review"] } } },
+        { "name": "Update Review", "request": { "method": "PUT", "header": [ { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" } ], "body": { "mode": "raw", "raw": "{\n  \"rate\": 4,\n  \"text\": \"Updated comment\"\n}", "options": { "raw": { "language": "json" } } }, "url": { "raw": "{{baseUrl}}/review/product/1", "host": ["{{baseUrl}}"], "path": ["review", "product", "1"] } } },
         { "name": "Delete Review", "request": { "method": "DELETE", "header": [ { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" } ], "url": { "raw": "{{baseUrl}}/review/product/1", "host": ["{{baseUrl}}"], "path": ["review", "product", "1"] } } }
       ]
     }

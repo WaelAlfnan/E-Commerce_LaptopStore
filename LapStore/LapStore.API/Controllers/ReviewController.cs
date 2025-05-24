@@ -2,7 +2,6 @@ using LapStore.BLL.DTOs.ReviewDTOs;
 using LapStore.BLL.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace LapStore.API.Controllers
 {
@@ -25,6 +24,7 @@ namespace LapStore.API.Controllers
         /// <param name="productId">The ID of the product</param>
         /// <returns>A list of reviews for the product</returns>
         [HttpGet("product/{productId}")]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(IEnumerable<ReviewDetailsDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<IEnumerable<ReviewDetailsDTO>>> GetProductReviews(int productId)
@@ -52,7 +52,7 @@ namespace LapStore.API.Controllers
         /// <param name="userId">The ID of the user</param>
         /// <returns>A list of reviews by the user</returns>
         [HttpGet("user/{userId}")]
-        [Authorize]
+        [Authorize(Roles = "Customer")]
         [ProducesResponseType(typeof(IEnumerable<ReviewDetailsDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -82,7 +82,7 @@ namespace LapStore.API.Controllers
         /// <param name="productId">The ID of the product</param>
         /// <returns>The review if found, null otherwise</returns>
         [HttpGet("user/{userId}/product/{productId}")]
-        [Authorize]
+        [Authorize(Roles = "Customer")]
         [ProducesResponseType(typeof(ReviewDetailsDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -116,7 +116,7 @@ namespace LapStore.API.Controllers
         /// <param name="reviewDto">The review data</param>
         /// <returns>The created review</returns>
         [HttpPost("user/{userId}")]
-        [Authorize]
+        [Authorize(Roles = "Customer")]
         [ProducesResponseType(typeof(ReviewDetailsDTO), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -155,7 +155,7 @@ namespace LapStore.API.Controllers
         /// <param name="reviewDto">The updated review data</param>
         /// <returns>The updated review</returns>
         [HttpPut("user/{userId}/product/{productId}")]
-        [Authorize]
+        [Authorize(Roles = "Customer")]
         [ProducesResponseType(typeof(ReviewDetailsDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -188,7 +188,7 @@ namespace LapStore.API.Controllers
         /// <param name="productId">The ID of the product being reviewed</param>
         /// <returns>No content if successful</returns>
         [HttpDelete("user/{userId}/product/{productId}")]
-        [Authorize]
+        [Authorize(Roles = "Customer")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]

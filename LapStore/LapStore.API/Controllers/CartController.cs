@@ -18,6 +18,8 @@ namespace LapStore.API.Controllers
             _cartService = cartService;
         }
 
+
+        [Authorize(Roles = "Customer")]
         [HttpGet]
         public async Task<ActionResult<CartDetailsDTO>> GetUserCart()
         {
@@ -36,6 +38,8 @@ namespace LapStore.API.Controllers
             return Ok(cart);
         }
 
+
+        [Authorize(Roles = "Customer")]
         [HttpPost("items")]
         public async Task<ActionResult<CartDetailsDTO>> AddItemToCart(CreateCartItemDTO itemDto)
         {
@@ -54,6 +58,8 @@ namespace LapStore.API.Controllers
             return Ok(cart);
         }
 
+
+        [Authorize(Roles = "Customer")]
         [HttpPut("items/{productId}")]
         public async Task<ActionResult<CartDetailsDTO>> UpdateCartItem(int productId, UpdateCartItemDTO itemDto)
         {
@@ -71,6 +77,8 @@ namespace LapStore.API.Controllers
             return Ok(cart);
         }
 
+
+        [Authorize(Roles = "Customer")]
         [HttpDelete("items/{productId}")]
         public async Task<ActionResult<CartDetailsDTO>> RemoveItemFromCart(int productId)
         {
@@ -89,6 +97,8 @@ namespace LapStore.API.Controllers
             return Ok(cart);
         }
 
+
+        [Authorize(Roles = "Customer")]
         [HttpDelete]
         public async Task<IActionResult> ClearCart()
         {

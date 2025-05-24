@@ -18,7 +18,7 @@ namespace LapStore.API.Controllers
         {
             _orderService = orderService;
         }
-
+        [Authorize(Roles = "Customer")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<OrderDetailsDTO>>> GetUserOrders()
         {
@@ -36,7 +36,7 @@ namespace LapStore.API.Controllers
             var orders = await _orderService.GetUserOrders(userId);
             return Ok(orders);
         }
-
+        [Authorize]
         [HttpGet("{orderId}")]
         public async Task<ActionResult<OrderDetailsDTO>> GetOrderDetails(int orderId)
         {
@@ -58,7 +58,7 @@ namespace LapStore.API.Controllers
             var orders = await _orderService.GetOrdersByStatus(status);
             return Ok(orders);
         }
-
+        [Authorize(Roles = "Customer")]
         [HttpPost]
         public async Task<ActionResult<OrderDetailsDTO>> CreateOrder(CreateOrderDTO orderDto)
         {
