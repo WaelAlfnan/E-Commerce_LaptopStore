@@ -330,11 +330,19 @@ namespace LapStore.API.Controllers
                 {
                     return Unauthorized(new { message = "Invalid token" });
                 }
+
+                // Validate the role
+                if (!Enum.IsDefined(typeof(UserRole), roleDTO.NewRole))
+                {
+                    return BadRequest(new { message = "Invalid role specified" });
+                }
+
                 var result = await _userService.UpdateUserRoleAsync(userId, currentAdminId, roleDTO.NewRole);
                 if (!result.Success)
                 {
                     return BadRequest(new { message = result.Message });
                 }
+
                 return Ok(new { message = result.Message });
             }
             catch (Exception ex)

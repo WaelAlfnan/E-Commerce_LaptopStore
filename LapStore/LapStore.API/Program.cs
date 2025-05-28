@@ -1,10 +1,11 @@
 using LapStore.BLL.DependencyInjections;
+using LapStore.BLL.Interfaces;
 
 namespace LapStore.API
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -64,6 +65,12 @@ namespace LapStore.API
             app.UseAuthorization();
 
             app.MapControllers();
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var roleService = scope.ServiceProvider.GetRequiredService<IRoleService>();
+                await roleService.EnsureRolesExist();
+            }
 
             app.Run();
         }

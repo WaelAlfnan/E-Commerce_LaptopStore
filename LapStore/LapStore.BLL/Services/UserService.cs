@@ -18,6 +18,7 @@ namespace LapStore.BLL.Services
         private readonly SignInManager<User> _signInManager;
         private readonly IJwtService _jwtService;
         private readonly ILogger<UserService> _logger;
+        private readonly IRoleService _roleService;
 
         public UserService(
             IUnitOfWork unitOfWork,
@@ -26,7 +27,8 @@ namespace LapStore.BLL.Services
             UserManager<User> userManager,
             SignInManager<User> signInManager,
             IJwtService jwtService,
-            ILogger<UserService> logger)
+            ILogger<UserService> logger,
+            IRoleService roleService)
         {
             _unitOfWork = unitOfWork;
             _addressRepository = addressRepository;
@@ -35,6 +37,7 @@ namespace LapStore.BLL.Services
             _signInManager = signInManager;
             _jwtService = jwtService;
             _logger = logger;
+            _roleService = roleService;
         }
 
         public async Task<AuthResult> Register(RegisterDTO registerDTO)
@@ -53,6 +56,15 @@ namespace LapStore.BLL.Services
                         registerDTO.UserName, string.Join(", ", errors));
                     return new AuthResult { Success = false, Errors = errors };
                 }
+                // Ensure Customer role exists
+                if (!await _roleService.RoleExistsAsync(UserRole.Customer.ToString()))
+                {
+                    await _roleService.CreateRoleAsync(UserRole.Customer.ToString());
+                }
+
+                // Add customer role
+                await _userManager.AddToRoleAsync(user, UserRole.Admin.ToString());
+
 
                 var token = _jwtService.GenerateToken(user);
                 return new AuthResult { Success = true, Token = token };
@@ -335,18 +347,7 @@ namespace LapStore.BLL.Services
                 }
 
                 // Create the admin user
-                var admin = new User
-                {
-                    UserName = adminDTO.UserName,
-                    Email = adminDTO.Email,
-                    FirstName = adminDTO.FirstName,
-                    LastName = adminDTO.LastName,
-                    PhoneNumber = adminDTO.PhoneNumber,
-                    BirthDate = adminDTO.BirthDate,
-                    Gender = adminDTO.Gender,
-                    Role = UserRole.Admin,
-                    EmailConfirmed = true // Auto-confirm email for first admin
-                };
+                var admin = AdminRegisterDTO.FromAdminRegisterDTO(adminDTO);
 
                 // Create the user with password
                 var result = await _userManager.CreateAsync(admin, adminDTO.Password);
@@ -359,8 +360,14 @@ namespace LapStore.BLL.Services
                     return new AuthResult { Success = false, Errors = errors };
                 }
 
+                // Ensure Admin role exists
+                if (!await _roleService.RoleExistsAsync(UserRole.Admin.ToString()))
+                {
+                    await _roleService.CreateRoleAsync(UserRole.Admin.ToString());
+                }
+
                 // Add admin role
-                await _userManager.AddToRoleAsync(admin, "Admin");
+                await _userManager.AddToRoleAsync(admin, UserRole.Admin.ToString());
 
                 // Generate JWT token
                 var token = _jwtService.GenerateToken(admin);
@@ -415,9 +422,16 @@ namespace LapStore.BLL.Services
                 {
                     return new Result { Success = false, Message = "You cannot change your own admin role." };
                 }
+
                 var user = await _userManager.FindByIdAsync(userId.ToString());
                 if (user == null)
                     return new Result { Success = false, Message = "User not found." };
+
+                // Ensure the role exists
+                if (!await _roleService.RoleExistsAsync(newRole.ToString()))
+                {
+                    await _roleService.CreateRoleAsync(newRole.ToString());
+                }
 
                 user.Role = newRole;
                 var result = await _userManager.UpdateAsync(user);
@@ -426,6 +440,12 @@ namespace LapStore.BLL.Services
                     var errors = result.Errors.Select(e => e.Description);
                     return new Result { Success = false, Message = string.Join(", ", errors) };
                 }
+
+                // Update user's role in Identity
+                var currentRoles = await _userManager.GetRolesAsync(user);
+                await _userManager.RemoveFromRolesAsync(user, currentRoles);
+                await _userManager.AddToRoleAsync(user, newRole.ToString());
+
                 return new Result { Success = true, Message = "User role updated successfully." };
             }
             catch (Exception ex)

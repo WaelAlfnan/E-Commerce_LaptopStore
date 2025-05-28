@@ -40,5 +40,22 @@ namespace LapStore.BLL.DTOs.AccountDTO
 
         [Required(ErrorMessage = "Gender is required")]
         public UserGender Gender { get; set; }
+
+
+        public static User FromAdminRegisterDTO(AdminRegisterDTO adminDTO)
+        {
+            return new User
+            {
+                UserName = adminDTO.UserName,
+                Email = adminDTO.Email,
+                FirstName = adminDTO.FirstName,
+                LastName = adminDTO.LastName,
+                PhoneNumber = adminDTO.PhoneNumber,
+                BirthDate = adminDTO.BirthDate,
+                Gender = adminDTO.Gender,
+                Role = UserRole.Admin,
+                EmailConfirmed = true // Auto-confirm email for first admin
+            };
+        }
     }
 } 
