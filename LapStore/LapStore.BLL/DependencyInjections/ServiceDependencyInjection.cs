@@ -28,7 +28,6 @@ namespace LapStore.BLL.DependencyInjections
             services.AddScoped<ICartService, CartService>();
 
             services.AddScoped<IJwtService, JwtService>();
-            services.AddScoped<IUserService, UserService>();
 
             return services;
         }

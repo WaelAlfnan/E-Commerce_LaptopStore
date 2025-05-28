@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using LapStore.BLL.Interfaces;
 using LapStore.BLL.Services;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace LapStore.BLL.DependencyInjections
 {
@@ -18,10 +19,6 @@ namespace LapStore.BLL.DependencyInjections
     {
         public static IServiceCollection AddIdentityDependencyInjection(this IServiceCollection services, IConfiguration configuration)
         {
-            // Add DbContext
-            services.AddDbContext<LapStoreDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
-
             // Add Identity
             services.AddIdentity<User, IdentityRole<int>>(options =>
             {
@@ -91,7 +88,7 @@ namespace LapStore.BLL.DependencyInjections
             });
 
             // Register services
-            
+            services.AddScoped<IRoleService, RoleService>();
 
             return services;
         }
