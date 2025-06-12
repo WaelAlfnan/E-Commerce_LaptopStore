@@ -68,6 +68,62 @@
         }
       }
     },
+    "/api/Account/ExternalLogin": {
+      "get": {
+        "tags": [
+          "Account"
+        ],
+        "parameters": [
+          {
+            "name": "provider",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "returnUrl",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Account/ExternalLoginCallback": {
+      "get": {
+        "tags": [
+          "Account"
+        ],
+        "parameters": [
+          {
+            "name": "returnUrl",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "remoteError",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Account/Logout": {
       "post": {
         "tags": [
@@ -80,82 +136,10 @@
         }
       }
     },
-    "/api/Account/Profile": {
+    "/api/Address/Address": {
       "get": {
         "tags": [
-          "Account"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Account"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateProfileDTO"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateProfileDTO"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateProfileDTO"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Account/ChangePassword": {
-      "post": {
-        "tags": [
-          "Account"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ChangePasswordDTO"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ChangePasswordDTO"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ChangePasswordDTO"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Account/Address": {
-      "get": {
-        "tags": [
-          "Account"
+          "Address"
         ],
         "responses": {
           "200": {
@@ -165,7 +149,7 @@
       },
       "post": {
         "tags": [
-          "Account"
+          "Address"
         ],
         "requestBody": {
           "content": {
@@ -193,10 +177,10 @@
         }
       }
     },
-    "/api/Account/Address/{addressId}": {
+    "/api/Address/Address/{addressId}": {
       "put": {
         "tags": [
-          "Account"
+          "Address"
         ],
         "parameters": [
           {
@@ -235,10 +219,10 @@
         }
       }
     },
-    "/api/Account/admin/users": {
+    "/api/AdminUser/admin/users": {
       "get": {
         "tags": [
-          "Account"
+          "AdminUser"
         ],
         "responses": {
           "200": {
@@ -247,10 +231,10 @@
         }
       }
     },
-    "/api/Account/admin/users/{userId}": {
+    "/api/AdminUser/admin/users/{userId}": {
       "get": {
         "tags": [
-          "Account"
+          "AdminUser"
         ],
         "parameters": [
           {
@@ -271,7 +255,7 @@
       },
       "delete": {
         "tags": [
-          "Account"
+          "AdminUser"
         ],
         "parameters": [
           {
@@ -291,10 +275,10 @@
         }
       }
     },
-    "/api/Account/admin/users/{userId}/role": {
+    "/api/AdminUser/admin/users/{userId}/role": {
       "put": {
         "tags": [
-          "Account"
+          "AdminUser"
         ],
         "parameters": [
           {
@@ -333,10 +317,10 @@
         }
       }
     },
-    "/api/Account/admin/users/{userId}/disable": {
+    "/api/AdminUser/admin/users/{userId}/disable": {
       "post": {
         "tags": [
-          "Account"
+          "AdminUser"
         ],
         "parameters": [
           {
@@ -356,10 +340,10 @@
         }
       }
     },
-    "/api/Account/admin/users/{userId}/enable": {
+    "/api/AdminUser/admin/users/{userId}/enable": {
       "post": {
         "tags": [
-          "Account"
+          "AdminUser"
         ],
         "parameters": [
           {
@@ -379,10 +363,10 @@
         }
       }
     },
-    "/api/Account/admin/first-admin": {
+    "/api/AdminUser/admin/first-admin": {
       "post": {
         "tags": [
-          "Account"
+          "AdminUser"
         ],
         "requestBody": {
           "content": {
@@ -1315,6 +1299,68 @@
         }
       }
     },
+    "/api/Payment/create-payment": {
+      "post": {
+        "tags": [
+          "Payment"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentRequestModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentRequestModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentRequestModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Payment/payment-callback": {
+      "post": {
+        "tags": [
+          "Payment"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentCallbackModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentCallbackModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentCallbackModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Product": {
       "post": {
         "tags": [
@@ -1534,6 +1580,78 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Profile/Profile": {
+      "get": {
+        "tags": [
+          "Profile"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Profile"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProfileDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProfileDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProfileDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Profile/ChangePassword": {
+      "post": {
+        "tags": [
+          "Profile"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePasswordDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePasswordDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePasswordDTO"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK"
@@ -2433,11 +2551,11 @@
       "LoginDTO": {
         "required": [
           "password",
-          "userName"
+          "usernameOrEmail"
         ],
         "type": "object",
         "properties": {
-          "userName": {
+          "usernameOrEmail": {
             "minLength": 1,
             "type": "string"
           },
@@ -2527,6 +2645,70 @@
         "type": "integer",
         "format": "int32"
       },
+      "PaymentCallbackModel": {
+        "type": "object",
+        "properties": {
+          "hmac": {
+            "type": "string",
+            "nullable": true
+          },
+          "data": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PaymentRequestModel": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "orderId": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "street": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "country": {
+            "type": "string",
+            "nullable": true
+          },
+          "state": {
+            "type": "string",
+            "nullable": true
+          },
+          "postalCode": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "ProblemDetails": {
         "type": "object",
         "properties": {
@@ -2609,9 +2791,6 @@
             "type": "string",
             "format": "tel",
             "nullable": true
-          },
-          "role": {
-            "$ref": "#/components/schemas/UserRole"
           }
         },
         "additionalProperties": false
@@ -2801,6 +2980,19 @@
         "type": "integer",
         "format": "int32"
       }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "apiKey",
+        "description": "Enter 'Bearer' [space] and then your valid token in the text input below.\r\n\r\nExample: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'",
+        "name": "Authorization",
+        "in": "header"
+      }
     }
-  }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ]
 }

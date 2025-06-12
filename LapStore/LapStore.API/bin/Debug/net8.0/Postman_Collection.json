@@ -227,23 +227,6 @@
       "name": "Account",
       "item": [
         {
-          "name": "Register First Admin (Anonymous)",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"userName\": \"admin\",\n  \"email\": \"admin@lapstore.com\",\n  \"password\": \"Admin@123\",\n  \"confirmPassword\": \"Admin@123\",\n  \"firstName\": \"Admin\",\n  \"lastName\": \"User\",\n  \"gender\": 1,\n  \"birthDate\": \"1990-01-01\",\n  \"phoneNumber\": \"+1234567890\"\n}",
-              "options": { "raw": { "language": "json" } }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/account/admin/first-admin",
-              "host": ["{{baseUrl}}"],
-              "path": ["account", "admin", "first-admin"]
-            }
-          }
-        },
-        {
           "name": "Register (Anonymous)",
           "request": {
             "method": "POST",
@@ -267,7 +250,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"userName\": \"user1\",\n  \"password\": \"Password123!\"\n}",
+              "raw": "{\n  \"usernameOrEmail\": \"user1\",\n  \"password\": \"Password123!\"\n}",
               "options": { "raw": { "language": "json" } }
             },
             "url": {
@@ -292,6 +275,53 @@
           }
         },
         {
+          "name": "Initiate Google Login (Anonymous)",
+          "request": {
+            "method": "GET",
+            "description": "Initiates the Google OAuth flow. This will redirect to Google's login page.",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/account/externallogin?provider=Google&returnUrl={{returnUrl}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["account", "externallogin"],
+              "query": [
+                {
+                  "key": "provider",
+                  "value": "Google"
+                },
+                {
+                  "key": "returnUrl",
+                  "value": "{{returnUrl}}"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Google Login Callback (Anonymous)",
+          "request": {
+            "method": "GET",
+            "description": "Handles the callback from Google after successful authentication. This endpoint is called by Google after user authentication.",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/account/externallogincallback?returnUrl={{returnUrl}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["account", "externallogincallback"],
+              "query": [
+                {
+                  "key": "returnUrl",
+                  "value": "{{returnUrl}}"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Profile",
+      "item": [
+        {
           "name": "Get Profile (Any Authenticated User)",
           "request": {
             "method": "GET",
@@ -299,9 +329,9 @@
               { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }
             ],
             "url": {
-              "raw": "{{baseUrl}}/account/profile",
+              "raw": "{{baseUrl}}/profile/profile",
               "host": ["{{baseUrl}}"],
-              "path": ["account", "profile"]
+              "path": ["profile", "profile"]
             }
           }
         },
@@ -318,9 +348,9 @@
               "options": { "raw": { "language": "json" } }
             },
             "url": {
-              "raw": "{{baseUrl}}/account/profile",
+              "raw": "{{baseUrl}}/profile/profile",
               "host": ["{{baseUrl}}"],
-              "path": ["account", "profile"]
+              "path": ["profile", "profile"]
             }
           }
         },
@@ -337,12 +367,17 @@
               "options": { "raw": { "language": "json" } }
             },
             "url": {
-              "raw": "{{baseUrl}}/account/changepassword",
+              "raw": "{{baseUrl}}/profile/changepassword",
               "host": ["{{baseUrl}}"],
-              "path": ["account", "changepassword"]
+              "path": ["profile", "changepassword"]
             }
           }
-        },
+        }
+      ]
+    },
+    {
+      "name": "Address",
+      "item": [
         {
           "name": "Get Address (Any Authenticated User)",
           "request": {
@@ -351,9 +386,9 @@
               { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }
             ],
             "url": {
-              "raw": "{{baseUrl}}/account/address",
+              "raw": "{{baseUrl}}/address/address",
               "host": ["{{baseUrl}}"],
-              "path": ["account", "address"]
+              "path": ["address", "address"]
             }
           }
         },
@@ -370,9 +405,9 @@
               "options": { "raw": { "language": "json" } }
             },
             "url": {
-              "raw": "{{baseUrl}}/account/address",
+              "raw": "{{baseUrl}}/address/address",
               "host": ["{{baseUrl}}"],
-              "path": ["account", "address"]
+              "path": ["address", "address"]
             }
           }
         },
@@ -389,9 +424,31 @@
               "options": { "raw": { "language": "json" } }
             },
             "url": {
-              "raw": "{{baseUrl}}/account/address/1",
+              "raw": "{{baseUrl}}/address/address/1",
               "host": ["{{baseUrl}}"],
-              "path": ["account", "address", "1"]
+              "path": ["address", "address", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin User",
+      "item": [
+        {
+          "name": "Register First Admin (Anonymous)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userName\": \"admin\",\n  \"email\": \"admin@lapstore.com\",\n  \"password\": \"Admin@123\",\n  \"confirmPassword\": \"Admin@123\",\n  \"firstName\": \"Admin\",\n  \"lastName\": \"User\",\n  \"gender\": 1,\n  \"birthDate\": \"1990-01-01\",\n  \"phoneNumber\": \"+1234567890\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/adminuser/admin/first-admin",
+              "host": ["{{baseUrl}}"],
+              "path": ["adminuser", "admin", "first-admin"]
             }
           }
         },
@@ -403,9 +460,9 @@
               { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }
             ],
             "url": {
-              "raw": "{{baseUrl}}/account/admin/users",
+              "raw": "{{baseUrl}}/adminuser/admin/users",
               "host": ["{{baseUrl}}"],
-              "path": ["account", "admin", "users"]
+              "path": ["adminuser", "admin", "users"]
             }
           }
         },
@@ -417,9 +474,9 @@
               { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }
             ],
             "url": {
-              "raw": "{{baseUrl}}/account/admin/users/1",
+              "raw": "{{baseUrl}}/adminuser/admin/users/1",
               "host": ["{{baseUrl}}"],
-              "path": ["account", "admin", "users", "1"]
+              "path": ["adminuser", "admin", "users", "1"]
             }
           }
         },
@@ -436,9 +493,9 @@
               "options": { "raw": { "language": "json" } }
             },
             "url": {
-              "raw": "{{baseUrl}}/account/admin/users/1/role",
+              "raw": "{{baseUrl}}/adminuser/admin/users/1/role",
               "host": ["{{baseUrl}}"],
-              "path": ["account", "admin", "users", "1", "role"]
+              "path": ["adminuser", "admin", "users", "1", "role"]
             }
           }
         },
@@ -450,9 +507,9 @@
               { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }
             ],
             "url": {
-              "raw": "{{baseUrl}}/account/admin/users/1",
+              "raw": "{{baseUrl}}/adminuser/admin/users/1",
               "host": ["{{baseUrl}}"],
-              "path": ["account", "admin", "users", "1"]
+              "path": ["adminuser", "admin", "users", "1"]
             }
           }
         },
@@ -464,9 +521,9 @@
               { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }
             ],
             "url": {
-              "raw": "{{baseUrl}}/account/admin/users/1/disable",
+              "raw": "{{baseUrl}}/adminuser/admin/users/1/disable",
               "host": ["{{baseUrl}}"],
-              "path": ["account", "admin", "users", "1", "disable"]
+              "path": ["adminuser", "admin", "users", "1", "disable"]
             }
           }
         },
@@ -478,9 +535,9 @@
               { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }
             ],
             "url": {
-              "raw": "{{baseUrl}}/account/admin/users/1/enable",
+              "raw": "{{baseUrl}}/adminuser/admin/users/1/enable",
               "host": ["{{baseUrl}}"],
-              "path": ["account", "admin", "users", "1", "enable"]
+              "path": ["adminuser", "admin", "users", "1", "enable"]
             }
           }
         }

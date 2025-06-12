@@ -1,174 +1,42 @@
 [
   {
     "ContainingType": "LapStore.API.Controllers.AccountController",
-    "Method": "GetAddress",
-    "RelativePath": "api/Account/Address",
+    "Method": "ExternalLogin",
+    "RelativePath": "api/Account/ExternalLogin",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LapStore.API.Controllers.AccountController",
-    "Method": "AddAddress",
-    "RelativePath": "api/Account/Address",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
     "Parameters": [
       {
-        "Name": "addressDTO",
-        "Type": "LapStore.BLL.DTOs.AccountDTO.AddAddressDTO",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LapStore.API.Controllers.AccountController",
-    "Method": "UpdateAddress",
-    "RelativePath": "api/Account/Address/{addressId}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "addressId",
-        "Type": "System.Int32",
-        "IsRequired": true
+        "Name": "provider",
+        "Type": "System.String",
+        "IsRequired": false
       },
       {
-        "Name": "addressDTO",
-        "Type": "LapStore.BLL.DTOs.AccountDTO.UpdateAddressDTO",
-        "IsRequired": true
+        "Name": "returnUrl",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
   },
   {
     "ContainingType": "LapStore.API.Controllers.AccountController",
-    "Method": "RegisterFirstAdmin",
-    "RelativePath": "api/Account/admin/first-admin",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "adminDTO",
-        "Type": "LapStore.BLL.DTOs.AccountDTO.AdminRegisterDTO",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LapStore.API.Controllers.AccountController",
-    "Method": "GetAllUsers",
-    "RelativePath": "api/Account/admin/users",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LapStore.API.Controllers.AccountController",
-    "Method": "GetUserById",
-    "RelativePath": "api/Account/admin/users/{userId}",
+    "Method": "ExternalLoginCallback",
+    "RelativePath": "api/Account/ExternalLoginCallback",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LapStore.API.Controllers.AccountController",
-    "Method": "DeleteUser",
-    "RelativePath": "api/Account/admin/users/{userId}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LapStore.API.Controllers.AccountController",
-    "Method": "DisableUser",
-    "RelativePath": "api/Account/admin/users/{userId}/disable",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LapStore.API.Controllers.AccountController",
-    "Method": "EnableUser",
-    "RelativePath": "api/Account/admin/users/{userId}/enable",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LapStore.API.Controllers.AccountController",
-    "Method": "UpdateUserRole",
-    "RelativePath": "api/Account/admin/users/{userId}/role",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
+        "Name": "returnUrl",
+        "Type": "System.String",
+        "IsRequired": false
       },
       {
-        "Name": "roleDTO",
-        "Type": "LapStore.BLL.DTOs.AccountDTO.UpdateUserRoleDTO",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LapStore.API.Controllers.AccountController",
-    "Method": "ChangePassword",
-    "RelativePath": "api/Account/ChangePassword",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "changePasswordDTO",
-        "Type": "LapStore.BLL.DTOs.AccountDTO.ChangePasswordDTO",
-        "IsRequired": true
+        "Name": "remoteError",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -201,32 +69,6 @@
   },
   {
     "ContainingType": "LapStore.API.Controllers.AccountController",
-    "Method": "GetProfile",
-    "RelativePath": "api/Account/Profile",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LapStore.API.Controllers.AccountController",
-    "Method": "UpdateProfile",
-    "RelativePath": "api/Account/Profile",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "updateProfileDTO",
-        "Type": "LapStore.BLL.DTOs.AccountDTO.UpdateProfileDTO",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LapStore.API.Controllers.AccountController",
     "Method": "Register",
     "RelativePath": "api/Account/Register",
     "HttpMethod": "POST",
@@ -236,6 +78,164 @@
       {
         "Name": "registerDTO",
         "Type": "LapStore.BLL.DTOs.AccountDTO.RegisterDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LapStore.API.Controllers.AddressController",
+    "Method": "GetAddress",
+    "RelativePath": "api/Address/Address",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LapStore.API.Controllers.AddressController",
+    "Method": "AddAddress",
+    "RelativePath": "api/Address/Address",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "addressDTO",
+        "Type": "LapStore.BLL.DTOs.AddressDTO.AddAddressDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LapStore.API.Controllers.AddressController",
+    "Method": "UpdateAddress",
+    "RelativePath": "api/Address/Address/{addressId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "addressId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "addressDTO",
+        "Type": "LapStore.BLL.DTOs.AddressDTO.UpdateAddressDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LapStore.API.Controllers.AdminUserController",
+    "Method": "RegisterFirstAdmin",
+    "RelativePath": "api/AdminUser/admin/first-admin",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "adminDTO",
+        "Type": "LapStore.BLL.DTOs.AdminUserDTO.AdminRegisterDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LapStore.API.Controllers.AdminUserController",
+    "Method": "GetAllUsers",
+    "RelativePath": "api/AdminUser/admin/users",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LapStore.API.Controllers.AdminUserController",
+    "Method": "GetUserById",
+    "RelativePath": "api/AdminUser/admin/users/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LapStore.API.Controllers.AdminUserController",
+    "Method": "DeleteUser",
+    "RelativePath": "api/AdminUser/admin/users/{userId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LapStore.API.Controllers.AdminUserController",
+    "Method": "DisableUser",
+    "RelativePath": "api/AdminUser/admin/users/{userId}/disable",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LapStore.API.Controllers.AdminUserController",
+    "Method": "EnableUser",
+    "RelativePath": "api/AdminUser/admin/users/{userId}/enable",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LapStore.API.Controllers.AdminUserController",
+    "Method": "UpdateUserRole",
+    "RelativePath": "api/AdminUser/admin/users/{userId}/role",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "roleDTO",
+        "Type": "LapStore.BLL.DTOs.AdminUserDTO.UpdateUserRoleDTO",
         "IsRequired": true
       }
     ],
@@ -772,6 +772,38 @@
     ]
   },
   {
+    "ContainingType": "LapStore.API.Controllers.PaymentController",
+    "Method": "CreatePayment",
+    "RelativePath": "api/Payment/create-payment",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "LapStore.API.Controllers.PaymentRequestModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LapStore.API.Controllers.PaymentController",
+    "Method": "PaymentCallback",
+    "RelativePath": "api/Payment/payment-callback",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "LapStore.API.Controllers.PaymentCallbackModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "LapStore.API.Controllers.ProductController",
     "Method": "Create",
     "RelativePath": "api/Product",
@@ -905,6 +937,48 @@
       {
         "Name": "id",
         "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LapStore.API.Controllers.ProfileController",
+    "Method": "ChangePassword",
+    "RelativePath": "api/Profile/ChangePassword",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "changePasswordDTO",
+        "Type": "LapStore.BLL.DTOs.ProfileDTO.ChangePasswordDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LapStore.API.Controllers.ProfileController",
+    "Method": "GetProfile",
+    "RelativePath": "api/Profile/Profile",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LapStore.API.Controllers.ProfileController",
+    "Method": "UpdateProfile",
+    "RelativePath": "api/Profile/Profile",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "updateProfileDTO",
+        "Type": "LapStore.BLL.DTOs.ProfileDTO.UpdateProfileDTO",
         "IsRequired": true
       }
     ],

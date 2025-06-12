@@ -13,8 +13,12 @@ namespace LapStore.API
             builder.Services.AddServiceDependencyInjection(builder)
                             .AddRepositoryDependencyInjection()
                             .AddDbContextDependencyInjection(builder.Configuration)
-                            .AddIdentityDependencyInjection(builder.Configuration)
-                            .AddGeneralDependencyInjection();
+                            .AddIdentityDependencyInjection()
+                            .AddGeneralDependencyInjection()
+                            .AddAuthenticationDependencyInjection(builder.Configuration);
+
+            // Add Paymob services
+            builder.Services.AddPaymobServices(builder.Configuration);
 
             var app = builder.Build();
 
@@ -36,6 +40,8 @@ namespace LapStore.API
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
+
+            //app.UseCors("AllowFrontend");
             app.UseCors("AllowAll");
 
             // Add detailed request logging

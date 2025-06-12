@@ -12,6 +12,7 @@ D:\DEPI\E-Commerce_LaptopStore\LapStore\LapStore.API\bin\Debug\net8.0\Azure.Core
 D:\DEPI\E-Commerce_LaptopStore\LapStore\LapStore.API\bin\Debug\net8.0\Azure.Identity.dll
 D:\DEPI\E-Commerce_LaptopStore\LapStore\LapStore.API\bin\Debug\net8.0\Castle.Core.dll
 D:\DEPI\E-Commerce_LaptopStore\LapStore\LapStore.API\bin\Debug\net8.0\Humanizer.dll
+D:\DEPI\E-Commerce_LaptopStore\LapStore\LapStore.API\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.Google.dll
 D:\DEPI\E-Commerce_LaptopStore\LapStore\LapStore.API\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 D:\DEPI\E-Commerce_LaptopStore\LapStore\LapStore.API\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.Internal.dll
 D:\DEPI\E-Commerce_LaptopStore\LapStore\LapStore.API\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll

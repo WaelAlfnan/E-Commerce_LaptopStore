@@ -9,6 +9,7 @@
       "LapStore.BLL/1.0.0": {
         "dependencies": {
           "LapStore.DAL": "1.0.0",
+          "Microsoft.AspNetCore.Authentication.Google": "8.0.16",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "8.0.0",
           "Microsoft.IdentityModel.Tokens": "8.9.0",
           "Swashbuckle.AspNetCore": "8.1.1",
@@ -92,6 +93,14 @@
           "Microsoft.AspNetCore.Authentication.Abstractions": "2.3.0",
           "Microsoft.AspNetCore.Http": "2.3.0",
           "Microsoft.AspNetCore.Http.Extensions": "2.3.0"
+        }
+      },
+      "Microsoft.AspNetCore.Authentication.Google/8.0.16": {
+        "runtime": {
+          "lib/net8.0/Microsoft.AspNetCore.Authentication.Google.dll": {
+            "assemblyVersion": "8.0.16.0",
+            "fileVersion": "8.0.1625.21611"
+          }
         }
       },
       "Microsoft.AspNetCore.Authentication.JwtBearer/8.0.0": {
@@ -1014,6 +1023,13 @@
       "sha512": "sha512-gnLnKGawBjqBnU9fEuel3VcYAARkjyONAliaGDfMc8o8HBtfh+HrOPEoR8Xx4b2RnMb7uxdBDOvEAC7sul79ig==",
       "path": "microsoft.aspnetcore.authentication.core/2.3.0",
       "hashPath": "microsoft.aspnetcore.authentication.core.2.3.0.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Authentication.Google/8.0.16": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-X4jGB9ebljVss21KqEgDZkHENMFw3gFKBWpnPcNtCvGbOqncO0HZG1yZE8rSwPS449HVoyv+2STs/MJqrw8nJQ==",
+      "path": "microsoft.aspnetcore.authentication.google/8.0.16",
+      "hashPath": "microsoft.aspnetcore.authentication.google.8.0.16.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Authentication.JwtBearer/8.0.0": {
       "type": "package",

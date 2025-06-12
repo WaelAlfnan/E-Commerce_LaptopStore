@@ -42,10 +42,6 @@ namespace LapStore.BLL.DTOs.AccountDTO
 
         [Phone(ErrorMessage = "Invalid phone number")]
         public string PhoneNumber { get; set; }
-
-        // Added Role property (optional in registration, will be set to Customer by default)
-        public UserRole Role { get; set; } = UserRole.Customer;
-
         public static User FromRegisterDTO(RegisterDTO registerDTO)
         {
             return new User()
@@ -57,7 +53,6 @@ namespace LapStore.BLL.DTOs.AccountDTO
                 Gender = registerDTO.Gender,
                 BirthDate = registerDTO.BirthDate,
                 PhoneNumber = registerDTO.PhoneNumber,
-                Role = registerDTO.Role // Added Role mapping
             };
         }
     }

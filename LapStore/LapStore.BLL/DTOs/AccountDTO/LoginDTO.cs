@@ -5,8 +5,8 @@ namespace LapStore.BLL.DTOs.AccountDTO
 {
     public class LoginDTO
     {
-        [Required(ErrorMessage = "Username is required")]
-        public string UserName { get; set; }
+        [Required(ErrorMessage = "Please, enter username or email")]
+        public string UsernameOrEmail { get; set; }
 
         [Required(ErrorMessage = "Password is required")]
         [DataType(DataType.Password)]

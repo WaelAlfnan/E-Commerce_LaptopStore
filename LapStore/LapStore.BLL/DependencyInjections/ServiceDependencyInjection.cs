@@ -16,7 +16,7 @@ namespace LapStore.BLL.DependencyInjections
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IProductService, ProductService>();
-            services.AddScoped<IUserService, UserService>();
+            
             services.AddScoped<IFileStorageService, FileStorageService>();
             services.AddScoped<ICategoryFileHandler, CategoryFileHandler>();
             services.AddSingleton<IFileProvider>(
@@ -28,6 +28,14 @@ namespace LapStore.BLL.DependencyInjections
             services.AddScoped<ICartService, CartService>();
 
             services.AddScoped<IJwtService, JwtService>();
+            services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IProfileService, ProfileService>();
+            services.AddScoped<IAddressService, AddressService>();
+            services.AddScoped<IAdminUserService, AdminUserService>();
+
+
+            services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<IUserClaimService, UserClaimService>();
 
             return services;
         }

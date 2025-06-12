@@ -5,7 +5,7 @@ namespace LapStore.BLL.Interfaces
 {
     public interface IJwtService
     {
-        string GenerateToken(User user);
+        Task<string> GenerateTokenAsync(User user);
         ClaimsPrincipal? ValidateToken(string token);
     }
 } 

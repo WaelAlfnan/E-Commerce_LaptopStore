@@ -208,6 +208,7 @@ D:\DEPI\E-Commerce_LaptopStore\LapStore\LapStore.Test\bin\Debug\net8.0\Azure.Cor
 D:\DEPI\E-Commerce_LaptopStore\LapStore\LapStore.Test\bin\Debug\net8.0\Azure.Identity.dll
 D:\DEPI\E-Commerce_LaptopStore\LapStore\LapStore.Test\bin\Debug\net8.0\Castle.Core.dll
 D:\DEPI\E-Commerce_LaptopStore\LapStore\LapStore.Test\bin\Debug\net8.0\FakeItEasy.dll
+D:\DEPI\E-Commerce_LaptopStore\LapStore\LapStore.Test\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.Google.dll
 D:\DEPI\E-Commerce_LaptopStore\LapStore\LapStore.Test\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 D:\DEPI\E-Commerce_LaptopStore\LapStore\LapStore.Test\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.Internal.dll
 D:\DEPI\E-Commerce_LaptopStore\LapStore\LapStore.Test\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
