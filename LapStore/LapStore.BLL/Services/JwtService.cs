@@ -34,7 +34,7 @@ namespace LapStore.BLL.Services
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
             _userClaimService = userClaimService ?? throw new ArgumentNullException(nameof(userClaimService));
             
-            _secretKey = _configuration["JwtSettings:SecretKey"] ?? throw new ArgumentNullException("JwtSettings:SecretKey");
+            _secretKey = _configuration["JwtSettings:JWT_SECRET_KEY"] ?? throw new ArgumentNullException("JwtSettings:JWT_SECRET_KEY");
             _issuer = _configuration["JwtSettings:Issuer"] ?? throw new ArgumentNullException("JwtSettings:Issuer");
             _audience = _configuration["JwtSettings:Audience"] ?? throw new ArgumentNullException("JwtSettings:Audience");
             _expirationInDays = double.Parse(_configuration["JwtSettings:ExpirationInDays"] ?? "2");

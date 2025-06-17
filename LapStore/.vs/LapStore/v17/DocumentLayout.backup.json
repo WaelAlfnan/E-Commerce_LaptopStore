@@ -3,12 +3,19 @@
   "WorkspaceRootPath": "D:\\DEPI\\E-Commerce_LaptopStore\\LapStore\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{349EDFAE-2751-4234-A881-A13D4D193E24}|LapStore.BLL\\LapStore.BLL.csproj|d:\\depi\\e-commerce_laptopstore\\lapstore\\lapstore.bll\\services\\paymobservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{349EDFAE-2751-4234-A881-A13D4D193E24}|LapStore.BLL\\LapStore.BLL.csproj|solutionrelative:lapstore.bll\\services\\paymobservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{754A826A-2F08-48D3-A604-2D2C66B2B652}|LapStore.API\\LapStore.API.csproj|d:\\depi\\e-commerce_laptopstore\\lapstore\\lapstore.api\\controllers\\paymentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{754A826A-2F08-48D3-A604-2D2C66B2B652}|LapStore.API\\LapStore.API.csproj|solutionrelative:lapstore.api\\controllers\\paymentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{754A826A-2F08-48D3-A604-2D2C66B2B652}|LapStore.API\\LapStore.API.csproj|d:\\depi\\e-commerce_laptopstore\\lapstore\\lapstore.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{754A826A-2F08-48D3-A604-2D2C66B2B652}|LapStore.API\\LapStore.API.csproj|solutionrelative:lapstore.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{349EDFAE-2751-4234-A881-A13D4D193E24}|LapStore.BLL\\LapStore.BLL.csproj|d:\\depi\\e-commerce_laptopstore\\lapstore\\lapstore.bll\\services\\paymobservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{349EDFAE-2751-4234-A881-A13D4D193E24}|LapStore.BLL\\LapStore.BLL.csproj|solutionrelative:lapstore.bll\\services\\paymobservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\waelb\\AppData\\Roaming\\Microsoft\\UserSecrets\\10a76928-d986-4442-8cb7-aef956be5ee8\\secrets.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,7 +25,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -30,28 +37,52 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
+              "Title": "PaymentController.cs",
+              "DocumentMoniker": "D:\\DEPI\\E-Commerce_LaptopStore\\LapStore\\LapStore.API\\Controllers\\PaymentController.cs",
+              "RelativeDocumentMoniker": "LapStore.API\\Controllers\\PaymentController.cs",
+              "ToolTip": "D:\\DEPI\\E-Commerce_LaptopStore\\LapStore\\LapStore.API\\Controllers\\PaymentController.cs",
+              "RelativeToolTip": "LapStore.API\\Controllers\\PaymentController.cs",
+              "ViewState": "AgIAABcAAAAAAAAAAAAAABcAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-15T01:28:15.502Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "appsettings.json",
               "DocumentMoniker": "D:\\DEPI\\E-Commerce_LaptopStore\\LapStore\\LapStore.API\\appsettings.json",
               "RelativeDocumentMoniker": "LapStore.API\\appsettings.json",
               "ToolTip": "D:\\DEPI\\E-Commerce_LaptopStore\\LapStore\\LapStore.API\\appsettings.json",
               "RelativeToolTip": "LapStore.API\\appsettings.json",
-              "ViewState": "AgIAABEAAABAZmZmZmYSwBwAAAAdAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-06-12T06:22:56.343Z",
+              "WhenOpened": "2025-06-15T00:48:49.896Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "PaymobService.cs",
               "DocumentMoniker": "D:\\DEPI\\E-Commerce_LaptopStore\\LapStore\\LapStore.BLL\\Services\\PaymobService.cs",
               "RelativeDocumentMoniker": "LapStore.BLL\\Services\\PaymobService.cs",
-              "ToolTip": "D:\\DEPI\\E-Commerce_LaptopStore\\LapStore\\LapStore.BLL\\Services\\PaymobService.cs",
-              "RelativeToolTip": "LapStore.BLL\\Services\\PaymobService.cs",
-              "ViewState": "AgIAAH0AAACAy8zMzMwYwIkAAAAqAAAAAAAAAA==",
+              "ToolTip": "D:\\DEPI\\E-Commerce_LaptopStore\\LapStore\\LapStore.BLL\\Services\\PaymobService.cs*",
+              "RelativeToolTip": "LapStore.BLL\\Services\\PaymobService.cs*",
+              "ViewState": "AgIAAHEAAACAZmZmZmYkwIQAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-12T05:22:28.049Z",
+              "WhenOpened": "2025-06-14T22:45:16.695Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "secrets.json",
+              "DocumentMoniker": "C:\\Users\\waelb\\AppData\\Roaming\\Microsoft\\UserSecrets\\10a76928-d986-4442-8cb7-aef956be5ee8\\secrets.json",
+              "ToolTip": "C:\\Users\\waelb\\AppData\\Roaming\\Microsoft\\UserSecrets\\10a76928-d986-4442-8cb7-aef956be5ee8\\secrets.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-06-14T23:11:26.201Z",
               "EditorCaption": ""
             }
           ]

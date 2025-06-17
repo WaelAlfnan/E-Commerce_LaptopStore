@@ -11,7 +11,6 @@ namespace LapStore.BLL.DependencyInjections
         {
             
             services.AddControllers();
-
         /*
             // Read allowed origins from configuration
             var allowedOrigins = configuration["Cors:AllowedOrigins"];

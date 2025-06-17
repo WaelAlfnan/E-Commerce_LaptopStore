@@ -21,6 +21,7 @@ namespace LapStore.BLL.Services
         private readonly int _integrationId;
         private readonly string _hmacSecret;
         private readonly string _baseUrl;
+        private readonly string _iframeId;
 
         public PaymobService(
             HttpClient httpClient, 
@@ -30,10 +31,11 @@ namespace LapStore.BLL.Services
             _httpClient = httpClient;
             _configuration = configuration;
             _logger = logger;
-            _apiKey = _configuration["Paymob:ApiKey"] ?? throw new ArgumentNullException("Paymob:ApiKey");
-            _integrationId = int.Parse(_configuration["Paymob:IntegrationId"] ?? throw new ArgumentNullException("Paymob:IntegrationId"));
-            _hmacSecret = _configuration["Paymob:HmacSecret"] ?? throw new ArgumentNullException("Paymob:HmacSecret");
+            _apiKey = _configuration["Paymob:PAYMOB_API_KEY"] ?? throw new ArgumentNullException("Paymob:PAYMOB_API_KEY");
+            _integrationId = int.Parse(_configuration["Paymob:PAYMOB_INTEGRATION_ID"] ?? throw new ArgumentNullException("Paymob:PAYMOB_INTEGRATION_ID"));
+            _hmacSecret = _configuration["Paymob:PAYMOB_HMAC_SECRET"] ?? throw new ArgumentNullException("Paymob:PAYMOB_HMAC_SECRET");
             _baseUrl = _configuration["Paymob:BaseUrl"] ?? throw new ArgumentNullException("Paymob:BaseUrl");
+            _iframeId = _configuration["Paymob:PAYMOB_IFRAME_ID"] ?? throw new ArgumentNullException("Paymob:PAYMOB_IFRAME_ID");
         }
 
         public async Task<PaymobPaymentResponse> CreatePaymentRequestAsync(decimal amount, string orderId, BillingData billingData)
@@ -56,7 +58,7 @@ namespace LapStore.BLL.Services
                 return new PaymobPaymentResponse
                 {
                     Token = paymentKey,
-                    IframeUrl = $"{_baseUrl}/acceptance/iframes/{_configuration["Paymob:IframeId"]}?payment_token={paymentKey}",
+                    IframeUrl = $"{_baseUrl}/acceptance/iframes/{_iframeId}?payment_token={paymentKey}",
                     Success = true
                 };
             }
@@ -102,7 +104,7 @@ namespace LapStore.BLL.Services
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
             var authResponse = JsonSerializer.Deserialize<PaymobAuthResponse>(content);
-            return authResponse?.Token ?? throw new InvalidOperationException("Failed to get authentication token");
+            return authResponse?.token ?? throw new InvalidOperationException("Failed to get authentication token");
         }
 
         private async Task<PaymobOrderResponse> CreateOrderAsync(string authToken, decimal amount, string orderId)
@@ -120,6 +122,7 @@ namespace LapStore.BLL.Services
                 $"{_baseUrl}/ecommerce/orders",
                 new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, "application/json")
             );
+
 
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();

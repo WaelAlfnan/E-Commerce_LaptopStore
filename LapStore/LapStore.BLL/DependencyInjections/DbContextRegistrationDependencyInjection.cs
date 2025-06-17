@@ -2,13 +2,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MSConfiguration = Microsoft.Extensions.Configuration;
 
 namespace LapStore.BLL.DependencyInjections
 {
     public static class DBContextRegistrationDependencyInjection
     {
-        public static IServiceCollection AddDbContextDependencyInjection(this IServiceCollection services, MSConfiguration.IConfiguration configuration)
+        public static IServiceCollection AddDbContextDependencyInjection(this IServiceCollection services, IConfiguration configuration)
         {
 
             // Register DbContext with existing database

@@ -1,13 +1,11 @@
-using System;
-using System.Threading.Tasks;
-using LapStore.BLL.Constants;
 using LapStore.BLL.DTOs.Paymob;
 using LapStore.BLL.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace LapStore.API.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class PaymentController : ControllerBase
@@ -20,7 +18,7 @@ namespace LapStore.API.Controllers
             _paymobService = paymobService;
             _logger = logger;
         }
-
+        [Authorize(Roles = "Customer")]
         [HttpPost("create-payment")]
         public async Task<IActionResult> CreatePayment([FromBody] PaymentRequestModel model)
         {
@@ -64,7 +62,7 @@ namespace LapStore.API.Controllers
                 return StatusCode(500, new { message = "An error occurred while processing your payment request" });
             }
         }
-
+        [Authorize(Roles = "Customer")]
         [HttpPost("payment-callback")]
         public async Task<IActionResult> PaymentCallback([FromBody] PaymentCallbackModel model)
         {
@@ -94,26 +92,5 @@ namespace LapStore.API.Controllers
                 return StatusCode(500, new { message = "An error occurred while processing the payment callback" });
             }
         }
-    }
-
-    public class PaymentRequestModel
-    {
-        public decimal Amount { get; set; }
-        public string OrderId { get; set; } = string.Empty;
-        public string FirstName { get; set; } = string.Empty;
-        public string LastName { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
-        public string PhoneNumber { get; set; } = string.Empty;
-        public string Street { get; set; } = string.Empty;
-        public string City { get; set; } = string.Empty;
-        public string Country { get; set; } = string.Empty;
-        public string State { get; set; } = string.Empty;
-        public string PostalCode { get; set; } = string.Empty;
-    }
-
-    public class PaymentCallbackModel
-    {
-        public string Hmac { get; set; } = string.Empty;
-        public string Data { get; set; } = string.Empty;
     }
 } 

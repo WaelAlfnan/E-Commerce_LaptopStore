@@ -9,16 +9,17 @@ namespace LapStore.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            // Add user secrets configuration
+            builder.Configuration.AddUserSecrets<Program>();
+
             // Add services to the container.
             builder.Services.AddServiceDependencyInjection(builder)
                             .AddRepositoryDependencyInjection()
                             .AddDbContextDependencyInjection(builder.Configuration)
                             .AddIdentityDependencyInjection()
                             .AddGeneralDependencyInjection()
-                            .AddAuthenticationDependencyInjection(builder.Configuration);
-
-            // Add Paymob services
-            builder.Services.AddPaymobServices(builder.Configuration);
+                            .AddAuthenticationDependencyInjection(builder.Configuration)
+                            .AddPaymobServices(builder.Configuration);
 
             var app = builder.Build();
 
@@ -34,6 +35,7 @@ namespace LapStore.API
             }
             else
             {
+                app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
 

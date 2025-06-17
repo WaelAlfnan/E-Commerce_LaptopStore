@@ -21,8 +21,8 @@ namespace LapStore.BLL.DependencyInjections
             .AddGoogle(googleOptions =>
             {
                 var googleAuthSection = configuration.GetSection("Authentication:Google");
-                googleOptions.ClientId = googleAuthSection["ClientId"];
-                googleOptions.ClientSecret = googleAuthSection["ClientSecret"];
+                googleOptions.ClientId = googleAuthSection["GOOGLE_CLIENT_ID"];
+                googleOptions.ClientSecret = googleAuthSection["GOOGLE_CLIENT_SECRET"];
             })
 
             .AddJwtBearer(options =>
@@ -38,7 +38,7 @@ namespace LapStore.BLL.DependencyInjections
                     ValidIssuer = configuration["JwtSettings:Issuer"],
                     ValidAudience = configuration["JwtSettings:Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(
-                        Encoding.UTF8.GetBytes(configuration["JwtSettings:SecretKey"] ?? throw new InvalidOperationException("JWT Secret Key is not configured"))
+                        Encoding.UTF8.GetBytes(configuration["JwtSettings:JWT_SECRET_KEY"] ?? throw new InvalidOperationException("JWT Secret Key is not configured"))
                     ),
                     ClockSkew = TimeSpan.Zero
                 };

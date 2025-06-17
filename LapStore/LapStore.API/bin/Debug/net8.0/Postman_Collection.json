@@ -233,7 +233,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"userName\": \"user1\",\n  \"email\": \"user1@email.com\",\n  \"password\": \"Password123!\",\n  \"confirmPassword\": \"Password123!\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"gender\": 1,\n  \"birthDate\": \"1990-01-01\",\n  \"phoneNumber\": \"1234567890\",\n  \"role\": 2\n}",
+              "raw": "{\n  \"userName\": \"user1\",\n  \"email\": \"user1@email.com\",\n  \"password\": \"Password123!\",\n  \"confirmPassword\": \"Password123!\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"gender\": 1,\n  \"birthDate\": \"1990-01-01\",\n  \"phoneNumber\": \"1234567890\"\n}",
               "options": { "raw": { "language": "json" } }
             },
             "url": {
@@ -822,6 +822,51 @@
               "host": ["{{baseUrl}}"],
               "path": ["review", "user", "1", "product", "1"]
             }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Payment",
+      "item": [
+        {
+          "name": "Create Payment",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json", "type": "text" },
+              { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 100.0,\n  \"orderId\": \"ORDER123\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"email\": \"user15@email.com\",\n  \"phoneNumber\": \"0123456789\",\n  \"street\": \"123 Main St\",\n  \"city\": \"Cairo\",\n  \"country\": \"EG\",\n  \"state\": \"Cairo\",\n  \"postalCode\": \"12345\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/payment/create-payment",
+              "host": ["{{baseUrl}}"],
+              "path": ["payment", "create-payment"]
+            },
+            "description": "**Requires Authorization (Customer role)**\n\nCreates a Paymob payment and returns the iframe URL.\n\n**Request DTO:** PaymentRequestModel\n```json\n{\n  \"amount\": decimal,\n  \"orderId\": string,\n  \"firstName\": string,\n  \"lastName\": string,\n  \"email\": string,\n  \"phoneNumber\": string,\n  \"street\": string,\n  \"city\": string,\n  \"country\": string,\n  \"state\": string,\n  \"postalCode\": string\n}\n```\n\n**Response DTO:** PaymobPaymentResponse\n```json\n{\n  \"token\": string,\n  \"iframeUrl\": string,\n  \"success\": bool,\n  \"errorMessage\": string\n}\n```"
+          }
+        },
+        {
+          "name": "Payment Callback",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json", "type": "text" },
+              { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"hmac\": \"string\",\n  \"data\": \"string\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/payment/payment-callback",
+              "host": ["{{baseUrl}}"],
+              "path": ["payment", "payment-callback"]
+            },
+            "description": "**Requires Authorization (Customer role)**\n\nHandles Paymob payment callback.\n\n**Request DTO:** PaymentCallbackModel\n```json\n{\n  \"hmac\": string,\n  \"data\": string\n}\n```\n\n**Response:**\n- 200 OK: `{ \"message\": \"Payment processed successfully\" }`\n- 400/500: Error message"
           }
         }
       ]
